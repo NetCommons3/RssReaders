@@ -1,0 +1,47 @@
+<?php
+/**
+ * RssReaderFrameSetting Test Case
+ *
+* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
+* @link     http://www.netcommons.org NetCommons Project
+* @license  http://www.netcommons.org/license.txt NetCommons License
+ */
+
+App::uses('RssReaderFrameSetting', 'RssReaders.Model');
+
+/**
+ * Summary for RssReaderFrameSetting Test Case
+ */
+class RssReaderFrameSettingTest extends CakeTestCase {
+
+/**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = array(
+		'plugin.rss_readers.rss_reader_frame_setting'
+	);
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		$this->RssReaderFrameSetting = ClassRegistry::init('RssReaders.RssReaderFrameSetting');
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		unset($this->RssReaderFrameSetting);
+
+		parent::tearDown();
+	}
+
+}
