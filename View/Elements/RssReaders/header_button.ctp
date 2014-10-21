@@ -1,4 +1,5 @@
 <div class="text-right col-xs-12">
+	<?php if ($contentPublishable) : ?>
 	<button class="btn btn-danger"
 				ng-click="showPublish()"
 				ng-show="visiblePublish">
@@ -6,8 +7,9 @@
 			<?php echo __d('rss_readers', 'Release'); ?>
 		</span>
 	</button>
+	<?php endif; ?>
 
-	<?php if (Page::isSetting()) : ?>
+	<?php if ($contentEditable) : ?>
 	<button class="btn btn-primary"
 			ng-click="showManage()"
 			ng-hide="visibleManage"
