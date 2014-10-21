@@ -1,5 +1,5 @@
 {
-    "name": "netcommons/rss_readers",
+    "name": "netcommons/rss-readers",
     "description": "RssReadersPlugin for NetCommons",
     "homepage": "http://www.netcommons.org/",
     "extra": {
@@ -29,7 +29,7 @@
         }
     ],
     "type":        "cakephp-plugin",
-    "keywords":    ["cakephp", "rss_readers"],
+    "keywords":    ["cakephp", "rss-readers"],
     "config": {
         "vendor-dir": "vendors"
     }
