@@ -21,6 +21,8 @@ class RssReadersControllerTest extends ControllerTestCase {
  */
 	public $fixtures = array(
 		'plugin.rss_readers.rss_reader',
+		'plugin.rss_readers.block',
+		'plugin.rss_readers.frame',
 		'plugin.rss_readers.site_setting',
 		'plugin.rss_readers.box',
 		'plugin.rss_readers.plugin',

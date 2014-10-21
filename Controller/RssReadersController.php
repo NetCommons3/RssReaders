@@ -52,12 +52,18 @@ class RssReadersController extends RssReadersAppController {
 		$this->_initializeFrame($frameId);
 
 		// ログインしていない場合は下書きは表示しない。
-		$contentEditable = !CakeSession::read('Auth.User') ? false : $this->viewVars['contentEditable'];
-
+		if (!CakeSession::read('Auth.User')) {
+			$contentEditable = false;
+			$this->set('contentEditable', $contentEditable);
+			$this->set('contentPublishable', false);
+		} else {
+			$contentEditable = $this->viewVars['contentEditable'];
+		}
 		$this->request->data = $this->RssReader->getContent(
 			$this->viewVars['blockId'],
 			$contentEditable
 		);
+
 		$this->set('rssReaderData', $this->request->data);
 
 		return $this->render();

@@ -44,4 +44,16 @@ class RssReaderFrameSettingTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+/**
+ * testFind method
+ *
+ * @return void
+ */
+	public function testFind() {
+		$rssReaderFrameId = 1;
+		$rssReaderFrameData = $this->RssReaderFrameSetting->findById($rssReaderFrameId);
+
+		$this->assertNotEmpty($rssReaderFrameData);
+	}
+
 }
