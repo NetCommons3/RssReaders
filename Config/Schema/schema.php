@@ -1,15 +1,57 @@
 <?php 
+/**
+ * RssReader file
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+
+/**
+ * RssReaders Schema
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @package NetCommons\RssReaders\Config
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class RssReaderSchema extends CakeSchema {
 
+/**
+ * Database connection
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @var string
+ */
 	public $connection = 'master';
 
+/**
+ * before
+ *
+ * @param array $event savent
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return bool
+ */
 	public function before($event = array()) {
 		return true;
 	}
 
+/**
+ * after
+ *
+ * @param array $event event
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
 	public function after($event = array()) {
 	}
 
+/**
+ *  rss_reader_frame_settings table
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @var array
+ */
 	public $rss_reader_frame_settings = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'rss reader id | RSSリーダーID |  | '),
 		'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
@@ -26,6 +68,12 @@ class RssReaderSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
+/**
+ *  rss_readers table
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @var array
+ */
 	public $rss_readers = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID |  |  | '),
 		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index', 'comment' => 'block id |  ブロックID | blocks.id | '),

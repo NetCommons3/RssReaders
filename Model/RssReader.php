@@ -2,41 +2,60 @@
 /**
  * RssReader Model
  *
- * @property Block $Block
- *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @property  RssReader $RssReader
+ * @author    Kosuke Miura <k_miura@zenk.co.jp>
+ * @link      http://www.netcommons.org NetCommons Project
+ * @license   http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
  */
 
 App::uses('RssReadersAppModel', 'RssReaders.Model');
 
 /**
- * Summary for RssReader Model
+ * RssReader Model
+ *
+ * @author  Kosuke Miura <k_miura@zenk.co.jp>
+ * @package app.Plugin.RssReaders.Model
  */
 class RssReader extends RssReadersAppModel {
 
 /**
- * Use database config
+ * RssReaders status published
  *
- * @var string
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @var    int
  */
-	public $useDbConfig = 'master';
+	const STATUS_PUBLISHED = '1';
 
 /**
- * Display field
+ * RssReaders status approved
  *
- * @var string
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @var    int
  */
-	public $displayField = 'title';
+	const STATUS_APPROVED = '2';
 
+/**
+ * RssReaders status drafted
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @var    int
+ */
+	const STATUS_DRAFTED = '3';
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+/**
+ * RssReaders status disapproved
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @var    int
+ */
+	const STATUS_DISAPPROVED = '4';
 
 /**
  * belongsTo associations
  *
- * @var array
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @var    array
  */
 	public $belongsTo = array(
 		'Block' => array(
@@ -47,4 +66,62 @@ class RssReader extends RssReadersAppModel {
 			'order' => ''
 		)
 	);
+
+/**
+ * get rss_reader
+ *
+ * @param int $blockId blocks.id
+ * @param boolean $editable false:publish latest rssreader|true:all latest rssreader
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return array $rssReader
+ */
+	public function getContent($blockId, $editable = 0) {
+		$conditions = array(
+			'block_id' => $blockId
+		);
+		if (!$editable) {
+			$conditions['status'] = self::STATUS_PUBLISHED;
+		}
+
+		$rssReader = $this->find(
+			'first',
+			array(
+				'conditions' => $conditions,
+				'order' => $this->name . '.id DESC'
+			)
+		);
+
+		return $rssReader;
+	}
+
+/**
+ * save rss_reader
+ *
+ * @param array $data received post data
+ * @param int $frameId frames.id
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return boolean $result
+ */
+	public function saveRssReader($data, $frameId) {
+		$data['Block']['name'] = $data['RssReader']['title'];
+		$result = $this->saveAll($data);
+
+		// 新規登録の場合は、Frames.block_idを更新する。
+		if (!strlen($data['RssReader']['id'])) {
+			$rssReaderId = $this->getLastInsertID();
+			$rssReaderData = $this->findById($rssReaderId);
+			$blockId = $rssReaderData['RssReader']['block_id'];
+
+			$frameData = array(
+				'Frame' => array(
+					'id' => $frameId,
+					'block_id' => $blockId
+				)
+			);
+			$this->Frame = ClassRegistry::init('Frame');
+			$this->Frame->save($frameData);
+		}
+
+		return $result;
+	}
 }

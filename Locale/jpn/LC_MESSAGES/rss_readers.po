@@ -1,0 +1,78 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2014-05-27 10:08+0900\n"
+"PO-Revision-Date: 2014-06-04 16:46+0900\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid "Release"
+msgstr "公開する"
+
+msgid "Manage"
+msgstr "管理"
+
+msgid "Edit"
+msgstr "編集"
+
+msgid "Edit RSS"
+msgstr "RSS編集"
+
+msgid "Change Indication Method"
+msgstr "表示方法変更"
+
+msgid "Set Up Email"
+msgstr "メール設定"
+
+msgid "RDF/RSS Url"
+msgstr "RDF/RSSファイルのURL"
+
+msgid "Get Site Info"
+msgstr "サイト情報取得"
+
+msgid "Site Title"
+msgstr "サイト名"
+
+msgid "Site Explanation"
+msgstr "サイトの説明"
+
+msgid "Site Url"
+msgstr "サイトURL"
+
+msgid "Chache Time"
+msgstr "キャッシュ時間"
+
+msgid "%dminutes"
+msgstr "%d分"
+
+msgid "%dhours"
+msgstr "%d時間"
+
+msgid "%ddays"
+msgstr "%d日"
+
+msgid "%dweeks"
+msgstr "%d週"
+
+msgid "%dmonths"
+msgstr "%dヶ月"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Draft"
+msgstr "下書き"
+
+msgid "Required field."
+msgstr "入力必須の項目です。"
+
+msgid "Invalid URL format."
+msgstr "不正なURL形式です。"

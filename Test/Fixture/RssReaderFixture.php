@@ -2,9 +2,9 @@
 /**
  * RssReaderFixture
  *
-* @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
-* @link     http://www.netcommons.org NetCommons Project
-* @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @link     http://www.netcommons.org NetCommons Project
+ * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
 /**
@@ -50,19 +50,36 @@ class RssReaderFixture extends CakeTestFixture {
 			'id' => 1,
 			'block_id' => 1,
 			'status' => 1,
-			'url' => 'Lorem ipsum dolor sit amet',
-			'title' => 'Lorem ipsum dolor sit amet',
-			'summary' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'link' => 'Lorem ipsum dolor sit amet',
-			'serialize_value' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-			'cache_time' => 1,
-			'is_auto_translated' => 1,
-			'translation_engine' => 'Lorem ipsum dolor sit amet',
+			'url' => 'http://zenk.co.jp/feed/rdf',
+			'title' => '株式会社ゼンク',
+			'summary' => '株式会社ゼンクです。',
+			'link' => 'http://zenk.co.jp',
+			'serialize_value' => '',
+			'cache_time' => 1800,
+			'is_auto_translated' => 0,
+			'translation_engine' => '',
 			'created_user' => 1,
 			'created' => '2014-10-14 05:37:41',
 			'modified_user' => 1,
 			'modified' => '2014-10-14 05:37:41'
 		),
+		array(
+			'id' => 2,
+			'block_id' => 2,
+			'status' => 3,
+			'url' => 'http://zenk.co.jp/feed/rdf',
+			'title' => '株式会社ゼンク下書き',
+			'summary' => '株式会社ゼンクです。',
+			'link' => 'http://zenk.co.jp',
+			'serialize_value' => '',
+			'cache_time' => 1800,
+			'is_auto_translated' => 0,
+			'translation_engine' => '',
+			'created_user' => 1,
+			'created' => '2014-10-14 05:37:41',
+			'modified_user' => 1,
+			'modified' => '2014-10-14 05:37:41'
+		)
 	);
 
 }

@@ -1,9 +1,26 @@
 <?php
+/**
+ * Migration file
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+
+/**
+ * RssReaders CakeMigration
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @package NetCommons\RssReaders\Config
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Init extends CakeMigration {
 
 /**
  * Migration description
  *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var string
  */
 	public $description = '';
@@ -11,6 +28,7 @@ class Init extends CakeMigration {
 /**
  * Actions to be performed
  *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var array $migration
  */
 	public $migration = array(
@@ -65,7 +83,8 @@ class Init extends CakeMigration {
 /**
  * Before migration callback
  *
- * @param string $direction, up or down direction of migration process
+ * @param string $direction up or down direction of migration process
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return boolean Should process continue
  */
 	public function before($direction) {
@@ -75,7 +94,8 @@ class Init extends CakeMigration {
 /**
  * After migration callback
  *
- * @param string $direction, up or down direction of migration process
+ * @param string $direction up or down direction of migration process
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return boolean Should process continue
  */
 	public function after($direction) {
