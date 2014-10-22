@@ -25,6 +25,6 @@
 		<?php echo $this->element('RssReaders/index_editor'); ?>
 	</div>
 	<div class="tab-pane" id="nc-rss-readers-display-style-<?php echo (int)$frameId; ?>">
-		<?php //echo $this->element('RssReaders/display_style_setting'); ?>
+		<?php echo $this->element('RssReaders/display_style_setting'); ?>
 	</div>
 </div>

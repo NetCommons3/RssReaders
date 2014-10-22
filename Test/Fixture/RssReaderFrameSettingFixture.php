@@ -41,7 +41,7 @@ class RssReaderFrameSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'frame_key' => 'Lorem ipsum dolor sit amet',
+			'frame_key' => 'd6c512c3cb0e3cde4892ffbc1bf05b6dd0da70f22ce1404907d36b30cebe1553',
 			'display_number_per_page' => 1,
 			'display_site_info' => 1,
 			'display_summary' => 1,

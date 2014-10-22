@@ -118,5 +118,27 @@ NetCommonsApp.controller('RssReaders',
           // 失敗
         });
       };
+
+      /**
+       * Save RssReaderFrameSetting Data
+       *
+       * @param {string} postStatus
+       * @return {void}
+       */
+      $scope.saveRssReaderFrameSettig = function() {
+        $paramData = $('#form-rss-reader-frame-setting-edit' +
+                       $scope.frameId).serialize();
+        $http({
+          method: 'POST',
+          url: '/rss_readers/rss_readers/editFrameSetting',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          data: $paramData
+        }).success(function(data, status, headers, config) {
+          // 成功
+          location.reload();
+        }).error(function(data, status, headers, config) {
+          // 失敗
+        });
+      };
     }
 );

@@ -65,11 +65,26 @@ msgstr "%d週"
 msgid "%dmonths"
 msgstr "%dヶ月"
 
+msgid "Event Display"
+msgstr "表示件数"
+
+msgid "%dcases"
+msgstr "%d件"
+
+msgid "Display Site Info"
+msgstr "サイト情報を表示する"
+
+msgid "Display Summary"
+msgstr "概要を表示する"
+
 msgid "Cancel"
 msgstr "キャンセル"
 
 msgid "Draft"
 msgstr "下書き"
+
+msgid "Save"
+msgstr "設定する"
 
 msgid "Required field."
 msgstr "入力必須の項目です。"

@@ -122,7 +122,8 @@
 						'604800' => __d('rss_readers', '%dweeks', 1),
 						'2592000' => __d('rss_readers', '%dmonths', 1)
 					),
-					'class' => 'form-control'
+					'class' => 'form-control',
+					'style' => 'width: 200px;'
 				)
 			);
 			?>

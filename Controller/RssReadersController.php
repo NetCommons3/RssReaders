@@ -27,7 +27,9 @@ class RssReadersController extends RssReadersAppController {
  * @var    array
  */
 	public $uses = array(
-		'RssReaders.RssReader'
+		'Frames.Frame',
+		'RssReaders.RssReader',
+		'RssReaders.RssReaderFrameSetting'
 	);
 
 /**
@@ -59,12 +61,40 @@ class RssReadersController extends RssReadersAppController {
 		} else {
 			$contentEditable = $this->viewVars['contentEditable'];
 		}
-		$this->request->data = $this->RssReader->getContent(
+
+		// RssReaderの取得。
+		$rssReaderData = $this->RssReader->getContent(
 			$this->viewVars['blockId'],
 			$contentEditable
 		);
 
-		$this->set('rssReaderData', $this->request->data);
+		// RssReaderが存在しない場合は初期化する。
+		if (empty($rssReaderData)) {
+			$rssReaderData = $this->RssReader->create();
+			$rssReaderData[$this->RssReader->name]['url'] = '';
+			$rssReaderData[$this->RssReader->name]['title'] = '';
+			$rssReaderData[$this->RssReader->name]['summary'] = '';
+			$rssReaderData[$this->RssReader->name]['title'] = '';
+			$rssReaderData[$this->RssReader->name]['chace_time'] = '';
+		}
+		$this->set('rssReaderData', $rssReaderData);
+		$this->request->data = $rssReaderData;
+
+		// RssReaderFrameSettingの取得。
+		$frameData = $this->Frame->findById($frameId);
+		$frameKey = $frameData['Frame']['key'];
+		$rssReaderFrameData =
+			$this->RssReaderFrameSetting->getRssReaderFrameSetting($frameKey);
+
+		// RssReaderFrameSettingが存在しない場合は初期化する。
+		if (empty($rssReaderFrameData)) {
+			$rssReaderFrameData = $this->RssReaderFrameSetting->create();
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_number_per_page'] = '';
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_site_info'] = '';
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_summary'] = '';
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['frame_key'] = $frameKey;
+		}
+		$this->request->data = array_merge($this->request->data, $rssReaderFrameData);
 
 		return $this->render();
 	}
@@ -107,6 +137,19 @@ class RssReadersController extends RssReadersAppController {
 		);
 
 		return $this->_renderJson(200, '', $datas);
+	}
+
+/**
+ * edit RssReaderFrameSetting
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function editFrameSetting() {
+		$saveData = $this->request->data;
+		$result = $this->RssReaderFrameSetting->save($saveData);
+
+		return $this->_renderJson(200, '', $result);
 	}
 
 }
