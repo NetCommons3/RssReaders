@@ -71,7 +71,7 @@ class RssReader extends RssReadersAppModel {
  * get rss_reader
  *
  * @param int $blockId blocks.id
- * @param boolean $editable false:publish latest rssreader|true:all latest rssreader
+ * @param bool $editable false:publish latest rssreader|true:all latest rssreader
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return array $rssReader
  */
@@ -100,7 +100,7 @@ class RssReader extends RssReadersAppModel {
  * @param array $data received post data
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return boolean $result
+ * @return bool $result
  */
 	public function saveRssReader($data, $frameId) {
 		$data['Block']['name'] = $data['RssReader']['title'];
