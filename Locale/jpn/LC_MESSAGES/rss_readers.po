@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-msgid "Release"
+msgid "Publish"
 msgstr "公開する"
 
 msgid "Manage"
@@ -86,6 +86,9 @@ msgstr "キャンセル"
 msgid "Draft"
 msgstr "下書き"
 
+msgid "Approval"
+msgstr "申請する"
+
 msgid "Setting"
 msgstr "設定する"
 
@@ -103,6 +106,9 @@ msgstr "申請中"
 
 msgid "Drafting"
 msgstr "下書き"
+
+msgid "Disapproval"
+msgstr "差し戻す"
 
 msgid "Disapprovign"
 msgstr "差戻し"

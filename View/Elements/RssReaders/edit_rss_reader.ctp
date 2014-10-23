@@ -143,14 +143,33 @@
 	<button type="button" class="btn btn-default" data-dismiss="modal">
 		<?php echo __d('rss_readers', 'Cancel'); ?>
 	</button>
-	<button type="button" class="btn btn-default" data-dismiss="modal"
-				ng-disabled="rssReader.$invalid"
-				ng-click="saveRssReader(<?php echo RssReader::STATUS_DRAFTED; ?>)">
-		<?php echo __d('rss_readers', 'Draft'); ?>
-	</button>
-	<button type="button" class="btn btn-primary" data-dismiss="modal"
-				ng-disabled="rssReader.$invalid"
-				ng-click="saveRssReader(<?php echo RssReader::STATUS_PUBLISHED; ?>)">
-		<?php echo __d('rss_readers', 'Release'); ?>
-	</button>
+
+	<?php if ($contentPublishable &&
+					$this->Form->value('RssReader.status') === RssReader::STATUS_APPROVED): ?>
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+					ng-disabled="rssReader.$invalid"
+					ng-click="saveRssReader(<?php echo RssReader::STATUS_DISAPPROVED; ?>)">
+			<?php echo __d('rss_readers', 'Disapproval'); ?>
+		</button>
+	<?php else: ?>
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+					ng-disabled="rssReader.$invalid"
+					ng-click="saveRssReader(<?php echo RssReader::STATUS_DRAFTED; ?>)">
+			<?php echo __d('rss_readers', 'Draft'); ?>
+		</button>
+	<?php endif; ?>
+
+	<?php if ($contentPublishable): ?>
+		<button type="button" class="btn btn-primary" data-dismiss="modal"
+					ng-disabled="rssReader.$invalid"
+					ng-click="saveRssReader(<?php echo RssReader::STATUS_PUBLISHED; ?>)">
+			<?php echo __d('rss_readers', 'Publish'); ?>
+		</button>
+	<?php else: ?>
+		<button type="button" class="btn btn-primary" data-dismiss="modal"
+					ng-disabled="rssReader.$invalid"
+					ng-click="saveRssReader(<?php echo RssReader::STATUS_APPROVED; ?>)">
+			<?php echo __d('rss_readers', 'Approval'); ?>
+		</button>
+	<?php endif; ?>
 </p>

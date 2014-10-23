@@ -31,22 +31,14 @@ echo $this->Html->css('/rss_readers/css/rss_readers.css');
 		</div>
 	</div>
 
-	<div class="row" ng-show="visibleHeaderBtn">
+	<div ng-show="visibleHeaderBtn">
 		<?php echo $this->element('RssReaders/header_button'); ?>
 	</div>
 
 	<div id="nc-rss-readers-container-<?php echo (int)$frameId; ?>"
 		 ng-show="visibleContainer">
-
 		<div>
 			<?php echo $this->element('RssReaders/view'); ?>
 		</div>
-	</div>
-
-	<div id="nc-rss-readers-manage-<?php echo (int)$frameId; ?>" class="ng-hide"
-		 ng-show="visibleManage">
-
-		<?php //echo $this->element('RssReaders/index_manage'); ?>
-
 	</div>
 </div>

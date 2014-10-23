@@ -76,13 +76,14 @@ class RssReadersController extends RssReadersAppController {
 			$rssReaderData[$this->RssReader->name]['summary'] = '';
 			$rssReaderData[$this->RssReader->name]['link'] = '';
 			$rssReaderData[$this->RssReader->name]['cache_time'] = '';
+			$rssXmlData = array();
 		} else {
 			// シリアライズされているRSSのデータを配列に戻す。
 			$rssSerializeData = $this->RssReader->updateSerializeValue($rssReaderData);
 			$rssXmlData = unserialize($rssSerializeData);
-			$this->set('rssXmlData', $rssXmlData);
 		}
 		$this->set('rssReaderData', $rssReaderData);
+		$this->set('rssXmlData', $rssXmlData);
 		$this->request->data = $rssReaderData;
 
 		// RssReaderFrameSettingの取得。
@@ -154,6 +155,19 @@ class RssReadersController extends RssReadersAppController {
 	public function editFrameSetting() {
 		$saveData = $this->request->data;
 		$result = $this->RssReaderFrameSetting->save($saveData);
+
+		return $this->_renderJson(200, '', $result);
+	}
+
+/**
+ * update RssReader status
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function updateStatus() {
+		$saveData[$this->RssReader->name] = $this->request->data;
+		$result = $this->RssReader->save($saveData);
 
 		return $this->_renderJson(200, '', $result);
 	}

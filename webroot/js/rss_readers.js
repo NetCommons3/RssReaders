@@ -54,6 +54,33 @@ NetCommonsApp.controller('RssReaders',
       };
 
       /**
+       * Update RssReader Status
+       *
+       * @param {string} postStatus
+       * @return {void}
+       */
+      $scope.updateStatus = function(postStatus) {
+        $http({
+          method: 'POST',
+          url: '/rss_readers/rss_readers/updateStatus',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          transformRequest: function(obj) {
+            var str = [];
+            for (var p in obj)
+              str.push(encodeURIComponent(p) + '=' +
+                       encodeURIComponent(obj[p]));
+            return str.join('&');
+          },
+          data: {id: $scope.rssReaderData.RssReader.id, status: postStatus}
+        }).success(function(data, status, headers, config) {
+          // 成功
+          location.reload();
+        }).error(function(data, status, headers, config) {
+          // 失敗
+        });
+      };
+
+      /**
        * Show Manage Modal
        *
        * @return {void}
