@@ -86,7 +86,7 @@ class RssReaderTest extends CakeTestCase {
 			'RssReader' => array(
 				'id' => '',
 				'status' => 1,
-				'url' => 'http://test.xml',
+				'url' => 'http://zenk.co.jp/feed/rdf',
 				'title' => 'テストサイト',
 				'summary' => 'Rssのテスト用サイト',
 				'link' => 'http://test.com',
@@ -153,7 +153,7 @@ class RssReaderTest extends CakeTestCase {
 			'RssReader' => array(
 				'id' => 1,
 				'status' => 1,
-				'url' => 'http://test.xml',
+				'url' => 'http://zenk.co.jp/feed/rdf',
 				'title' => 'テストサイト',
 				'summary' => 'Rssのテスト用サイト',
 				'link' => 'http://test.com',
@@ -207,5 +207,59 @@ class RssReaderTest extends CakeTestCase {
 		$newBlockCount = $this->RssReader->Block->find('count');
 		$this->assertEquals($oldRssReaderCount, $newRssReaderCount);
 		$this->assertEquals($oldBlockCount, $newBlockCount);
+	}
+
+/**
+ * updateSerializeValue method
+ *
+ * @return void
+ */
+	public function testUpdateSerializeValueCaseNotUpdate() {
+		$rssReaderId = 1;
+		$rssReaderData = $this->RssReader->findById($rssReaderId);
+
+		// キャッシュ時間を経過しない場合、serialize_valueが更新されないか確認。
+		$date = new DateTime();
+		$date->modify('-1 day');
+		$rssReaderData[$this->RssReader->name]['modified'] = $date->format('Y-m-d h:i:s');
+		$serializeValue = $this->RssReader->updateSerializeValue($rssReaderData);
+
+		$this->assertEquals(
+			$rssReaderData[$this->RssReader->name]['serialize_value'],
+			$serializeValue
+		);
+
+		$newRssReaderData = $this->RssReader->findById($rssReaderId);
+		$this->assertEquals(
+			$rssReaderData[$this->RssReader->name]['serialize_value'],
+			$newRssReaderData[$this->RssReader->name]['serialize_value']
+		);
+	}
+
+/**
+ * updateSerializeValue method
+ *
+ * @return void
+ */
+	public function testUpdateSerializeValueCaseUpdate() {
+		$rssReaderId = 1;
+		$rssReaderData = $this->RssReader->findById($rssReaderId);
+
+		// キャッシュ時間を経過した場合、serialize_valueが更新されるか確認。
+		$date = new DateTime();
+		$date->modify('-5 day');
+		$rssReaderData[$this->RssReader->name]['modified'] = $date->format('Y-m-d h:i:s');
+		$serializeValue = $this->RssReader->updateSerializeValue($rssReaderData);
+
+		$this->assertNotEquals(
+			$rssReaderData[$this->RssReader->name]['serialize_value'],
+			$serializeValue
+		);
+
+		$newRssReaderData = $this->RssReader->findById($rssReaderId);
+		$this->assertNotEquals(
+			$rssReaderData[$this->RssReader->name]['serialize_value'],
+			$newRssReaderData[$this->RssReader->name]['serialize_value']
+		);
 	}
 }

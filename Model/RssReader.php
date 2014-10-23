@@ -103,14 +103,18 @@ class RssReader extends RssReadersAppModel {
  * @return bool $result
  */
 	public function saveRssReader($data, $frameId) {
-		$data['Block']['name'] = $data['RssReader']['title'];
+		$data['Block']['name'] = $data[$this->name]['title'];
+		// rssのデータをシリアライズして保存。
+		$data[$this->name]['serialize_value'] =
+			serialize(Xml::toArray(Xml::build($data[$this->name]['url'])));
+
 		$result = $this->saveAll($data);
 
 		// 新規登録の場合は、Frames.block_idを更新する。
-		if (!strlen($data['RssReader']['id'])) {
+		if (!strlen($data[$this->name]['id'])) {
 			$rssReaderId = $this->getLastInsertID();
 			$rssReaderData = $this->findById($rssReaderId);
-			$blockId = $rssReaderData['RssReader']['block_id'];
+			$blockId = $rssReaderData[$this->name]['block_id'];
 
 			$frameData = array(
 				'Frame' => array(
@@ -123,5 +127,32 @@ class RssReader extends RssReadersAppModel {
 		}
 
 		return $result;
+	}
+
+/**
+ * update serialize_value
+ *
+ * @param array $rssReaderData rss_reader
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return string $serializeValue
+ */
+	public function updateSerializeValue($rssReaderData) {
+		$cacheTime = $rssReaderData[$this->name]['cache_time'];
+		$modified = $rssReaderData[$this->name]['modified'];
+		$modifiedDate = new DateTime($modified);
+		$nowDate = new DateTime;
+		$interval = $nowDate->getTimeStamp() - $modifiedDate->getTimeStamp();
+
+		// 設定したキャッシュ時間を経過している場合は、RSSを再取得し更新する。
+		if ($interval > $cacheTime) {
+			$url = $rssReaderData[$this->name]['url'];
+			$serializeValue = serialize(Xml::toArray(Xml::build($url)));
+			$rssReaderData[$this->name]['serialize_value'] = $serializeValue;
+			$this->save($rssReaderData);
+		} else {
+			$serializeValue = $rssReaderData[$this->name]['serialize_value'];
+		}
+
+		return $serializeValue;
 	}
 }

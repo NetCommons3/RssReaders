@@ -74,8 +74,13 @@ class RssReadersController extends RssReadersAppController {
 			$rssReaderData[$this->RssReader->name]['url'] = '';
 			$rssReaderData[$this->RssReader->name]['title'] = '';
 			$rssReaderData[$this->RssReader->name]['summary'] = '';
-			$rssReaderData[$this->RssReader->name]['title'] = '';
-			$rssReaderData[$this->RssReader->name]['chace_time'] = '';
+			$rssReaderData[$this->RssReader->name]['link'] = '';
+			$rssReaderData[$this->RssReader->name]['cache_time'] = '';
+		} else {
+			// シリアライズされているRSSのデータを配列に戻す。
+			$rssSerializeData = $this->RssReader->updateSerializeValue($rssReaderData);
+			$rssXmlData = unserialize($rssSerializeData);
+			$this->set('rssXmlData', $rssXmlData);
 		}
 		$this->set('rssReaderData', $rssReaderData);
 		$this->request->data = $rssReaderData;
@@ -89,11 +94,12 @@ class RssReadersController extends RssReadersAppController {
 		// RssReaderFrameSettingが存在しない場合は初期化する。
 		if (empty($rssReaderFrameData)) {
 			$rssReaderFrameData = $this->RssReaderFrameSetting->create();
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_number_per_page'] = '';
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_site_info'] = '';
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_summary'] = '';
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_number_per_page'] = 1;
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_site_info'] = 0;
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_summary'] = 0;
 			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['frame_key'] = $frameKey;
 		}
+		$this->set('rssReaderFrameData', $rssReaderFrameData);
 		$this->request->data = array_merge($this->request->data, $rssReaderFrameData);
 
 		return $this->render();

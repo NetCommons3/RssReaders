@@ -69,6 +69,6 @@
 	</button>
 	<button type="button" class="btn btn-primary" data-dismiss="modal"
 		ng-click="saveRssReaderFrameSettig()">
-		<?php echo __d('rss_readers', 'Save'); ?>
+		<?php echo __d('rss_readers', 'Setting'); ?>
 	</button>
 </p>

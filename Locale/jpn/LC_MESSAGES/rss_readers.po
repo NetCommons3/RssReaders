@@ -23,6 +23,9 @@ msgstr "管理"
 msgid "Edit"
 msgstr "編集"
 
+msgid "Site Info"
+msgstr "サイト情報"
+
 msgid "Edit RSS"
 msgstr "RSS編集"
 
@@ -83,7 +86,7 @@ msgstr "キャンセル"
 msgid "Draft"
 msgstr "下書き"
 
-msgid "Save"
+msgid "Setting"
 msgstr "設定する"
 
 msgid "Required field."
@@ -91,3 +94,15 @@ msgstr "入力必須の項目です。"
 
 msgid "Invalid URL format."
 msgstr "不正なURL形式です。"
+
+msgid "Publishing"
+msgstr "公開中"
+
+msgid "Approving"
+msgstr "申請中"
+
+msgid "Drafting"
+msgstr "下書き"
+
+msgid "Disapprovign"
+msgstr "差戻し"
