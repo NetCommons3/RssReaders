@@ -56,6 +56,9 @@
 			);
 			?>
 		</div>
+		<div class="has-error">
+			<span class="help-block" ng-show="saveRssReaderFrameError">{{ saveRssReaderErrorMessage }}</span>
+		</div>
 		<?php
 		echo $this->Form->hidden('id');
 		echo $this->Form->hidden('frame_key');
@@ -68,7 +71,7 @@
 		<?php echo __d('rss_readers', 'Cancel'); ?>
 	</button>
 	<button type="button" class="btn btn-primary" data-dismiss="modal"
-		ng-click="saveRssReaderFrameSettig()">
+		ng-click="saveRssReaderFrameSettig()" ng-disabled="sending">
 		<?php echo __d('rss_readers', 'Setting'); ?>
 	</button>
 </p>

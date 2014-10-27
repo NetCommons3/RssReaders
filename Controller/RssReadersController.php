@@ -119,7 +119,11 @@ class RssReadersController extends RssReadersAppController {
 
 		$result = $this->RssReader->saveRssReader($saveData, $frameId);
 
-		return $this->_renderJson(200, '', $result);
+		if ($result) {
+			return $this->_renderJson(200, '', $result);
+		} else {
+			return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
+		}
 	}
 
 /**
@@ -131,7 +135,13 @@ class RssReadersController extends RssReadersAppController {
 	public function getRssInfo() {
 		$url = $this->request->data['url'];
 
-		$rss = Xml::toArray(Xml::build($url));
+		try {
+			$rss = Xml::build($url);
+			$rss = Xml::toArray($rss);
+		} catch (XmlException $e) {
+			// Xmlが取得できない場合異常終了
+			return $this->_renderJson(500, __d('rss_readers', 'Feed Not Found.'), false);
+		}
 
 		$title = $rss['RDF']['channel']['title'];
 		$link = $rss['RDF']['channel']['link'];
@@ -156,7 +166,11 @@ class RssReadersController extends RssReadersAppController {
 		$saveData = $this->request->data;
 		$result = $this->RssReaderFrameSetting->save($saveData);
 
-		return $this->_renderJson(200, '', $result);
+		if ($result) {
+			return $this->_renderJson(200, '', $result);
+		} else {
+			return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
+		}
 	}
 
 /**
@@ -169,7 +183,11 @@ class RssReadersController extends RssReadersAppController {
 		$saveData[$this->RssReader->name] = $this->request->data;
 		$result = $this->RssReader->save($saveData);
 
-		return $this->_renderJson(200, '', $result);
+		if ($result) {
+			return $this->_renderJson(200, '', $result);
+		} else {
+			return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
+		}
 	}
 
 }

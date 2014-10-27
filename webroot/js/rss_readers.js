@@ -42,6 +42,27 @@ NetCommonsApp.controller('RssReaders',
       $scope.visibleContainer = true;
 
       /**
+       * button of get rss info
+       *
+       * @type {{value: boolean}}
+       */
+      $scope.getRssInfoBtn = true;
+
+      /**
+       * button of loading get rss info
+       *
+       * @type {{value: boolean}}
+       */
+      $scope.loadingGetRssInfoBtn = false;
+
+      /**
+       * sending
+       *
+       * @type {{value: boolean}}
+       */
+      $scope.sending = false;
+
+      /**
        * Initialize
        *
        * @param {Object.<string>} rssReaderData
@@ -100,6 +121,8 @@ NetCommonsApp.controller('RssReaders',
        * @return {void}
        */
       $scope.saveRssReader = function(postStatus) {
+        $scope.saveRssReaderError = false;
+        $scope.sending = true;
         $paramData = $('#form-rss-reader-edit-' + $scope.frameId).serialize();
         $paramData = $paramData + '&' +
                 encodeURIComponent('data[RssReader][status]') +
@@ -114,6 +137,9 @@ NetCommonsApp.controller('RssReaders',
           location.reload();
         }).error(function(data, status, headers, config) {
           // 失敗
+          $scope.saveRssReaderError = true;
+          $scope.saveRssReaderErrorMessage = data.message;
+          $scope.sending = false;
         });
       };
 
@@ -123,6 +149,10 @@ NetCommonsApp.controller('RssReaders',
        * @return {void}
        */
       $scope.getRssInfo = function() {
+        $scope.getRssInfoBtn = false;
+        $scope.loadingGetRssInfoBtn = true;
+        $scope.rssReader['data[RssReader][url]'].$valid = true;
+        $scope.getRssInfoErrorMessage = '';
         $http({
           method: 'POST',
           url: '/rss_readers/rss_readers/getRssInfo',
@@ -136,13 +166,19 @@ NetCommonsApp.controller('RssReaders',
           },
           data: {url: $scope.url}
         }).success(function(data, status, headers, config) {
-          console.log(data);
           // 成功
           $scope.title = data.data.title;
           $scope.summary = data.data.summary;
           $scope.link = data.data.link;
+
+          $scope.getRssInfoBtn = true;
+          $scope.loadingGetRssInfoBtn = false;
         }).error(function(data, status, headers, config) {
           // 失敗
+          $scope.getRssInfoBtn = true;
+          $scope.loadingGetRssInfoBtn = false;
+          $scope.rssReader['data[RssReader][url]'].$valid = false;
+          $scope.getRssInfoErrorMessage = data.message;
         });
       };
 
@@ -153,6 +189,9 @@ NetCommonsApp.controller('RssReaders',
        * @return {void}
        */
       $scope.saveRssReaderFrameSettig = function() {
+        $scope.saveRssReaderFrameSuccess = false;
+        $scope.saveRssReaderFrameError = false;
+        $scope.sending = true;
         $paramData = $('#form-rss-reader-frame-setting-edit' +
                        $scope.frameId).serialize();
         $http({
@@ -165,6 +204,9 @@ NetCommonsApp.controller('RssReaders',
           location.reload();
         }).error(function(data, status, headers, config) {
           // 失敗
+          $scope.saveRssReaderFrameError = true;
+          $scope.saveRssReaderFrameErrorMessage = data.message;
+          $scope.sending = false;
         });
       };
     }

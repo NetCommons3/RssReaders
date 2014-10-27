@@ -41,6 +41,9 @@ msgstr "RDF/RSSファイルのURL"
 msgid "Get Site Info"
 msgstr "サイト情報取得"
 
+msgid "Loading..."
+msgstr "取得中..."
+
 msgid "Site Title"
 msgstr "サイト名"
 
@@ -97,6 +100,15 @@ msgstr "入力必須の項目です。"
 
 msgid "Invalid URL format."
 msgstr "不正なURL形式です。"
+
+msgid "Feed Not Found."
+msgstr "フィードが見つかりませんでした。"
+
+msgid "Saved."
+msgstr "保存しました。"
+
+msgid "I failed to save."
+msgstr "保存に失敗しました。"
 
 msgid "Publishing"
 msgstr "公開中"

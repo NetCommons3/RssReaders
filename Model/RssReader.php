@@ -104,9 +104,15 @@ class RssReader extends RssReadersAppModel {
  */
 	public function saveRssReader($data, $frameId) {
 		$data['Block']['name'] = $data[$this->name]['title'];
-		// rssのデータをシリアライズして保存。
-		$data[$this->name]['serialize_value'] =
-			serialize(Xml::toArray(Xml::build($data[$this->name]['url'])));
+
+		try {
+			// rssのデータをシリアライズして保存。
+			$data[$this->name]['serialize_value'] =
+				serialize(Xml::toArray(Xml::build($data[$this->name]['url'])));
+		} catch (XmlException $e) {
+			// Xmlが取得できない場合異常終了
+			return false;
+		}
 
 		$result = $this->saveAll($data);
 
