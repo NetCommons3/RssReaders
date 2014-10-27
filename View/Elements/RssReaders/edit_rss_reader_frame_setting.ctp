@@ -27,7 +27,8 @@
 						100 => __d('rss_readers', '%dcases', 100)
 					),
 					'class' => 'form-control',
-					'style' => 'width: 200px;'
+					'style' => 'width: 200px;',
+					'ng-model' => 'rssReaderFrameData.RssReaderFrameSetting.display_number_per_page'
 				)
 			);
 			?>
@@ -39,7 +40,8 @@
 				array(
 					'label' => __d('rss_readers', 'Display Site Info'),
 					'type' => 'checkbox',
-					'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;')
+					'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;'),
+					'ng-model' => 'rssReaderFrameData.RssReaderFrameSetting.display_site_info'
 				)
 			);
 			?>
@@ -51,18 +53,33 @@
 				array(
 					'label' => __d('rss_readers', 'Display Summary'),
 					'type' => 'checkbox',
-					'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;')
+					'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;'),
+					'ng-model' => 'rssReaderFrameData.RssReaderFrameSetting.display_summary'
 				)
 			);
 			?>
 		</div>
 		<div class="has-error">
-			<span class="help-block" ng-show="saveRssReaderFrameError">{{ saveRssReaderErrorMessage }}</span>
+			<span class="help-block" ng-show="saveRssReaderFrameError">
+				{{ saveRssReaderErrorMessage }}
+			</span>
 		</div>
 		<?php
-		echo $this->Form->hidden('id');
-		echo $this->Form->hidden('frame_key');
-		echo $this->Form->end();
+			echo $this->Form->input(
+				'id',
+				array(
+					'type' => 'hidden',
+					'value' => '{{rssReaderFrameData.RssReaderFrameSetting.id}}'
+				)
+			);
+			echo $this->Form->input(
+				'frame_key',
+				array(
+					'type' => 'hidden',
+					'value' => '{{rssReaderFrameData.RssReaderFrameSetting.frame_key}}'
+				)
+			);
+			echo $this->Form->end();
 		?>
 	</div>
 </div>

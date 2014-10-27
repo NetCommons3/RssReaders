@@ -107,8 +107,8 @@ class RssReader extends RssReadersAppModel {
 
 		try {
 			// rssのデータをシリアライズして保存。
-			$data[$this->name]['serialize_value'] =
-				serialize(Xml::toArray(Xml::build($data[$this->name]['url'])));
+			$url = $data[$this->name]['url'];
+			$data[$this->name]['serialize_value'] = $this->serializeRssData($url);
 		} catch (XmlException $e) {
 			// Xmlが取得できない場合異常終了
 			return false;
@@ -152,12 +152,25 @@ class RssReader extends RssReadersAppModel {
 		// 設定したキャッシュ時間を経過している場合は、RSSを再取得し更新する。
 		if ($interval > $cacheTime) {
 			$url = $rssReaderData[$this->name]['url'];
-			$serializeValue = serialize(Xml::toArray(Xml::build($url)));
-			$rssReaderData[$this->name]['serialize_value'] = $serializeValue;
+			$rssReaderData[$this->name]['serialize_value'] = $this->serializeRssData($url);
 			$this->save($rssReaderData);
-		} else {
-			$serializeValue = $rssReaderData[$this->name]['serialize_value'];
 		}
+		$serializeValue = $rssReaderData[$this->name]['serialize_value'];
+
+		return $serializeValue;
+	}
+
+/**
+ * serialize rss data
+ *
+ * @param string $url url
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return string $serializeValue
+ */
+	public function serializeRssData($url) {
+		$xmlData = Xml::toArray(Xml::build($url));
+		unset($xmlData['RDF']['channel']['items']);
+		$serializeValue = serialize($xmlData);
 
 		return $serializeValue;
 	}

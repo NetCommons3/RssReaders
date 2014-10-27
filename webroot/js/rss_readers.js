@@ -11,7 +11,7 @@
  * @param {function(scope, http)} Controller
  */
 NetCommonsApp.controller('RssReaders',
-                         function($scope, $http) {
+                         function($scope, $http, $sce, dialogs, $modal) {
 
       /**
        * button of rssreader index
@@ -107,11 +107,44 @@ NetCommonsApp.controller('RssReaders',
        * @return {void}
        */
       $scope.showManage = function() {
-        $('#nc-rss-readers-manage-modal-' + $scope.frameId).modal('show');
-        $scope.url = $scope.rssReaderData.RssReader.url;
-        $scope.title = $scope.rssReaderData.RssReader.title;
-        $scope.summary = $scope.rssReaderData.RssReader.summary;
-        $scope.link = $scope.rssReaderData.RssReader.link;
+        $modal.open({
+          templateUrl: 'rss_readers/rss_readers/edit/' + $scope.frameId,
+          controller: 'RssReaders.edit',
+          backdrop: 'static',
+          scope: $scope
+        }).result.then(
+            function(result) {},
+            function(reason) {
+              $scope.flash.close();
+            }
+        );
+      };
+    }
+);
+
+
+/**
+ *
+ * RssReader.edit Javascript
+ *
+ * @param {string} controller name
+ * @param {function(scope, http)} Controller
+ */
+NetCommonsApp.controller('RssReaders.edit',
+                         function($scope, $http, $sce, dialogs, $modal) {
+      /**
+       * Initialize
+       *
+       * @param {Object.<string>} rssReaderData
+       * @param {Object.<string>} rssReaderFrameData
+       * @param {int} frameId
+       * @return {void}
+       */
+      $scope.initialize = function($rssReaderData,
+          $rssReaderFrameData, $frameId) {
+        $scope.rssReaderData = $rssReaderData;
+        $scope.rssReaderFrameData = $rssReaderFrameData;
+        $scope.frameId = $frameId;
       };
 
       /**
@@ -164,12 +197,12 @@ NetCommonsApp.controller('RssReaders',
                        encodeURIComponent(obj[p]));
             return str.join('&');
           },
-          data: {url: $scope.url}
+          data: {url: $scope.rssReaderData.RssReader.url}
         }).success(function(data, status, headers, config) {
           // 成功
-          $scope.title = data.data.title;
-          $scope.summary = data.data.summary;
-          $scope.link = data.data.link;
+          $scope.rssReaderData.RssReader.title = data.data.title;
+          $scope.rssReaderData.RssReader.summary = data.data.summary;
+          $scope.rssReaderData.RssReader.link = data.data.link;
 
           $scope.getRssInfoBtn = true;
           $scope.loadingGetRssInfoBtn = false;

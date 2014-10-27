@@ -10,27 +10,6 @@ echo $this->Html->css('/rss_readers/css/rss_readers.css');
 		<?php echo (int)$frameId; ?>
 	)">
 
-	<div id="nc-rss-readers-manage-modal-<?php echo (int)$frameId; ?>" class="modal fade">
-		<div class="ng-scope">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button data-dismiss="modal" class="close" type="button">
-							<span aria-hidden="true">×</span>
-							<span class="sr-only">Close</span>
-						</button>
-						<h4 id="myModalLabel" class="modal-title">
-							<?php echo __d('rss_readers', 'Edit'); ?>
-						</h4>
-					</div>
-					<div class="modal-body">
-						<?php echo $this->element('RssReaders/index_manage'); ?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<div ng-show="visibleHeaderBtn">
 		<?php echo $this->element('RssReaders/header_button'); ?>
 	</div>

@@ -68,40 +68,27 @@ class RssReadersController extends RssReadersAppController {
 			$contentEditable
 		);
 
-		// RssReaderが存在しない場合は初期化する。
-		if (empty($rssReaderData)) {
-			$rssReaderData = $this->RssReader->create();
-			$rssReaderData[$this->RssReader->name]['url'] = '';
-			$rssReaderData[$this->RssReader->name]['title'] = '';
-			$rssReaderData[$this->RssReader->name]['summary'] = '';
-			$rssReaderData[$this->RssReader->name]['link'] = '';
-			$rssReaderData[$this->RssReader->name]['cache_time'] = '';
-			$rssXmlData = array();
-		} else {
+		$rssXmlData = array();
+		if (!empty($rssReaderData)) {
 			// シリアライズされているRSSのデータを配列に戻す。
 			$rssSerializeData = $this->RssReader->updateSerializeValue($rssReaderData);
 			$rssXmlData = unserialize($rssSerializeData);
 		}
 		$this->set('rssReaderData', $rssReaderData);
 		$this->set('rssXmlData', $rssXmlData);
-		$this->request->data = $rssReaderData;
 
 		// RssReaderFrameSettingの取得。
 		$frameData = $this->Frame->findById($frameId);
 		$frameKey = $frameData['Frame']['key'];
 		$rssReaderFrameData =
 			$this->RssReaderFrameSetting->getRssReaderFrameSetting($frameKey);
-
 		// RssReaderFrameSettingが存在しない場合は初期化する。
 		if (empty($rssReaderFrameData)) {
 			$rssReaderFrameData = $this->RssReaderFrameSetting->create();
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_number_per_page'] = 1;
 			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_site_info'] = 0;
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_summary'] = 0;
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['frame_key'] = $frameKey;
 		}
+
 		$this->set('rssReaderFrameData', $rssReaderFrameData);
-		$this->request->data = array_merge($this->request->data, $rssReaderFrameData);
 
 		return $this->render();
 	}
@@ -109,20 +96,60 @@ class RssReadersController extends RssReadersAppController {
 /**
  * edit
  *
+ * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function edit() {
-		$frameId = $this->request->data['Frame']['id'];
-		unset($this->request->data['Frame']);
-		$saveData = $this->request->data;
+	public function edit($frameId = 0) {
+		if ($frameId !== 0) {
+			// 画面表示
+			$this->_initializeFrame($frameId);
 
-		$result = $this->RssReader->saveRssReader($saveData, $frameId);
+			$rssReaderData = $this->RssReader->getContent(
+				$this->viewVars['blockId'],
+				$this->viewVars['contentEditable']
+			);
 
-		if ($result) {
-			return $this->_renderJson(200, '', $result);
+			// RssReaderが存在しない場合は初期化する。
+			if (empty($rssReaderData)) {
+				$rssReaderData = $this->RssReader->create();
+				$rssReaderData[$this->RssReader->name]['url'] = '';
+				$rssReaderData[$this->RssReader->name]['title'] = '';
+				$rssReaderData[$this->RssReader->name]['summary'] = '';
+				$rssReaderData[$this->RssReader->name]['link'] = '';
+				$rssReaderData[$this->RssReader->name]['cache_time'] = 1800;
+			}
+			$this->set('rssReaderData', $rssReaderData);
+
+			// RssReaderFrameSettingの取得。
+			$frameData = $this->Frame->findById($frameId);
+			$frameKey = $frameData['Frame']['key'];
+			$rssReaderFrameData =
+				$this->RssReaderFrameSetting->getRssReaderFrameSetting($frameKey);
+
+			// RssReaderFrameSettingが存在しない場合は初期化する。
+			if (empty($rssReaderFrameData)) {
+				$rssReaderFrameData = $this->RssReaderFrameSetting->create();
+				$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_number_per_page'] = 1;
+				$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_site_info'] = 0;
+				$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_summary'] = 0;
+				$rssReaderFrameData[$this->RssReaderFrameSetting->name]['frame_key'] = $frameKey;
+			}
+			$this->set('rssReaderFrameData', $rssReaderFrameData);
+			return $this->render('RssReaders.edit', false);
 		} else {
-			return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
+			// 更新
+			$frameId = $this->request->data['Frame']['id'];
+			unset($this->request->data['Frame']);
+			$saveData = $this->request->data;
+
+			$result = $this->RssReader->saveRssReader($saveData, $frameId);
+
+			if ($result) {
+				return $this->_renderJson(200, '', $result);
+			} else {
+				return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
+			}
 		}
 	}
 

@@ -20,11 +20,11 @@
 				array(
 					'label' => false,
 					'type' => 'text',
-					'class' => 'form-control',
-					'ng-model' => 'url',
 					'required' => true,
-					'ng-pattern' => '/^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/',
-					'placeholder' => 'http://'
+					'placeholder' => 'http://',
+					'class' => 'form-control',
+					'ng-model' => 'rssReaderData.RssReader.url',
+					'ng-pattern' => '/^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/'
 				)
 			);
 			?>
@@ -64,7 +64,7 @@
 					'label' => false,
 					'type' => 'text',
 					'class' => 'form-control',
-					'ng-model' => 'title'
+					'ng-model' => 'rssReaderData.RssReader.title'
 				)
 			);
 			?>
@@ -81,7 +81,7 @@
 					'type' => 'textarea',
 					'rows' => 2,
 					'class' => 'form-control',
-					'ng-model' => 'summary'
+					'ng-model' => 'rssReaderData.RssReader.summary'
 				)
 			);
 			?>
@@ -98,9 +98,9 @@
 					'label' => false,
 					'type' => 'text',
 					'class' => 'form-control',
-					'ng-model' => 'link',
-					'ng-pattern' => '/^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/',
-					'placeholder' => 'http://'
+					'placeholder' => 'http://',
+					'ng-model' => 'rssReaderData.RssReader.link',
+					'ng-pattern' => '/^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/'
 				)
 			);
 			?>
@@ -132,7 +132,8 @@
 						'2592000' => __d('rss_readers', '%dmonths', 1)
 					),
 					'class' => 'form-control',
-					'style' => 'width: 200px;'
+					'style' => 'width: 200px;',
+					'ng-model' => 'rssReaderData.RssReader.cache_time'
 				)
 			);
 			?>
@@ -141,18 +142,48 @@
 			<span class="help-block" ng-show="saveRssReaderError">{{ saveRssReaderErrorMessage }}</span>
 		</div>
 		<?php
-		echo $this->Form->hidden('id');
-		echo $this->Form->hidden('Block.id');
-		echo $this->Form->hidden('Block.room_id', array('value' => (int)$roomId));
-		echo $this->Form->hidden('Block.language_id', array('value' => (int)$languageId));
-		echo $this->Form->hidden('Frame.id', array('value' => (int)$frameId));
+		echo $this->Form->input(
+			'id',
+			array(
+				'type' => 'hidden',
+				'value' => '{{rssReaderData.RssReader.id}}'
+			)
+		);
+		echo $this->Form->input(
+			'Block.id',
+			array(
+				'type' => 'hidden',
+				'value' => '{{rssReaderData.Block.id}}'
+			)
+		);
+		echo $this->Form->input(
+			'Block.room_id',
+			array(
+				'type' => 'hidden',
+				'value' => (int)$roomId
+			)
+		);
+		echo $this->Form->input(
+			'Block.language_id',
+			array(
+				'type' => 'hidden',
+				'value' => (int)$languageId
+			)
+		);
+		echo $this->Form->input(
+			'Frame.id',
+			array(
+				'type' => 'hidden',
+				'value' => (int)$frameId
+			)
+		);
 		echo $this->Form->end();
 		?>
 	</div>
 </div>
 
 <p class="text-center">
-	<button type="button" class="btn btn-default" data-dismiss="modal">
+	<button type="button" class="btn btn-default" ng-click="$close();">
 		<?php echo __d('rss_readers', 'Cancel'); ?>
 	</button>
 
