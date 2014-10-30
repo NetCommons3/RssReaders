@@ -1,6 +1,6 @@
 <?php
 /**
- * RssReadersController Test Case
+ * RssReadersControllerEditError Test Case
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @link http://www.netcommons.org NetCommons Project
@@ -13,9 +13,9 @@ App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 
 /**
- * Summary for RssReadersController Test Case
+ * Summary for RssReadersController Edit Error Test Case
  */
-class RssReadersControllerTest extends ControllerTestCase {
+class RssReadersControllerEditErrorTest extends ControllerTestCase {
 
 /**
  * Fixtures
@@ -75,83 +75,33 @@ class RssReadersControllerTest extends ControllerTestCase {
 		CakeSession::write('Auth.User', $user);
 		return $user;
 	}
-
 /**
- * test index
+ * test edit case error
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function testIndex() {
-		$frameId = 1;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case rss_reader status approving
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexApprovingData() {
-		// statusが申請中状態の表示
-		$frameId = 2;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case rss_reader status drafting
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexDraftingData() {
-		// statusが下書き状態の表示
-		$frameId = 3;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case rss_reader status drafting and logout
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexDraftingDataCaseLogout() {
-		// ログアウト時のstatusが下書き状態のデータが非表示になるか確認
-		CakeSession::write('Auth.User', null);
-		$frameId = 3;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextNotContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case rss_reader status disapproving
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexDisapprovingData() {
-		// statusが下書き状態の表示
-		$frameId = 4;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case not exist rss_reader
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexNotExistData() {
-		// RssReaderが存在しない場合の表示
-		$frameId = 5;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextNotContains('nc-rss-readers-body-' . $frameId, $this->view);
+	public function testEditError() {
+		// 存在しないURLをPOSTした場合のテスト
+		$data = array(
+			'RssReader' => array(
+				'id' => '',
+				'url' => 'http://test.example',
+				'title' => '株式会社ゼンク',
+				'summary' => '株式会社ゼンクです。',
+				'link' => 'http://zenk.co.jp',
+				'cache_time' => 259200
+			),
+			'Block' => array(
+			),
+			'Frame' => array(
+				'id' => 5
+			)
+		);
+		$result = $this->testAction('/rss_readers/rss_readers/edit', array('method' => 'post', 'data' => $data));
+		$encodeMessage = json_encode(__d('rss_readers', 'I failed to save.'));
+		$this->assertTextContains($encodeMessage, $result);
+		$this->assertTextContains('false', $result);
 	}
 
 /**

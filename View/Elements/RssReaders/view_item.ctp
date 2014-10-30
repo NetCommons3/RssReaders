@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id ="nc-rss-readers-item-<?php echo h($frameId); ?>">
 	<?php
 	$pageLimit = $rssReaderFrameData['RssReaderFrameSetting']['display_number_per_page'];
 	foreach ($rssXmlData['RDF']['item'] as $key => $itemData):

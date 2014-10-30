@@ -193,11 +193,7 @@ class RssReadersController extends RssReadersAppController {
 		$saveData = $this->request->data;
 		$result = $this->RssReaderFrameSetting->save($saveData);
 
-		if ($result) {
-			return $this->_renderJson(200, '', $result);
-		} else {
-			return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
-		}
+		return $this->_renderJson(200, '', $result);
 	}
 
 /**
@@ -210,11 +206,7 @@ class RssReadersController extends RssReadersAppController {
 		$saveData[$this->RssReader->name] = $this->request->data;
 		$result = $this->RssReader->save($saveData);
 
-		if ($result) {
-			return $this->_renderJson(200, '', $result);
-		} else {
-			return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
-		}
+		return $this->_renderJson(200, '', $result);
 	}
 
 }

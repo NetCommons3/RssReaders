@@ -14,13 +14,6 @@ NetCommonsApp.controller('RssReaders',
                          function($scope, $http, $sce, dialogs, $modal) {
 
       /**
-       * button of rssreader index
-       *
-       * @type {{value: boolean}}
-       */
-      $scope.visibleHeaderBtn = true;
-
-      /**
        * site info of rssreader index
        *
        * @type {{value: boolean}}
@@ -33,13 +26,6 @@ NetCommonsApp.controller('RssReaders',
        * @type {{value: boolean}}
        */
       $scope.visiblePublish = true;
-
-      /**
-       * visible container of rssreader index
-       *
-       * @type {{value: boolean}}
-       */
-      $scope.visibleContainer = true;
 
       /**
        * button of get rss info

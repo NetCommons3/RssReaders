@@ -140,6 +140,25 @@ class RssReaderTest extends CakeTestCase {
 			$rssReaderData['RssReader']['block_id'],
 			$frameData['Frame']['block_id']
 		);
+
+		// 存在しないURLを指定した場合は、falseが返ってくることを確認
+		$data = array(
+			'RssReader' => array(
+				'id' => '',
+				'status' => 1,
+				'url' => 'http://test.example',
+				'title' => 'テストサイト',
+				'summary' => 'Rssのテスト用サイト',
+				'link' => 'http://test.com',
+				'cache_time' => 1800
+			),
+			'Block' => array(
+			)
+		);
+		$frameId = 3;
+
+		$result = $this->RssReader->saveRssReader($data, $frameId);
+		$this->assertFalse($result);
 	}
 
 /**
@@ -261,5 +280,26 @@ class RssReaderTest extends CakeTestCase {
 			$rssReaderData[$this->RssReader->name]['serialize_value'],
 			$newRssReaderData[$this->RssReader->name]['serialize_value']
 		);
+	}
+
+/**
+ * serializeRssData method
+ *
+ * @return void
+ */
+	public function testSerializeRssData() {
+		$url = 'http://zenk.co.jp/feed/rdf';
+		$serializeValue = $this->RssReader->serializeRssData($url);
+		$this->assertNotEmpty($serializeValue);
+
+		// 存在しないURLを指定時はXmlExceptionが発生することを確認。
+		$url = 'http://exaple.xml';
+		$errorMessage = '';
+		try {
+			$this->RssReader->serializeRssData($url);
+		} catch (XmlException $e) {
+			$errorMessage = $e;
+		}
+		$this->assertNotEmpty($errorMessage);
 	}
 }

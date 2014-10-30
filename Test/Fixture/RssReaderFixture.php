@@ -54,7 +54,7 @@ class RssReaderFixture extends CakeTestFixture {
 			'title' => '株式会社ゼンク',
 			'summary' => '株式会社ゼンクです。',
 			'link' => 'http://zenk.co.jp',
-			'serialize_value' => 'a:1:{s:3:"RDF";s:7:"channel";a:11:{s:5:"title";s:27:"}}',
+			'serialize_value' => 'a:1:{s:3:"RDF";s:4:"item";a:100:{i:0;a:5:{s:5:"title";s:5:"タイトル1";s:4:"link";s:19:"http://test.exmple1";s:11:"description";s:3:"本文1";s:7:"dc:date";s:25:"2014-10-28T20:25:24+09:00";}i:1;a:5:{s:5:"title";s:5:"タイトル2";s:4:"link";s:19:"http://test.exmple2";s:11:"description";s:3:"本文2";s:7:"dc:date";s:25:"2014-10-28T20:25:24+09:00";}}}',
 			'cache_time' => 259200,
 			'is_auto_translated' => 0,
 			'translation_engine' => '',

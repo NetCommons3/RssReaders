@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id ="nc-rss-readers-site-info-<?php echo h($frameId); ?>">
 	<div class="panel-heading">
 	<span><?php echo __d('rss_readers', 'Site Info'); ?></span>
 		<span class="label label-success ng-hide"
