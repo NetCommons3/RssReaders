@@ -18,7 +18,14 @@ echo $this->Html->css('/rss_readers/css/rss_readers.css');
 	<?php if (!empty($rssReaderData)): ?>
 	<div id="nc-rss-readers-body-<?php echo h($frameId); ?>">
 		<div>
-			<?php echo $this->element('RssReaders/view'); ?>
+			<?php
+			if ($rssReaderFrameSettingData['RssReaderFrameSetting']['display_site_info']) {
+				echo $this->element('RssReaders/view_site_info');
+			}
+			if (!empty($rssXmlData)) {
+				echo $this->element('RssReaders/view_item');
+			}
+			?>
 		</div>
 	</div>
 	<?php endif; ?>

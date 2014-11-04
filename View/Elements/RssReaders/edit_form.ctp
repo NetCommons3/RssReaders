@@ -187,8 +187,8 @@
 		<?php echo __d('rss_readers', 'Cancel'); ?>
 	</button>
 
-	<?php if ($contentPublishable &&
-					$this->Form->value('RssReader.status') === RssReader::STATUS_APPROVED): ?>
+	<?php if ($contentPublishable && !empty($rssReaderData) &&
+					$rssReaderData['RssReader']['status'] === RssReader::STATUS_APPROVED): ?>
 		<button type="button" class="btn btn-default"
 					ng-disabled="rssReader.$invalid || sending"
 					ng-click="saveRssReader(<?php echo RssReader::STATUS_DISAPPROVED; ?>)">
