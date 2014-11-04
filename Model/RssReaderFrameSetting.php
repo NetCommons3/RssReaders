@@ -43,7 +43,7 @@ class RssReaderFrameSetting extends RssReadersAppModel {
  *
  * @param int $frameKey frames.key
  * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return array RssReaderFrameData
+ * @return array RssReaderFrameSettingData
  */
 	public function getRssReaderFrameSetting($frameKey) {
 		$conditions = array(
@@ -53,7 +53,8 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 			'first',
 			array(
 				'conditions' => $conditions,
-				'order' => $this->name . '.id DESC'
+				'order' => $this->name . '.id DESC',
+				'recursive' => -1
 			)
 		);
 

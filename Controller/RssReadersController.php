@@ -33,14 +33,31 @@ class RssReadersController extends RssReadersAppController {
 	);
 
 /**
+ * use component
+ *
+ * @var array
+ */
+	public $components = array(
+		'NetCommons.NetCommonsBlock',
+		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsRoomRole'
+	);
+
+/**
  * beforeFilter
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
+ * @throws ForbiddenException
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow();
+
+		//Roleのデータをviewにセット
+		if (!$this->NetCommonsRoomRole->setView($this)) {
+			throw new ForbiddenException();
+		}
 	}
 
 /**
@@ -49,23 +66,18 @@ class RssReadersController extends RssReadersAppController {
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return CakeResponse
+ * @throws ForbiddenException
  */
 	public function index($frameId = 0) {
-		$this->_initializeFrame($frameId);
-
-		// ログインしていない場合は下書きは表示しない。
-		if (!CakeSession::read('Auth.User')) {
-			$contentEditable = false;
-			$this->set('contentEditable', $contentEditable);
-			$this->set('contentPublishable', false);
-		} else {
-			$contentEditable = $this->viewVars['contentEditable'];
+		//Frameのデータをviewにセット
+		if (!$this->NetCommonsFrame->setView($this, $frameId)) {
+			throw new ForbiddenException('NetCommonsFrame');
 		}
 
 		// RssReaderの取得。
 		$rssReaderData = $this->RssReader->getContent(
 			$this->viewVars['blockId'],
-			$contentEditable
+			$this->viewVars['contentEditable']
 		);
 
 		$rssXmlData = array();
@@ -78,17 +90,17 @@ class RssReadersController extends RssReadersAppController {
 		$this->set('rssXmlData', $rssXmlData);
 
 		// RssReaderFrameSettingの取得。
-		$frameData = $this->Frame->findById($frameId);
-		$frameKey = $frameData['Frame']['key'];
 		$rssReaderFrameData =
-			$this->RssReaderFrameSetting->getRssReaderFrameSetting($frameKey);
+			$this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey']);
 		// RssReaderFrameSettingが存在しない場合は初期化する。
 		if (empty($rssReaderFrameData)) {
 			$rssReaderFrameData = $this->RssReaderFrameSetting->create();
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_number_per_page'] = 1;
 			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_site_info'] = 0;
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_summary'] = 0;
+			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['frame_key'] = $this->viewVars['frameKey'];
 		}
-
-		$this->set('rssReaderFrameData', $rssReaderFrameData);
+		$this->set('rssReaderFrameSettingData', $rssReaderFrameData);
 
 		return $this->render();
 	}
@@ -98,44 +110,15 @@ class RssReadersController extends RssReadersAppController {
  *
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @throws ForbiddenException
  * @return void
  */
 	public function edit($frameId = 0) {
 		if ($frameId !== 0) {
-			// 画面表示
-			$this->_initializeFrame($frameId);
-
-			$rssReaderData = $this->RssReader->getContent(
-				$this->viewVars['blockId'],
-				$this->viewVars['contentEditable']
-			);
-
-			// RssReaderが存在しない場合は初期化する。
-			if (empty($rssReaderData)) {
-				$rssReaderData = $this->RssReader->create();
-				$rssReaderData[$this->RssReader->name]['url'] = '';
-				$rssReaderData[$this->RssReader->name]['title'] = '';
-				$rssReaderData[$this->RssReader->name]['summary'] = '';
-				$rssReaderData[$this->RssReader->name]['link'] = '';
-				$rssReaderData[$this->RssReader->name]['cache_time'] = 1800;
+			//Frameのデータをviewにセット
+			if (!$this->NetCommonsFrame->setView($this, $frameId)) {
+				throw new ForbiddenException('NetCommonsFrame');
 			}
-			$this->set('rssReaderData', $rssReaderData);
-
-			// RssReaderFrameSettingの取得。
-			$frameData = $this->Frame->findById($frameId);
-			$frameKey = $frameData['Frame']['key'];
-			$rssReaderFrameData =
-				$this->RssReaderFrameSetting->getRssReaderFrameSetting($frameKey);
-
-			// RssReaderFrameSettingが存在しない場合は初期化する。
-			if (empty($rssReaderFrameData)) {
-				$rssReaderFrameData = $this->RssReaderFrameSetting->create();
-				$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_number_per_page'] = 1;
-				$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_site_info'] = 0;
-				$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_summary'] = 0;
-				$rssReaderFrameData[$this->RssReaderFrameSetting->name]['frame_key'] = $frameKey;
-			}
-			$this->set('rssReaderFrameData', $rssReaderFrameData);
 			return $this->render('RssReaders.edit', false);
 		} else {
 			// 更新
@@ -181,19 +164,6 @@ class RssReadersController extends RssReadersAppController {
 		);
 
 		return $this->_renderJson(200, '', $datas);
-	}
-
-/**
- * edit RssReaderFrameSetting
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function editFrameSetting() {
-		$saveData = $this->request->data;
-		$result = $this->RssReaderFrameSetting->save($saveData);
-
-		return $this->_renderJson(200, '', $result);
 	}
 
 /**

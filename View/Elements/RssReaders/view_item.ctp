@@ -1,6 +1,6 @@
 <div class="panel panel-default" id ="nc-rss-readers-item-<?php echo h($frameId); ?>">
 	<?php
-	$pageLimit = $rssReaderFrameData['RssReaderFrameSetting']['display_number_per_page'];
+	$pageLimit = $rssReaderFrameSettingData['RssReaderFrameSetting']['display_number_per_page'];
 	foreach ($rssXmlData['RDF']['item'] as $key => $itemData):
 	?>
 	<?php
@@ -22,7 +22,7 @@
 						)
 					</span>
 				</div>
-				<?php if ($rssReaderFrameData['RssReaderFrameSetting']['display_summary']): ?>
+				<?php if ($rssReaderFrameSettingData['RssReaderFrameSetting']['display_summary']): ?>
 				<p class="list-group-item-text small">
 					<?php echo h($itemData['description']); ?>
 				</p>

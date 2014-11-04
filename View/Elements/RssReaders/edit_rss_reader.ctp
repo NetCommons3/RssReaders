@@ -4,7 +4,7 @@
 		echo $this->Form->create(
 			'RssReader',
 			array(
-				'id' => 'form-rss-reader-edit-' . $frameId,
+				'id' => 'form-rss-reader-edit-{{frameId}}',
 				'name' => 'rssReader'
 			)
 		);
@@ -31,7 +31,7 @@
 			<div class="text-right" style="margin-top: 2px;">
 				<button type="button" class="btn btn-info btn-xs" ng-show="getRssInfoBtn"
 					ng-click="getRssInfo()"
-					ng-disabled="rssReader['data[RssReader][url]'].$error.required || rssReader['data[RssReader][url]'].$error.pattern">
+					ng-disabled="rssReader['data[RssReader][url]'].$error.required || rssReaderData['data[RssReader][url]'].$error.pattern">
 					<?php echo __d('rss_readers', 'Get Site Info'); ?>
 				</button>
 				<button type="button" class="btn btn-info btn-xs" ng-show="loadingGetRssInfoBtn" ng-disabled="true">
@@ -40,7 +40,7 @@
 			</div>
 			<span class="help-block">
 				<span class="error"
-						ng-hide="rssReader['data[RssReader][url]'].$error.required || rssReader['data[RssReader][url]'].$error.pattern">
+						ng-hide="rssReader['data[RssReader][url]'].$error.required || rssReaderData['data[RssReader][url]'].$error.pattern">
 					{{ getRssInfoErrorMessage }}
 				</span>
 				<span class="error"
@@ -153,28 +153,28 @@
 			'Block.id',
 			array(
 				'type' => 'hidden',
-				'value' => '{{rssReaderData.Block.id}}'
+				'value' => h($blockId)
 			)
 		);
 		echo $this->Form->input(
 			'Block.room_id',
 			array(
 				'type' => 'hidden',
-				'value' => (int)$roomId
+				'value' => h($roomId)
 			)
 		);
 		echo $this->Form->input(
 			'Block.language_id',
 			array(
 				'type' => 'hidden',
-				'value' => (int)$languageId
+				'value' => h($languageId)
 			)
 		);
 		echo $this->Form->input(
 			'Frame.id',
 			array(
 				'type' => 'hidden',
-				'value' => (int)$frameId
+				'value' => h($frameId)
 			)
 		);
 		echo $this->Form->end();

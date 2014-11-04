@@ -154,28 +154,6 @@ class RssReadersControllerEditTest extends ControllerTestCase {
 	}
 
 /**
- * test editFrameSetting
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testEditFrameSetting() {
-		$data = array(
-			'RssReaderFrameSetting' => array(
-				'frame_key' => 'jidkgji409u490u032jalk4j02jgraljijgkak494958030jj0hjaalek339rr',
-				'display_number_per_page' => 10,
-				'display_site_info' => true,
-				'display_summary' => true
-			)
-		);
-		$result = $this->testAction('/rss_readers/rss_readers/editFrameSetting', array('method' => 'post', 'data' => $data));
-		$this->assertTextContains($data['RssReaderFrameSetting']['frame_key'], $result);
-		$this->assertTextContains($data['RssReaderFrameSetting']['display_number_per_page'], $result);
-		$this->assertTextContains($data['RssReaderFrameSetting']['display_site_info'], $result);
-		$this->assertTextContains($data['RssReaderFrameSetting']['display_summary'], $result);
-	}
-
-/**
  * test updateStatus
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
@@ -205,8 +183,7 @@ class RssReadersControllerEditTest extends ControllerTestCase {
 					'Auth' => array('user'),
 					'Session',
 					'Security',
-					'RequestHandler',
-					'NetCommons.NetCommonsRoomRole'
+					'RequestHandler'
 				)
 			)
 		);

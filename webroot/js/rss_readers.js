@@ -11,7 +11,7 @@
  * @param {function(scope, http)} Controller
  */
 NetCommonsApp.controller('RssReaders',
-                         function($scope, $http, $sce, dialogs, $modal) {
+                         function($scope, $http, $sce, $modal, $modalStack) {
 
       /**
        * site info of rssreader index
@@ -55,8 +55,10 @@ NetCommonsApp.controller('RssReaders',
        * @param {int} frameId
        * @return {void}
        */
-      $scope.initialize = function($rssReaderData, $frameId) {
+      $scope.initialize = function($rssReaderData,
+          $rssReaderFrameSettingData, $frameId) {
         $scope.rssReaderData = $rssReaderData;
+        $scope.rssReaderFrameSettingData = $rssReaderFrameSettingData;
         $scope.frameId = $frameId;
       };
 
@@ -88,22 +90,58 @@ NetCommonsApp.controller('RssReaders',
       };
 
       /**
-       * Show Manage Modal
+       * Change tab
        *
+       * @param {number} tab
+       * - edit
+       * - displayChange
        * @return {void}
        */
-      $scope.showManage = function() {
+      $scope.changeTab = function(tab) {
+        //cancel the modal window that is already opened
+        $modalStack.dismissAll('canceled');
+
+        var templateUrl = '';
+        var controller = '';
+        switch (tab) {
+          case 'rssReader':
+            templateUrl = 'rss_readers/rss_readers/edit/' + $scope.frameId,
+            controller = 'RssReaders.edit';
+            break;
+          case 'rssReaderFrameSetting':
+            templateUrl = 'rss_readers/rss_reader_frame_settings/edit/' +
+                          $scope.frameId,
+            controller = 'RssReaderFrameSettings.edit';
+            break;
+          default:
+            return;
+        }
+
+        //display the dialog.
         $modal.open({
-          templateUrl: 'rss_readers/rss_readers/edit/' + $scope.frameId,
-          controller: 'RssReaders.edit',
+          templateUrl: templateUrl,
+          controller: controller,
           backdrop: 'static',
           scope: $scope
         }).result.then(
             function(result) {},
             function(reason) {
-              $scope.flash.close();
+              if (typeof reason.data === 'object') {
+              } else if (reason === 'canceled') {
+                //キャンセル
+                $scope.flash.close();
+              }
             }
         );
+      };
+
+      /**
+       * Show Manage Modal
+       *
+       * @return {void}
+       */
+      $scope.showManage = function() {
+        $scope.changeTab('rssReader');
       };
     }
 );
@@ -117,20 +155,15 @@ NetCommonsApp.controller('RssReaders',
  * @param {function(scope, http)} Controller
  */
 NetCommonsApp.controller('RssReaders.edit',
-                         function($scope, $http, $sce, dialogs, $modal) {
+                         function($scope, $http, $sce, $modal, $modalStack) {
+
       /**
-       * Initialize
+       * dialog cancel
        *
-       * @param {Object.<string>} rssReaderData
-       * @param {Object.<string>} rssReaderFrameData
-       * @param {int} frameId
        * @return {void}
        */
-      $scope.initialize = function($rssReaderData,
-          $rssReaderFrameData, $frameId) {
-        $scope.rssReaderData = $rssReaderData;
-        $scope.rssReaderFrameData = $rssReaderFrameData;
-        $scope.frameId = $frameId;
+      $scope.cancel = function() {
+        $modalStack.dismissAll('canceled');
       };
 
       /**
@@ -151,10 +184,10 @@ NetCommonsApp.controller('RssReaders.edit',
           url: '/rss_readers/rss_readers/edit',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           data: $paramData
-        }).success(function(data, status, headers, config) {
+        }).success(function(data) {
           // 成功
           location.reload();
-        }).error(function(data, status, headers, config) {
+        }).error(function(data) {
           // 失敗
           $scope.saveRssReaderError = true;
           $scope.saveRssReaderErrorMessage = data.message;
@@ -170,7 +203,7 @@ NetCommonsApp.controller('RssReaders.edit',
       $scope.getRssInfo = function() {
         $scope.getRssInfoBtn = false;
         $scope.loadingGetRssInfoBtn = true;
-        $scope.rssReader['data[RssReader][url]'].$valid = true;
+        rssReader['data[RssReader][url]'].$valid = true;
         $scope.getRssInfoErrorMessage = '';
         $http({
           method: 'POST',
@@ -196,9 +229,23 @@ NetCommonsApp.controller('RssReaders.edit',
           // 失敗
           $scope.getRssInfoBtn = true;
           $scope.loadingGetRssInfoBtn = false;
-          $scope.rssReader['data[RssReader][url]'].$valid = false;
+          rssReaderData['data[RssReader][url]'].$valid = false;
           $scope.getRssInfoErrorMessage = data.message;
         });
+      };
+    }
+);
+
+NetCommonsApp.controller('RssReaderFrameSettings.edit',
+                         function($scope, $http, $sce, $modal, $modalStack) {
+
+      /**
+       * dialog cancel
+       *
+       * @return {void}
+       */
+      $scope.cancel = function() {
+        $modalStack.dismissAll('canceled');
       };
 
       /**
@@ -211,11 +258,11 @@ NetCommonsApp.controller('RssReaders.edit',
         $scope.saveRssReaderFrameSuccess = false;
         $scope.saveRssReaderFrameError = false;
         $scope.sending = true;
-        $paramData = $('#form-rss-reader-frame-setting-edit' +
+        $paramData = $('#form-rss-reader-frame-setting-edit-' +
                        $scope.frameId).serialize();
         $http({
           method: 'POST',
-          url: '/rss_readers/rss_readers/editFrameSetting',
+          url: '/rss_readers/rss_reader_frame_settings/edit',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           data: $paramData
         }).success(function(data, status, headers, config) {

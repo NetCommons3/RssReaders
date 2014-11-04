@@ -7,6 +7,7 @@ echo $this->Html->css('/rss_readers/css/rss_readers.css');
 	ng-controller="RssReaders"
 	ng-init="initialize(
 		<?php echo h(json_encode($rssReaderData)); ?>,
+		<?php echo h(json_encode($rssReaderFrameSettingData)); ?>,
 		<?php echo h($frameId); ?>
 	)">
 

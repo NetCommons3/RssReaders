@@ -168,8 +168,7 @@ class RssReadersControllerTest extends ControllerTestCase {
 					'Auth' => array('user'),
 					'Session',
 					'Security',
-					'RequestHandler',
-					'NetCommons.NetCommonsRoomRole'
+					'RequestHandler'
 				)
 			)
 		);

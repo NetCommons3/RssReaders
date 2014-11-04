@@ -4,7 +4,7 @@
 		echo $this->Form->create(
 			'RssReaderFrameSetting',
 			array(
-				'id' => 'form-rss-reader-frame-setting-edit' . $frameId,
+				'id' => 'form-rss-reader-frame-setting-edit-{{frameId}}',
 				'name' => 'rssReaderFrameSetting'
 			)
 		);
@@ -28,7 +28,7 @@
 					),
 					'class' => 'form-control',
 					'style' => 'width: 200px;',
-					'ng-model' => 'rssReaderFrameData.RssReaderFrameSetting.display_number_per_page'
+					'ng-model' => 'rssReaderFrameSettingData.RssReaderFrameSetting.display_number_per_page'
 				)
 			);
 			?>
@@ -41,7 +41,7 @@
 					'label' => __d('rss_readers', 'Display Site Info'),
 					'type' => 'checkbox',
 					'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;'),
-					'ng-model' => 'rssReaderFrameData.RssReaderFrameSetting.display_site_info'
+					'ng-model' => 'rssReaderFrameSettingData.RssReaderFrameSetting.display_site_info'
 				)
 			);
 			?>
@@ -54,7 +54,7 @@
 					'label' => __d('rss_readers', 'Display Summary'),
 					'type' => 'checkbox',
 					'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;'),
-					'ng-model' => 'rssReaderFrameData.RssReaderFrameSetting.display_summary'
+					'ng-model' => 'rssReaderFrameSettingData.RssReaderFrameSetting.display_summary'
 				)
 			);
 			?>
@@ -69,14 +69,14 @@
 				'id',
 				array(
 					'type' => 'hidden',
-					'value' => '{{rssReaderFrameData.RssReaderFrameSetting.id}}'
+					'value' => '{{rssReaderFrameSettingData.RssReaderFrameSetting.id}}'
 				)
 			);
 			echo $this->Form->input(
 				'frame_key',
 				array(
 					'type' => 'hidden',
-					'value' => '{{rssReaderFrameData.RssReaderFrameSetting.frame_key}}'
+					'value' => '{{rssReaderFrameSettingData.RssReaderFrameSetting.frame_key}}'
 				)
 			);
 			echo $this->Form->end();

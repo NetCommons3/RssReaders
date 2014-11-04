@@ -1,21 +1,21 @@
 <?php
 /**
- * RssReadersControllerEditError Test Case
+ * RssReaderFrameSettingsController Test Case
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('RssReadersController', 'RssReaders.Controller');
+App::uses('RssReaderFrameSettingsController', 'RssReaders.Controller');
 App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 
 /**
- * Summary for RssReadersController Edit Error Test Case
+ * Summary for RssReaderFrameSettingsController Test Case
  */
-class RssReadersControllerEditErrorTest extends ControllerTestCase {
+class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 
 /**
  * Fixtures
@@ -75,33 +75,27 @@ class RssReadersControllerEditErrorTest extends ControllerTestCase {
 		CakeSession::write('Auth.User', $user);
 		return $user;
 	}
+
 /**
- * test edit case error
+ * test edit
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function testEditError() {
-		// 存在しないURLをPOSTした場合のテスト
+	public function testEdit() {
 		$data = array(
-			'RssReader' => array(
-				'id' => '',
-				'url' => 'http://test.example',
-				'title' => '株式会社ゼンク',
-				'summary' => '株式会社ゼンクです。',
-				'link' => 'http://zenk.co.jp',
-				'cache_time' => 259200
-			),
-			'Block' => array(
-			),
-			'Frame' => array(
-				'id' => 5
+			'RssReaderFrameSetting' => array(
+				'frame_key' => 'jidkgji409u490u032jalk4j02jgraljijgkak494958030jj0hjaalek339rr',
+				'display_number_per_page' => 10,
+				'display_site_info' => true,
+				'display_summary' => true
 			)
 		);
-		$result = $this->testAction('/rss_readers/rss_readers/edit', array('method' => 'post', 'data' => $data));
-		$encodeMessage = json_encode(__d('rss_readers', 'I failed to save.'));
-		$this->assertTextContains($encodeMessage, $result);
-		$this->assertTextContains('false', $result);
+		$result = $this->testAction('/rss_readers/rss_reader_frame_settings/edit', array('method' => 'post', 'data' => $data));
+		$this->assertTextContains($data['RssReaderFrameSetting']['frame_key'], $result);
+		$this->assertTextContains($data['RssReaderFrameSetting']['display_number_per_page'], $result);
+		$this->assertTextContains($data['RssReaderFrameSetting']['display_site_info'], $result);
+		$this->assertTextContains($data['RssReaderFrameSetting']['display_summary'], $result);
 	}
 
 /**
@@ -112,7 +106,7 @@ class RssReadersControllerEditErrorTest extends ControllerTestCase {
 	private function __login() {
 		//ログイン処理
 		$this->Controller = $this->generate(
-			'RssReaders.RssReaders',
+			'RssReaders.RssReaderFrameSettings',
 			array(
 				'components' => array(
 					'Auth' => array('user'),
@@ -152,3 +146,4 @@ class RssReadersControllerEditErrorTest extends ControllerTestCase {
 	}
 
 }
+
