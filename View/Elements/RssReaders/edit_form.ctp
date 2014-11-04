@@ -184,35 +184,36 @@
 
 <p class="text-center">
 	<button type="button" class="btn btn-default" ng-click="$close();">
-		<?php echo __d('rss_readers', 'Cancel'); ?>
+		<span class="glyphicon glyphicon-remove"></span>
+		<?php echo __d('net_commons', 'Cancel'); ?>
 	</button>
 
 	<?php if ($contentPublishable && !empty($rssReaderData) &&
-					$rssReaderData['RssReader']['status'] === RssReader::STATUS_APPROVED): ?>
+					$rssReaderData['RssReader']['status'] === NetCommonsBlockComponent::STATUS_APPROVED): ?>
 		<button type="button" class="btn btn-default"
 					ng-disabled="rssReader.$invalid || sending"
-					ng-click="saveRssReader(<?php echo RssReader::STATUS_DISAPPROVED; ?>)">
-			<?php echo __d('rss_readers', 'Disapproval'); ?>
+					ng-click="saveRssReader(<?php echo NetCommonsBlockComponent::STATUS_DISAPPROVED; ?>)">
+			<?php echo __d('net_commons', 'Disapproval'); ?>
 		</button>
 	<?php else: ?>
 		<button type="button" class="btn btn-default"
 					ng-disabled="rssReader.$invalid || sending"
-					ng-click="saveRssReader(<?php echo RssReader::STATUS_DRAFTED; ?>)">
-			<?php echo __d('rss_readers', 'Draft'); ?>
+					ng-click="saveRssReader(<?php echo NetCommonsBlockComponent::STATUS_DRAFTED; ?>)">
+			<?php echo __d('net_commons', 'Save temporally'); ?>
 		</button>
 	<?php endif; ?>
 
 	<?php if ($contentPublishable): ?>
 		<button type="button" class="btn btn-primary"
 					ng-disabled="rssReader.$invalid || sending"
-					ng-click="saveRssReader(<?php echo RssReader::STATUS_PUBLISHED; ?>)">
-			<?php echo __d('rss_readers', 'Publish'); ?>
+					ng-click="saveRssReader(<?php echo NetCommonsBlockComponent::STATUS_PUBLISHED; ?>)">
+			<?php echo __d('net_commons', 'OK'); ?>
 		</button>
 	<?php else: ?>
 		<button type="button" class="btn btn-primary"
 					ng-disabled="rssReader.$invalid || sending"
-					ng-click="saveRssReader(<?php echo RssReader::STATUS_APPROVED; ?>)">
-			<?php echo __d('rss_readers', 'Approval'); ?>
+					ng-click="saveRssReader(<?php echo NetCommonsBlockComponent::STATUS_APPROVED; ?>)">
+			<?php echo __d('net_commons', 'OK'); ?>
 		</button>
 	<?php endif; ?>
 </p>

@@ -83,18 +83,6 @@ msgstr "サイト情報を表示する"
 msgid "Display Summary"
 msgstr "概要を表示する"
 
-msgid "Cancel"
-msgstr "キャンセル"
-
-msgid "Draft"
-msgstr "下書き"
-
-msgid "Approval"
-msgstr "申請する"
-
-msgid "Setting"
-msgstr "設定する"
-
 msgid "Required field."
 msgstr "入力必須の項目です。"
 

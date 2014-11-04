@@ -20,38 +20,6 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
 class RssReader extends RssReadersAppModel {
 
 /**
- * RssReaders status published
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @var    int
- */
-	const STATUS_PUBLISHED = '1';
-
-/**
- * RssReaders status approved
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @var    int
- */
-	const STATUS_APPROVED = '2';
-
-/**
- * RssReaders status drafted
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @var    int
- */
-	const STATUS_DRAFTED = '3';
-
-/**
- * RssReaders status disapproved
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @var    int
- */
-	const STATUS_DISAPPROVED = '4';
-
-/**
  * belongsTo associations
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
@@ -80,7 +48,7 @@ class RssReader extends RssReadersAppModel {
 			'block_id' => $blockId
 		);
 		if (!$editable) {
-			$conditions['status'] = self::STATUS_PUBLISHED;
+			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
 		}
 
 		$rssReader = $this->find(

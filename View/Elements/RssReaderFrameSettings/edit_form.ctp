@@ -84,11 +84,12 @@
 	</div>
 </div>
 <p class="text-center">
-	<button type="button" class="btn btn-default" data-dismiss="modal">
-		<?php echo __d('rss_readers', 'Cancel'); ?>
+	<button type="button" class="btn btn-default" ng-click="$close();">
+		<span class="glyphicon glyphicon-remove"></span>
+		<?php echo __d('net_commons', 'Cancel'); ?>
 	</button>
-	<button type="button" class="btn btn-primary" data-dismiss="modal"
+	<button type="button" class="btn btn-primary"
 		ng-click="saveRssReaderFrameSettig()" ng-disabled="sending">
-		<?php echo __d('rss_readers', 'Setting'); ?>
+		<?php echo __d('net_commons', 'OK'); ?>
 	</button>
 </p>
