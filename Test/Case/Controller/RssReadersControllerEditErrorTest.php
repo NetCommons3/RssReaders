@@ -36,7 +36,8 @@ class RssReadersControllerEditErrorTest extends ControllerTestCase {
 		'plugin.roles.default_role_permission',
 		'plugin.rooms.roles_room',
 		'plugin.rooms.room_role_permission',
-		'plugin.rooms.user'
+		'plugin.rooms.user',
+		'plugin.pages.page'
 	);
 
 /**
