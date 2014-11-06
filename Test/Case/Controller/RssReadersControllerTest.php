@@ -160,7 +160,7 @@ class RssReadersControllerTest extends ControllerTestCase {
  * @return void
  */
 	private function __login() {
-		//ログイン処理
+		// ログイン処理
 		$this->Controller = $this->generate(
 			'RssReaders.RssReaders',
 			array(
@@ -193,7 +193,7 @@ class RssReadersControllerTest extends ControllerTestCase {
  * @return void
  */
 	private function __logout() {
-		//ログアウト処理
+		// ログアウト処理
 		$this->Controller->Auth->logout();
 		$this->assertFalse($this->Controller->Auth->loggedIn(), 'logout');
 
