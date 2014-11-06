@@ -54,7 +54,7 @@ class RssReadersController extends RssReadersAppController {
 		parent::beforeFilter();
 		$this->Auth->allow();
 
-		//Roleのデータをviewにセット
+		// Roleのデータをviewにセット
 		if (!$this->NetCommonsRoomRole->setView($this)) {
 			throw new ForbiddenException();
 		}
@@ -80,7 +80,7 @@ class RssReadersController extends RssReadersAppController {
  * @throws ForbiddenException
  */
 	public function view($frameId = 0) {
-		//Frameのデータをviewにセット
+		// Frameのデータをviewにセット
 		if (!$this->NetCommonsFrame->setView($this, $frameId)) {
 			throw new ForbiddenException('NetCommonsFrame');
 		}
@@ -125,8 +125,8 @@ class RssReadersController extends RssReadersAppController {
  * @return void
  */
 	public function edit($frameId = 0) {
-		if ($frameId !== 0) {
-			//Frameのデータをviewにセット
+		if (!$this->request->isPost()) {
+			// Frameのデータをviewにセット
 			if (!$this->NetCommonsFrame->setView($this, $frameId)) {
 				throw new ForbiddenException('NetCommonsFrame');
 			}
@@ -158,11 +158,12 @@ class RssReadersController extends RssReadersAppController {
 /**
  * getRssInfo
  *
+ * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function getRssInfo() {
-		$url = $this->request->data['url'];
+	public function getRssInfo($frameId = 0) {
+		$url = $this->request->data['RssReader']['url'];
 
 		try {
 			$rss = Xml::build($url);
@@ -192,10 +193,55 @@ class RssReadersController extends RssReadersAppController {
  * @return void
  */
 	public function updateStatus() {
-		$saveData[$this->RssReader->name] = $this->request->data;
+		$saveData = $this->request->data;
 		$result = $this->RssReader->save($saveData);
 
 		return $this->_renderJson(200, '', $result);
 	}
 
+/**
+ * getEditToken method
+ *
+ * @param int $frameId frames.id
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @throws ForbiddenException
+ * @return CakeResponse A response object containing the rendered view.
+ */
+	public function getEditToken($frameId = 0) {
+		// Frameのデータをviewにセット。
+		if (!$this->NetCommonsFrame->setView($this, $frameId)) {
+			throw new ForbiddenException('NetCommonsFrame');
+		}
+
+		// RssReaderの取得。
+		$rssReaderData = $this->RssReader->getContent(
+			$this->viewVars['blockId'],
+			$this->viewVars['contentEditable']
+		);
+		$this->set('rssReaderData', $rssReaderData);
+
+		return $this->render('RssReaders/get_edit_token', false);
+	}
+
+/**
+ * getRssInfoToken method
+ *
+ * @param int $frameId frames.id
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return CakeResponse A response object containing the rendered view.
+ */
+	public function getRssInfoToken($frameId = 0) {
+		return $this->render('RssReaders/get_rss_info_token', false);
+	}
+
+/**
+ * getUpdateStatusToken method
+ *
+ * @param int $frameId frames.id
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return CakeResponse A response object containing the rendered view.
+ */
+	public function getUpdateStatusToken($frameId = 0) {
+		return $this->render('RssReaders/get_update_status_token', false);
+	}
 }

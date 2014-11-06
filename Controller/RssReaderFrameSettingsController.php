@@ -31,14 +31,30 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 	);
 
 /**
+ * use component
+ *
+ * @var array
+ */
+	public $components = array(
+		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsRoomRole'
+	);
+
+/**
  * beforeFilter
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @throws ForbiddenException
  * @return void
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow();
+
+		// Roleのデータをviewにセット
+		if (!$this->NetCommonsRoomRole->setView($this)) {
+			throw new ForbiddenException();
+		}
 	}
 
 /**
@@ -49,7 +65,7 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  * @return void
  */
 	public function edit($frameId = 0) {
-		if ($frameId !== 0) {
+		if (!$this->request->isPost()) {
 			return $this->render('edit', false);
 		} else {
 			// 更新処理
@@ -58,5 +74,27 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 
 			return $this->_renderJson(200, '', $result);
 		}
+	}
+
+/**
+ * getEditToken method
+ *
+ * @param int $frameId frames.id
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @throws ForbiddenException
+ * @return CakeResponse A response object containing the rendered view.
+ */
+	public function getEditToken($frameId = 0) {
+		// Frameのデータをviewにセット。
+		if (!$this->NetCommonsFrame->setView($this, $frameId)) {
+			throw new ForbiddenException('NetCommonsFrame');
+		}
+
+		// RssReaderFrameSettingの取得。
+		$rssReaderFrameData =
+			$this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey']);
+		$this->set('rssReaderFrameData', $rssReaderFrameData);
+
+		return $this->render('RssReaderFrameSettings/get_edit_token', false);
 	}
 }

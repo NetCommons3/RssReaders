@@ -25,8 +25,7 @@
 			<?php echo __d('rss_readers', 'Disapprovign'); ?>
 		</span>
 	</div>
-	<div class="panel-body"
-		 ng-show="visibleSiteInformation">
+	<div class="panel-body">
 
 		<div class="row">
 			<div class="col-md-3"><?php echo __d('rss_readers', 'Site Title'); ?></div>

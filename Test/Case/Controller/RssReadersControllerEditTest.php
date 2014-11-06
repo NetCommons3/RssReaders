@@ -138,7 +138,11 @@ class RssReadersControllerEditTest extends ControllerTestCase {
  * @return void
  */
 	public function testGetRssInfo() {
-		$data = array('url' => 'http://zenk.co.jp/feed/rdf');
+		$data = array(
+			'RssReader' => array(
+				'url' => 'http://zenk.co.jp/feed/rdf'
+			)
+		);
 		$result = $this->testAction('/rss_readers/rss_readers/getRssInfo', array('method' => 'post', 'data' => $data));
 		$this->assertTextContains('data', $result);
 		$this->assertTextContains('title', $result);
@@ -146,7 +150,11 @@ class RssReadersControllerEditTest extends ControllerTestCase {
 		$this->assertTextContains('summary', $result);
 
 		// 存在しないURLを指定時
-		$data = array('url' => 'http://test.example');
+		$data = array(
+			'RssReader' => array(
+				'url' => 'http://test.example'
+			)
+		);
 		$result = $this->testAction('/rss_readers/rss_readers/getRssInfo', array('method' => 'post', 'data' => $data));
 		$encodeMessage = json_encode(__d('rss_readers', 'Feed Not Found.'));
 		$this->assertTextContains($encodeMessage, $result);

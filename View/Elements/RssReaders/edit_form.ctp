@@ -10,8 +10,8 @@
 		);
 		?>
 
-		<div class='form-group'
-			ng-class="rssReader['data[RssReader][url]'].$valid ? 'has-success' : 'has-error'; ">
+		<div class="form-group" name="url-form-group"
+       ng-class="rssReader['data[RssReader][url]'].$valid ? 'has-success' : 'has-error'; ">
 			<?php
 			// RDF/RSSファイルのURL
 			echo $this->Form->label('url', __d('rss_readers', 'RDF/RSS URL'));
@@ -31,7 +31,7 @@
 			<div class="text-right" style="margin-top: 2px;">
 				<button type="button" class="btn btn-info btn-xs" ng-show="getRssInfoBtn"
 					ng-click="getRssInfo()"
-					ng-disabled="rssReader['data[RssReader][url]'].$error.required || rssReaderData['data[RssReader][url]'].$error.pattern">
+					ng-disabled="rssReader['data[RssReader][url]'].$error.required || rssReader['data[RssReader][url]'].$error.pattern">
 					<?php echo __d('rss_readers', 'Get Site Info'); ?>
 				</button>
 				<button type="button" class="btn btn-info btn-xs" ng-show="loadingGetRssInfoBtn" ng-disabled="true">
@@ -40,8 +40,8 @@
 			</div>
 			<span class="help-block">
 				<span class="error"
-						ng-hide="rssReader['data[RssReader][url]'].$error.required || rssReaderData['data[RssReader][url]'].$error.pattern">
-					{{ getRssInfoErrorMessage }}
+						ng-hide="rssReader['data[RssReader][url]'].$error.required || rssReader['data[RssReader][url]'].$error.pattern">
+					{{getRssInfoErrorMessage}}
 				</span>
 				<span class="error"
 						ng-show="rssReader['data[RssReader][url]'].$error.required">
@@ -139,7 +139,7 @@
 			?>
 		</div>
 		<div class="has-error">
-			<span class="help-block" ng-show="saveRssReaderError">{{ saveRssReaderErrorMessage }}</span>
+			<span class="help-block" ng-show="saveRssReaderError">{{saveRssReaderErrorMessage}}</span>
 		</div>
 		<?php
 		echo $this->Form->input(
@@ -149,34 +149,7 @@
 				'value' => '{{rssReaderData.RssReader.id}}'
 			)
 		);
-		echo $this->Form->input(
-			'Block.id',
-			array(
-				'type' => 'hidden',
-				'value' => h($blockId)
-			)
-		);
-		echo $this->Form->input(
-			'Block.room_id',
-			array(
-				'type' => 'hidden',
-				'value' => h($roomId)
-			)
-		);
-		echo $this->Form->input(
-			'Block.language_id',
-			array(
-				'type' => 'hidden',
-				'value' => h($languageId)
-			)
-		);
-		echo $this->Form->input(
-			'Frame.id',
-			array(
-				'type' => 'hidden',
-				'value' => h($frameId)
-			)
-		);
+		echo $this->element('RssReaders/edit_hidden_form');
 		echo $this->Form->end();
 		?>
 	</div>

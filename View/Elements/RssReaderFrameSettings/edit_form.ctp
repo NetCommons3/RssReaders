@@ -14,7 +14,7 @@
 			// 表示件数
 			echo $this->Form->label('url', __d('rss_readers', 'Event Display'));
 			echo $this->Form->input(
-				'display_number_per_page',
+				'RssReaderFrameSetting.display_number_per_page',
 				array(
 					'label' => false,
 					'type' => 'select',
@@ -36,7 +36,7 @@
 		<div class='form-group'>
 			<?php
 			echo $this->Form->input(
-				'display_site_info',
+				'RssReaderFrameSetting.display_site_info',
 				array(
 					'label' => __d('rss_readers', 'Display Site Info'),
 					'type' => 'checkbox',
@@ -49,7 +49,7 @@
 		<div class='form-group'>
 			<?php
 			echo $this->Form->input(
-				'display_summary',
+				'RssReaderFrameSetting.display_summary',
 				array(
 					'label' => __d('rss_readers', 'Display Summary'),
 					'type' => 'checkbox',
@@ -61,25 +61,25 @@
 		</div>
 		<div class="has-error">
 			<span class="help-block" ng-show="saveRssReaderFrameError">
-				{{ saveRssReaderErrorMessage }}
+				{{saveRssReaderErrorMessage}}
 			</span>
 		</div>
 		<?php
-			echo $this->Form->input(
-				'id',
-				array(
-					'type' => 'hidden',
-					'value' => '{{rssReaderFrameSettingData.RssReaderFrameSetting.id}}'
-				)
-			);
-			echo $this->Form->input(
-				'frame_key',
-				array(
-					'type' => 'hidden',
-					'value' => '{{rssReaderFrameSettingData.RssReaderFrameSetting.frame_key}}'
-				)
-			);
-			echo $this->Form->end();
+		echo $this->Form->input(
+			'RssReaderFrameSetting.id',
+			array(
+				'type' => 'hidden',
+				'value' => '{{rssReaderFrameSettingData.RssReaderFrameSetting.id}}'
+			)
+		);
+		echo $this->Form->input(
+			'RssReaderFrameSetting.frame_key',
+			array(
+				'type' => 'hidden',
+				'value' => '{{rssReaderFrameSettingData.RssReaderFrameSetting.frame_key}}'
+			)
+		);
+		echo $this->Form->end();
 		?>
 	</div>
 </div>

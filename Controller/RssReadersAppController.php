@@ -19,4 +19,12 @@ App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
  */
 class RssReadersAppController extends NetCommonsFrameAppController {
 
+/**
+ * use component
+ *
+ * @var array
+ */
+	public $components = array(
+		'Security'
+	);
 }
