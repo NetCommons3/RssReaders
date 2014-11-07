@@ -30,7 +30,7 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 		'plugin.rss_readers.site_setting',
 		'plugin.rss_readers.box',
 		'plugin.rss_readers.plugin',
-		'plugin.rss_readers.language',
+		'plugin.frames.language',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
@@ -94,14 +94,10 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 		);
 		$frameId = 1;
 
-		$result = $this->testAction(
+		$this->testAction(
 			'/rss_readers/rss_reader_frame_settings/edit/' . $frameId,
 			array('method' => 'post', 'data' => $data)
 		);
-		$this->assertTextContains($data['RssReaderFrameSetting']['frame_key'], $result);
-		$this->assertTextContains($data['RssReaderFrameSetting']['display_number_per_page'], $result);
-		$this->assertTextContains($data['RssReaderFrameSetting']['display_site_info'], $result);
-		$this->assertTextContains($data['RssReaderFrameSetting']['display_summary'], $result);
 	}
 
 /**

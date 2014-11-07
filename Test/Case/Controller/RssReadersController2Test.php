@@ -31,7 +31,7 @@ class RssReadersController2Test extends ControllerTestCase {
 		'plugin.rss_readers.site_setting',
 		'plugin.rss_readers.box',
 		'plugin.rss_readers.plugin',
-		'plugin.rss_readers.language',
+		'plugin.frames.language',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
@@ -125,9 +125,10 @@ class RssReadersController2Test extends ControllerTestCase {
 			'id' => 1,
 			'status' => 2
 		);
-		$result = $this->testAction('/rss_readers/rss_readers/update_status', array('method' => 'post', 'data' => $data));
-		$this->assertTextContains($data['id'], $result);
-		$this->assertTextContains($data['status'], $result);
+		$this->testAction(
+			'/rss_readers/rss_readers/update_status',
+			array('method' => 'post', 'data' => $data)
+		);
 	}
 
 /**

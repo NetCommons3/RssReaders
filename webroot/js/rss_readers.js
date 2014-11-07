@@ -66,13 +66,13 @@ NetCommonsApp.controller('RssReaders',
             value: postStatus
           }
         ];
-        // SecuryコンポーネントのToken値を取得する。
+        // SecuryコンポーネントのToken値を取得する
         $http.get('/rss_readers/rss_readers/get_update_status_token/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
-              // フォームエレメント生成。
+              // フォームエレメント生成
               var form = $('<div>').html(data);
-              // セキュリティキーセット。
+              // セキュリティキーセット
               paramData.push({
                 name: 'data[_Token][key]',
                 value: $(form).find('input[name="data[_Token][key]"]').val()
@@ -86,7 +86,7 @@ NetCommonsApp.controller('RssReaders',
                 value: $(form)
                     .find('input[name="data[_Token][unlocked]"]').val()
               });
-              // 登録情報をPOST。
+              // 登録情報をPOST
               $scope.sendPostUpdateStatus(paramData);
             })
             .error(function(data, status) {
@@ -210,14 +210,14 @@ NetCommonsApp.controller('RssReaders.edit',
         $scope.sending = true;
         var paramData = $('#form-rss-reader-edit-' +
             $scope.frameId).serializeArray();
-        // SecuryコンポーネントのToken値を取得する。
+        // SecuryコンポーネントのToken値を取得する
         $http.get('/rss_readers/rss_reader_edit/get_edit_token/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
-              // フォームエレメント生成。
+              // フォームエレメント生成
               var form = $('<div>').html(data);
 
-              // セキュリティキーセット。
+              // セキュリティキーセット
               paramData.push({
                 name: 'data[_Token][key]',
                 value: $(form).find('input[name="data[_Token][key]"]').val()
@@ -232,12 +232,12 @@ NetCommonsApp.controller('RssReaders.edit',
                     .find('input[name="data[_Token][unlocked]"]').val()
               });
 
-              // ステータスをセット。
+              // ステータスをセット
               paramData.push({
                 name: 'data[RssReader][status]',
                 value: postStatus
               });
-              // 登録情報をPOST。
+              // 登録情報をPOST
               $scope.sendPostEdit(paramData);
             })
             .error(function(data, status) {
@@ -261,7 +261,7 @@ NetCommonsApp.controller('RssReaders.edit',
             .error(function(data) {
               // 失敗
               $scope.saveRssReaderError = true;
-              $scope.saveRssReaderErrorMessage = data.message;
+              $scope.saveRssReaderErrorMessage = data.name;
               $scope.sending = false;
             });
       };
@@ -274,24 +274,23 @@ NetCommonsApp.controller('RssReaders.edit',
       $scope.getRssInfo = function() {
         $scope.getRssInfoBtn = false;
         $scope.loadingGetRssInfoBtn = true;
-        rssReader['data[RssReader][url]'].$valid = true;
         $scope.getRssInfoErrorMessage = '';
         $http.get('/rss_readers/rss_reader_edit/get_rss_info/' +
-            $scope.frameId + '?url=' + $scope.rssReaderData.RssReader.url,
+            $scope.frameId + '/' + Math.random() + '.json' + '?url=' +
+            $scope.rssReaderData.RssReader.url,
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-        .success(function(data, status, headers, config) {
+        .success(function(data) {
               // 成功
-              $scope.rssReaderData.RssReader.title = data.data.title;
-              $scope.rssReaderData.RssReader.summary = data.data.summary;
-              $scope.rssReaderData.RssReader.link = data.data.link;
+              $scope.rssReaderData.RssReader.title = data.title;
+              $scope.rssReaderData.RssReader.summary = data.summary;
+              $scope.rssReaderData.RssReader.link = data.link;
               $scope.getRssInfoBtn = true;
               $scope.loadingGetRssInfoBtn = false;})
-        .error(function(data, status, headers, config) {
+        .error(function(data, status) {
               // 失敗
               $scope.getRssInfoBtn = true;
               $scope.loadingGetRssInfoBtn = false;
-              rssReader['data[RssReader][url]'].$setValidity('required', false);
-              $scope.getRssInfoErrorMessage = data.message;
+              $scope.getRssInfoErrorMessage = data.name;
             });
       };
     }
@@ -325,10 +324,10 @@ NetCommonsApp.controller('RssReaderFrameSettings.edit',
         $http.get('/rss_readers/rss_reader_frame_settings/get_edit_token/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
-              // フォームエレメント生成。
+              // フォームエレメント生成
               var form = $('<div>').html(data);
 
-              // セキュリティキーセット。
+              // セキュリティキーセット
               paramData.push({
                 name: 'data[_Token][key]',
                 value: $(form).find('input[name="data[_Token][key]"]').val()
@@ -343,7 +342,7 @@ NetCommonsApp.controller('RssReaderFrameSettings.edit',
                     .find('input[name="data[_Token][unlocked]"]').val()
               });
 
-              // 登録情報をPOST。
+              // 登録情報をPOST
               $scope.sendPostEdit(paramData);
             })
             .error(function(data, status) {

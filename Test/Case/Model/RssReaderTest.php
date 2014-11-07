@@ -25,7 +25,7 @@ class RssReaderTest extends CakeTestCase {
 		'plugin.rss_readers.frame',
 		'plugin.rss_readers.box',
 		'plugin.rss_readers.plugin',
-		'plugin.rss_readers.language'
+		'plugin.frames.language'
 	);
 
 /**

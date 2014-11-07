@@ -30,7 +30,7 @@ class RssReaderEditControllerErrorTest extends ControllerTestCase {
 		'plugin.rss_readers.site_setting',
 		'plugin.rss_readers.box',
 		'plugin.rss_readers.plugin',
-		'plugin.rss_readers.language',
+		'plugin.frames.language',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
@@ -99,10 +99,14 @@ class RssReaderEditControllerErrorTest extends ControllerTestCase {
 				'id' => 5
 			)
 		);
-		$result = $this->testAction('/rss_readers/rss_reader_edit/edit', array('method' => 'post', 'data' => $data));
-		$encodeMessage = json_encode(__d('rss_readers', 'I failed to save.'));
-		$this->assertTextContains($encodeMessage, $result);
-		$this->assertTextContains('false', $result);
+		try {
+			$this->testAction(
+				'/rss_readers/rss_reader_edit/edit',
+				array('method' => 'post', 'data' => $data)
+			);
+		} catch (ForbiddenException $e) {
+			$this->assertEquals(__d('net_commons', 'Failed to register data.'), $e->getMessage());
+		}
 	}
 
 /**

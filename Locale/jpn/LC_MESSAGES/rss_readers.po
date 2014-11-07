@@ -92,12 +92,6 @@ msgstr "不正なURL形式です。"
 msgid "Feed Not Found."
 msgstr "フィードが見つかりませんでした。"
 
-msgid "Saved."
-msgstr "保存しました。"
-
-msgid "I failed to save."
-msgstr "保存に失敗しました。"
-
 msgid "Publishing"
 msgstr "公開中"
 

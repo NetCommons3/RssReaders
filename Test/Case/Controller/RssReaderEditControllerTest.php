@@ -30,7 +30,7 @@ class RssReaderEditControllerTest extends ControllerTestCase {
 		'plugin.rss_readers.site_setting',
 		'plugin.rss_readers.box',
 		'plugin.rss_readers.plugin',
-		'plugin.rss_readers.language',
+		'plugin.frames.language',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
@@ -164,8 +164,10 @@ class RssReaderEditControllerTest extends ControllerTestCase {
 				'id' => 5
 			)
 		);
-		$result = $this->testAction('/rss_readers/rss_reader_edit/edit', array('method' => 'post', 'data' => $data));
-		$this->assertTextContains('true', $result);
+		$this->testAction(
+			'/rss_readers/rss_reader_edit/edit',
+			array('method' => 'post', 'data' => $data)
+		);
 	}
 
 /**
@@ -176,24 +178,21 @@ class RssReaderEditControllerTest extends ControllerTestCase {
  */
 	public function testGetRssInfo() {
 		$url = 'http://zenk.co.jp/feed/rdf';
-		$result = $this->testAction(
+		$this->testAction(
 			'/rss_readers/rss_reader_edit/get_rss_info?url=' . $url,
 			array('method' => 'get')
 		);
-		$this->assertTextContains('data', $result);
-		$this->assertTextContains('title', $result);
-		$this->assertTextContains('link', $result);
-		$this->assertTextContains('summary', $result);
 
 		// 存在しないURLを指定時
 		$url = 'http://test.example';
-		$result = $this->testAction(
-			'/rss_readers/rss_reader_edit/get_rss_info?url=' . $url,
-			array('method' => 'get')
-		);
-		$encodeMessage = json_encode(__d('rss_readers', 'Feed Not Found.'));
-		$this->assertTextContains($encodeMessage, $result);
-		$this->assertTextContains('false', $result);
+		try {
+			$this->testAction(
+				'/rss_readers/rss_reader_edit/get_rss_info?url=' . $url,
+				array('method' => 'get')
+			);
+		} catch (ForbiddenException $e) {
+			$this->assertEquals(__d('rss_readers', 'Feed Not Found.'), $e->getMessage());
+		}
 	}
 
 /**

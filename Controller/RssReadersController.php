@@ -121,9 +121,15 @@ class RssReadersController extends RssReadersAppController {
  */
 	public function update_status() {
 		$saveData = $this->request->data;
-		$result = $this->RssReader->save($saveData);
+		$this->RssReader->save($saveData);
 
-		return $this->_renderJson(200, '', $result);
+		$params = array(
+			'name' => __d('net_commons', 'Successfully finished.')
+		);
+		$this->set(compact('params'));
+		$this->set('_serialize', 'params');
+
+		return $this->render(false);
 	}
 
 /**

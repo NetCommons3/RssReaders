@@ -71,9 +71,14 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 		} else {
 			// 更新処理
 			$saveData = $this->request->data;
-			$result = $this->RssReaderFrameSetting->save($saveData);
+			$this->RssReaderFrameSetting->save($saveData);
+			$params = array(
+				'name' => __d('net_commons', 'Successfully finished.')
+			);
+			$this->set(compact('params'));
+			$this->set('_serialize', 'params');
 
-			return $this->_renderJson(200, '', $result);
+			return $this->render(false);
 		}
 	}
 

@@ -9,7 +9,6 @@
  */
 
 App::uses('AppController', 'Controller');
-App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
 
 /**
  * RssReadersApp Controller
@@ -17,7 +16,7 @@ App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
  * @author  Kosuke Miura <k_miura@zenk.co.jp>
  * @package app.Plugin.RssReaders.Controller
  */
-class RssReadersAppController extends NetCommonsFrameAppController {
+class RssReadersAppController extends AppController {
 
 /**
  * use component

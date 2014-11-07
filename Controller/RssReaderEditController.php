@@ -110,9 +110,15 @@ class RssReaderEditController extends RssReadersAppController {
 		$result = $this->RssReader->saveRssReader($saveData, $frameId);
 
 		if ($result) {
-			return $this->_renderJson(200, '', $result);
+			$params = array(
+				'name' => __d('net_commons', 'Successfully finished.')
+			);
+			$this->set(compact('params'));
+			$this->set('_serialize', 'params');
+
+			return $this->render(false);
 		} else {
-			return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
+			throw new ForbiddenException(__d('net_commons', 'Failed to register data.'));
 		}
 	}
 
@@ -121,6 +127,7 @@ class RssReaderEditController extends RssReadersAppController {
  *
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @throws ForbiddenException
  * @return void
  */
 	public function get_rss_info($frameId = 0) {
@@ -131,7 +138,7 @@ class RssReaderEditController extends RssReadersAppController {
 			$rss = Xml::toArray($rss);
 		} catch (XmlException $e) {
 			// Xmlが取得できない場合異常終了
-			return $this->_renderJson(500, __d('rss_readers', 'Feed Not Found.'), false);
+			throw new ForbiddenException(__d('rss_readers', 'Feed Not Found.'));
 		}
 
 		$title = $rss['RDF']['channel']['title'];
@@ -143,8 +150,10 @@ class RssReaderEditController extends RssReadersAppController {
 			'link' => $link,
 			'summary' => $summary
 		);
+		$this->set(compact('datas'));
+		$this->set('_serialize', 'datas');
 
-		return $this->_renderJson(200, '', $datas);
+		return $this->render(false);
 	}
 
 /**

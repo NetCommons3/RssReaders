@@ -30,7 +30,7 @@ class RssReadersControllerTest extends ControllerTestCase {
 		'plugin.rss_readers.site_setting',
 		'plugin.rss_readers.box',
 		'plugin.rss_readers.plugin',
-		'plugin.rss_readers.language',
+		'plugin.frames.language',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
