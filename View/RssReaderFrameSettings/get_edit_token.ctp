@@ -26,14 +26,14 @@ echo $this->Form->input(
 	'RssReaderFrameSetting.id',
 	array(
 		'type' => 'hidden',
-		'value' => $rssReaderFrameData['RssReaderFrameSetting']['id']
+		'value' => $rssReaderFrameId
 	)
 );
 echo $this->Form->input(
 	'RssReaderFrameSetting.frame_key',
 	array(
 		'type' => 'hidden',
-		'value' => $rssReaderFrameData['RssReaderFrameSetting']['frame_key']
+		'value' => $frameKey
 	)
 );
 

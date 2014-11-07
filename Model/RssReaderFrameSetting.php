@@ -60,4 +60,20 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 
 		return $rssReaderFrameData;
 	}
+
+/**
+ * create RssReader frame setting
+ *
+ * @param int $frameKey frames.key
+ * @return array RssReaderFrameSettingData
+ */
+	public function createRssReaderFrameSetting($frameKey) {
+		$rssReaderFrameData = $this->create();
+		$rssReaderFrameData[$this->name]['display_number_per_page'] = 1;
+		$rssReaderFrameData[$this->name]['display_site_info'] = 0;
+		$rssReaderFrameData[$this->name]['display_summary'] = 0;
+		$rssReaderFrameData[$this->name]['frame_key'] = $frameKey;
+
+		return $rssReaderFrameData;
+	}
 }

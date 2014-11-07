@@ -40,7 +40,7 @@ echo $this->Form->input(
 	'RssReader.id',
 	array(
 		'type' => 'hidden',
-		'value' => $rssReaderData['RssReader']['id']
+		'value' => $rssReaderId
 	)
 );
 echo $this->element('RssReaders/edit_hidden_form');

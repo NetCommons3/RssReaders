@@ -1,21 +1,21 @@
 <?php
 /**
- * RssReadersControllerEditError Test Case
+ * RssReaderEditControllerError Test Case
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('RssReadersController', 'RssReaders.Controller');
+App::uses('RssReaderEditController', 'RssReaders.Controller');
 App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 
 /**
- * Summary for RssReadersController Edit Error Test Case
+ * Summary for RssReaderEditController Error Test Case
  */
-class RssReadersControllerEditErrorTest extends ControllerTestCase {
+class RssReaderEditControllerErrorTest extends ControllerTestCase {
 
 /**
  * Fixtures
@@ -99,7 +99,7 @@ class RssReadersControllerEditErrorTest extends ControllerTestCase {
 				'id' => 5
 			)
 		);
-		$result = $this->testAction('/rss_readers/rss_readers/edit', array('method' => 'post', 'data' => $data));
+		$result = $this->testAction('/rss_readers/rss_reader_edit/edit', array('method' => 'post', 'data' => $data));
 		$encodeMessage = json_encode(__d('rss_readers', 'I failed to save.'));
 		$this->assertTextContains($encodeMessage, $result);
 		$this->assertTextContains('false', $result);
@@ -113,7 +113,7 @@ class RssReadersControllerEditErrorTest extends ControllerTestCase {
 	private function __login() {
 		//ログイン処理
 		$this->Controller = $this->generate(
-			'RssReaders.RssReaders',
+			'RssReaders.RssReaderEdit',
 			array(
 				'components' => array(
 					'Auth' => array('user'),

@@ -62,6 +62,7 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  *
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @throws ForbiddenException
  * @return void
  */
 	public function edit($frameId = 0) {
@@ -93,7 +94,12 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 		// RssReaderFrameSettingの取得。
 		$rssReaderFrameData =
 			$this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey']);
-		$this->set('rssReaderFrameData', $rssReaderFrameData);
+			if (!empty($rssReaderFrameData)) {
+				$rssReaderFrameId = $rssReaderFrameData['RssReaderFrameSetting']['id'];
+			} else {
+				$rssReaderFrameId = '';
+			}
+		$this->set('rssReaderFrameId', $rssReaderFrameId);
 
 		return $this->render('RssReaderFrameSettings/get_edit_token', false);
 	}

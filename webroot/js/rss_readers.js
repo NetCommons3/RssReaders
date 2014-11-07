@@ -38,6 +38,7 @@ NetCommonsApp.controller('RssReaders',
        * Initialize
        *
        * @param {Object.<string>} rssReaderData
+       * @param {Object.<string>} RssReaderFrameSettingData
        * @param {int} frameId
        * @return {void}
        */
@@ -127,7 +128,7 @@ NetCommonsApp.controller('RssReaders',
         var controller = '';
         switch (tab) {
           case 'rssReader':
-            templateUrl = 'rss_readers/rss_readers/edit/' + $scope.frameId,
+            templateUrl = 'rss_readers/rss_reader_edit/view/' + $scope.frameId,
             controller = 'RssReaders.edit';
             break;
           case 'rssReaderFrameSetting':
@@ -180,6 +181,16 @@ NetCommonsApp.controller('RssReaders.edit',
                          function($scope, $http, $sce, $modal, $modalStack) {
 
       /**
+       * Initialize
+       *
+       * @param {Object.<string>} rssReaderData
+       * @return {void}
+       */
+      $scope.initialize = function($rssReaderData) {
+        $scope.rssReaderData = $rssReaderData;
+      };
+
+      /**
        * dialog cancel
        *
        * @return {void}
@@ -200,7 +211,7 @@ NetCommonsApp.controller('RssReaders.edit',
         var paramData = $('#form-rss-reader-edit-' +
             $scope.frameId).serializeArray();
         // SecuryコンポーネントのToken値を取得する。
-        $http.get('/rss_readers/rss_readers/getEditToken/' +
+        $http.get('/rss_readers/rss_reader_edit/getEditToken/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成。
@@ -240,7 +251,7 @@ NetCommonsApp.controller('RssReaders.edit',
        * @return {void}
        */
       $scope.sendPostEdit = function(postParams) {
-        $http.post('/rss_readers/rss_readers/edit/' +
+        $http.post('/rss_readers/rss_reader_edit/edit/' +
             $scope.frameId + '/' + Math.random() + '.json',
             $.param(postParams),
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
@@ -272,7 +283,7 @@ NetCommonsApp.controller('RssReaders.edit',
           }
         ];
         // SecuryコンポーネントのToken値を取得する。
-        $http.get('/rss_readers/rss_readers/getRssInfoToken/' +
+        $http.get('/rss_readers/rss_reader_edit/getRssInfoToken/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成。
@@ -305,7 +316,7 @@ NetCommonsApp.controller('RssReaders.edit',
        * @return {void}
        */
       $scope.sendPostRssInfo = function(postParams) {
-        $http.post('/rss_readers/rss_readers/getRssInfo/' +
+        $http.post('/rss_readers/rss_reader_edit/getRssInfo/' +
             $scope.frameId + '/' + Math.random() + '.json',
             $.param(postParams),
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})

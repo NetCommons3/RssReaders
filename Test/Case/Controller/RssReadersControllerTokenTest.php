@@ -78,82 +78,6 @@ class RssReadersControllerTokenTest extends ControllerTestCase {
 	}
 
 /**
- * test getEditToken
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testGetEditToken() {
-		$frameId = 1;
-		$this->testAction('/rss_readers/rss_readers/getEditToken/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('data[RssReader][url]', $this->view);
-		$this->assertTextContains('data[RssReader][title]', $this->view);
-		$this->assertTextContains('data[RssReader][link]', $this->view);
-		$this->assertTextContains('data[RssReader][cache_time]', $this->view);
-		$this->assertTextContains('data[RssReader][id]', $this->view);
-		$this->assertTextContains('data[Block][id]', $this->view);
-		$this->assertTextContains('data[Block][room_id]', $this->view);
-		$this->assertTextContains('data[Block][language_id]', $this->view);
-		$this->assertTextContains('data[Frame][id]', $this->view);
-	}
-
-/**
- * test getEditToken case not contentPublishable
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testGetEditTokenNotContentPublishable() {
-		// 権限がないユーザの動作確認
-		CakeSession::write('Auth.User', null);
-		$user = array(
-			'id' => 5,
-			'username' => 'Lorem ipsum dolor sit amet',
-			'role_key' => 'visitor'
-		);
-		CakeSession::write('Auth.User', $user);
-
-		$frameId = 1;
-		$this->testAction('/rss_readers/rss_readers/getEditToken/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('data[RssReader][url]', $this->view);
-		$this->assertTextContains('data[RssReader][title]', $this->view);
-		$this->assertTextContains('data[RssReader][link]', $this->view);
-		$this->assertTextContains('data[RssReader][cache_time]', $this->view);
-		$this->assertTextContains('data[RssReader][id]', $this->view);
-		$this->assertTextContains('data[Block][id]', $this->view);
-		$this->assertTextContains('data[Block][room_id]', $this->view);
-		$this->assertTextContains('data[Block][language_id]', $this->view);
-		$this->assertTextContains('data[Frame][id]', $this->view);
-	}
-
-/**
- * test getEditToken case not exist frame
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testGetEditTokenNotExistFrame() {
-		$frameId = 999;
-		try {
-			$this->testAction('/rss_readers/rss_readers/getEditToken/' . $frameId . '/', array('method' => 'get'));
-		} catch (ForbiddenException $e) {
-			$this->assertEquals('NetCommonsFrame', $e->getMessage());
-		}
-	}
-
-/**
- * test getRssInfoToken
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testGetRssInfoToken() {
-		$frameId = 1;
-		$this->testAction('/rss_readers/rss_readers/getRssInfoToken/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('data[RssReader][url]', $this->view);
-	}
-
-/**
  * test getUpdateStatusToken
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
@@ -214,4 +138,3 @@ class RssReadersControllerTokenTest extends ControllerTestCase {
 	}
 
 }
-

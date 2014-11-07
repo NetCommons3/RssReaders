@@ -8,6 +8,7 @@
  */
 
 App::uses('RssReadersController', 'RssReaders.Controller');
+App::uses('RssReaderEditController', 'RssReaders.Controller');
 App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
@@ -78,6 +79,26 @@ class RssReadersController2Test extends ControllerTestCase {
 	}
 
 /**
+ * test view case not room role
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function testIndexNotRoomRole() {
+		CakeSession::write('Auth.User', null);
+		$user = array(
+			'id' => 999
+		);
+		CakeSession::write('Auth.User', $user);
+		$frameId = 1;
+		try {
+			$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
+		} catch (ForbiddenException $e) {
+			$this->assertEquals('Forbidden', $e->getMessage());
+		}
+	}
+
+/**
  * test index case not exist frame
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
@@ -91,36 +112,6 @@ class RssReadersController2Test extends ControllerTestCase {
 		} catch (ForbiddenException $e) {
 			$this->assertEquals('NetCommonsFrame', $e->getMessage());
 		}
-	}
-
-/**
- * test getRssInfo
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testGetRssInfo() {
-		$data = array(
-			'RssReader' => array(
-				'url' => 'http://zenk.co.jp/feed/rdf'
-			)
-		);
-		$result = $this->testAction('/rss_readers/rss_readers/getRssInfo', array('method' => 'post', 'data' => $data));
-		$this->assertTextContains('data', $result);
-		$this->assertTextContains('title', $result);
-		$this->assertTextContains('link', $result);
-		$this->assertTextContains('summary', $result);
-
-		// 存在しないURLを指定時
-		$data = array(
-			'RssReader' => array(
-				'url' => 'http://test.example'
-			)
-		);
-		$result = $this->testAction('/rss_readers/rss_readers/getRssInfo', array('method' => 'post', 'data' => $data));
-		$encodeMessage = json_encode(__d('rss_readers', 'Feed Not Found.'));
-		$this->assertTextContains($encodeMessage, $result);
-		$this->assertTextContains('false', $result);
 	}
 
 /**
@@ -187,4 +178,3 @@ class RssReadersController2Test extends ControllerTestCase {
 	}
 
 }
-

@@ -85,7 +85,7 @@ class RssReadersController extends RssReadersAppController {
 			throw new ForbiddenException('NetCommonsFrame');
 		}
 
-		// RssReaderの取得。
+		// RssReaderの取得
 		$rssReaderData = $this->RssReader->getContent(
 			$this->viewVars['blockId'],
 			$this->viewVars['contentEditable']
@@ -93,97 +93,24 @@ class RssReadersController extends RssReadersAppController {
 
 		$rssXmlData = array();
 		if (!empty($rssReaderData)) {
-			// シリアライズされているRSSのデータを配列に戻す。
+			// シリアライズされているRSSのデータを配列に戻す
 			$rssSerializeData = $this->RssReader->updateSerializeValue($rssReaderData);
 			$rssXmlData = unserialize($rssSerializeData);
 		}
 		$this->set('rssReaderData', $rssReaderData);
 		$this->set('rssXmlData', $rssXmlData);
 
-		// RssReaderFrameSettingの取得。
+		// RssReaderFrameSettingの取得
 		$rssReaderFrameData =
 			$this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey']);
-		// RssReaderFrameSettingが存在しない場合は初期化する。
+		// RssReaderFrameSettingが存在しない場合は初期化する
 		if (empty($rssReaderFrameData)) {
-			$rssReaderFrameData = $this->RssReaderFrameSetting->create();
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_number_per_page'] = 1;
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_site_info'] = 0;
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['display_summary'] = 0;
-			$rssReaderFrameData[$this->RssReaderFrameSetting->name]['frame_key'] = $this->viewVars['frameKey'];
+			$rssReaderFrameData =
+				$this->RssReaderFrameSetting->createRssReaderFrameSetting($this->viewVars['frameKey']);
 		}
 		$this->set('rssReaderFrameSettingData', $rssReaderFrameData);
 
 		return $this->render('RssReaders/view');
-	}
-
-/**
- * edit
- *
- * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @throws ForbiddenException
- * @return void
- */
-	public function edit($frameId = 0) {
-		if (!$this->request->isPost()) {
-			// Frameのデータをviewにセット
-			if (!$this->NetCommonsFrame->setView($this, $frameId)) {
-				throw new ForbiddenException('NetCommonsFrame');
-			}
-
-			// RssReaderの取得。
-			$rssReaderData = $this->RssReader->getContent(
-				$this->viewVars['blockId'],
-				$this->viewVars['contentEditable']
-			);
-			$this->set('rssReaderData', $rssReaderData);
-
-			return $this->render('RssReaders.edit', false);
-		} else {
-			// 更新
-			$frameId = $this->request->data['Frame']['id'];
-			unset($this->request->data['Frame']);
-			$saveData = $this->request->data;
-
-			$result = $this->RssReader->saveRssReader($saveData, $frameId);
-
-			if ($result) {
-				return $this->_renderJson(200, '', $result);
-			} else {
-				return $this->_renderJson(500, __d('rss_readers', 'I failed to save.'), $result);
-			}
-		}
-	}
-
-/**
- * getRssInfo
- *
- * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function getRssInfo($frameId = 0) {
-		$url = $this->request->data['RssReader']['url'];
-
-		try {
-			$rss = Xml::build($url);
-			$rss = Xml::toArray($rss);
-		} catch (XmlException $e) {
-			// Xmlが取得できない場合異常終了
-			return $this->_renderJson(500, __d('rss_readers', 'Feed Not Found.'), false);
-		}
-
-		$title = $rss['RDF']['channel']['title'];
-		$link = $rss['RDF']['channel']['link'];
-		$summary = $rss['RDF']['channel']['description'];
-
-		$datas = array(
-			'title' => $title,
-			'link' => $link,
-			'summary' => $summary
-		);
-
-		return $this->_renderJson(200, '', $datas);
 	}
 
 /**
@@ -197,41 +124,6 @@ class RssReadersController extends RssReadersAppController {
 		$result = $this->RssReader->save($saveData);
 
 		return $this->_renderJson(200, '', $result);
-	}
-
-/**
- * getEditToken method
- *
- * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @throws ForbiddenException
- * @return CakeResponse A response object containing the rendered view.
- */
-	public function getEditToken($frameId = 0) {
-		// Frameのデータをviewにセット。
-		if (!$this->NetCommonsFrame->setView($this, $frameId)) {
-			throw new ForbiddenException('NetCommonsFrame');
-		}
-
-		// RssReaderの取得。
-		$rssReaderData = $this->RssReader->getContent(
-			$this->viewVars['blockId'],
-			$this->viewVars['contentEditable']
-		);
-		$this->set('rssReaderData', $rssReaderData);
-
-		return $this->render('RssReaders/get_edit_token', false);
-	}
-
-/**
- * getRssInfoToken method
- *
- * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return CakeResponse A response object containing the rendered view.
- */
-	public function getRssInfoToken($frameId = 0) {
-		return $this->render('RssReaders/get_rss_info_token', false);
 	}
 
 /**

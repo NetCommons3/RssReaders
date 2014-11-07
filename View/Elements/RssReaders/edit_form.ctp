@@ -161,7 +161,7 @@
 		<?php echo __d('net_commons', 'Cancel'); ?>
 	</button>
 
-	<?php if ($contentPublishable && !empty($rssReaderData) &&
+	<?php if ($contentPublishable && isset($rssReaderData['RssReader']['status']) &&
 					$rssReaderData['RssReader']['status'] === NetCommonsBlockComponent::STATUS_APPROVED): ?>
 		<button type="button" class="btn btn-default"
 					ng-disabled="rssReader.$invalid || sending"

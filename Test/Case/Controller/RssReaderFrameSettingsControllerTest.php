@@ -157,6 +157,26 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 	}
 
 /**
+ * test getEditToken case not exist data
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function testGetEditTokenNotExistData() {
+		$frameId = 5;
+		$this->testAction(
+			'/rss_readers/rss_reader_frame_settings/getEditToken/' . $frameId . '/',
+			array('method' => 'get')
+		);
+		$this->assertTextContains('data[RssReaderFrameSetting][frame_key]', $this->view);
+		$this->assertTextContains('data[RssReaderFrameSetting][display_number_per_page]', $this->view);
+		$this->assertTextContains('data[RssReaderFrameSetting][display_site_info]', $this->view);
+		$this->assertTextContains('data[RssReaderFrameSetting][display_summary]', $this->view);
+		$this->assertTextContains('data[RssReaderFrameSetting][id]', $this->view);
+		$this->assertTextContains('data[RssReaderFrameSetting][frame_key]', $this->view);
+	}
+
+/**
  * test getEditToken case not exist frame
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
