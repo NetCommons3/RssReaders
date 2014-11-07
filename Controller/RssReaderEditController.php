@@ -124,7 +124,7 @@ class RssReaderEditController extends RssReadersAppController {
  * @return void
  */
 	public function getRssInfo($frameId = 0) {
-		$url = $this->request->data['RssReader']['url'];
+		$url = Hash::get($this->request->query, 'url');
 
 		try {
 			$rss = Xml::build($url);
@@ -174,16 +174,5 @@ class RssReaderEditController extends RssReadersAppController {
 		$this->set('rssReaderId', $rssReaderId);
 
 		return $this->render('RssReaderEdit/get_edit_token', false);
-	}
-
-/**
- * getRssInfoToken method
- *
- * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return CakeResponse A response object containing the rendered view.
- */
-	public function getRssInfoToken($frameId = 0) {
-		return $this->render('RssReaderEdit/get_rss_info_token', false);
 	}
 }

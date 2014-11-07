@@ -187,18 +187,6 @@ class RssReaderEditControllerTokenTest extends ControllerTestCase {
 	}
 
 /**
- * test getRssInfoToken
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testGetRssInfoToken() {
-		$frameId = 1;
-		$this->testAction('/rss_readers/rss_reader_edit/getRssInfoToken/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('data[RssReader][url]', $this->view);
-	}
-
-/**
  * login　method
  *
  * @return void

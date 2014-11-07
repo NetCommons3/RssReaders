@@ -276,56 +276,14 @@ NetCommonsApp.controller('RssReaders.edit',
         $scope.loadingGetRssInfoBtn = true;
         rssReader['data[RssReader][url]'].$valid = true;
         $scope.getRssInfoErrorMessage = '';
-        var paramData = [
-          {
-            name: 'data[RssReader][url]',
-            value: $scope.rssReaderData.RssReader.url
-          }
-        ];
-        // SecuryコンポーネントのToken値を取得する。
-        $http.get('/rss_readers/rss_reader_edit/getRssInfoToken/' +
-            $scope.frameId + '/' + Math.random() + '.json')
-            .success(function(data) {
-              // フォームエレメント生成。
-              var form = $('<div>').html(data);
-              // セキュリティキーセット。
-              paramData.push({
-                name: 'data[_Token][key]',
-                value: $(form).find('input[name="data[_Token][key]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][fields]',
-                value: $(form).find('input[name="data[_Token][fields]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][unlocked]',
-                value: $(form)
-                    .find('input[name="data[_Token][unlocked]"]').val()
-              });
-              // URLをPOST。
-              $scope.sendPostRssInfo(paramData);
-            })
-            .error(function(data, status) {
-            });
-      };
-
-      /**
-       * send post rss info
-       *
-       * @param {Object.<string>} postParams
-       * @return {void}
-       */
-      $scope.sendPostRssInfo = function(postParams) {
-        $http.post('/rss_readers/rss_reader_edit/getRssInfo/' +
-            $scope.frameId + '/' + Math.random() + '.json',
-            $.param(postParams),
+        $http.get('/rss_readers/rss_reader_edit/getRssInfo/' +
+            $scope.frameId + '?url=' + $scope.rssReaderData.RssReader.url,
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
         .success(function(data, status, headers, config) {
               // 成功
               $scope.rssReaderData.RssReader.title = data.data.title;
               $scope.rssReaderData.RssReader.summary = data.data.summary;
               $scope.rssReaderData.RssReader.link = data.data.link;
-
               $scope.getRssInfoBtn = true;
               $scope.loadingGetRssInfoBtn = false;})
         .error(function(data, status, headers, config) {
