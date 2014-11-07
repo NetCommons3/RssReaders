@@ -81,6 +81,35 @@ class Init extends CakeMigration {
 	);
 
 /**
+ * recodes
+ *
+ * @var array $migration
+ */
+	public $records = array(
+		'Plugin' => array(
+			array(
+				'language_id' => 2,
+				'key' => 'rss_readers',
+				'namespace' => 'netcommons/rss_readers',
+				'name' => 'RSSリーダー',
+				'type' => 1
+			)
+		),
+		'PluginsRole' => array(
+			array(
+				'role_key' => 'room_administrator',
+				'plugin_key' => 'rss_readers'
+			)
+		),
+		'PluginsRoom' => array(
+			array(
+				'room_id' => '1',
+				'plugin_key' => 'rss_readers'
+			)
+		)
+	);
+
+/**
  * Before migration callback
  *
  * @param string $direction up or down direction of migration process
@@ -99,6 +128,33 @@ class Init extends CakeMigration {
  * @return boolean Should process continue
  */
 	public function after($direction) {
+		if ($direction === 'down') {
+			return true;
+		}
+		foreach ($this->records as $model => $records) {
+			if (!$this->updateRecords($model, $records)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+/**
+ * Update model records
+ *
+ * @param string $model model name to update
+ * @param string $records records to be stored
+ * @param string $scope ?
+ * @return boolean Should process continue
+ */
+	public function updateRecords($model, $records, $scope = null) {
+		$Model = $this->generateModel($model);
+		foreach ($records as $record) {
+			$Model->create();
+			if (!$Model->save($record, false)) {
+				return false;
+			}
+		}
 		return true;
 	}
 }
