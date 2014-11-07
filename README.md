@@ -4,7 +4,7 @@ RssReaders
 RssReaders for NetComomns3
 
 [![Build Status](https://api.travis-ci.org/NetCommons3/RssReaders.png?branch=master)](https://travis-ci.org/NetCommons3/RssReaders)
-[![Coverage Status](https://coveralls.io/repos/NetCommons3/RssReaders/badge.png?branch=master)](https://coveralls.io/r/NetCommons3/RssReaders?branch=master)
+[![Coverage Status](http://coveralls.io/repos/NetCommons3/RssReaders/badge.png?branch=master)](http://coveralls.io/r/NetCommons3/RssReaders?branch=master)
 
 | dependencies | status |
 | ------------ | ------ |
