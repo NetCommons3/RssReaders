@@ -117,13 +117,13 @@ class RssReaderEditController extends RssReadersAppController {
 	}
 
 /**
- * getRssInfo
+ * get_rss_info
  *
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function getRssInfo($frameId = 0) {
+	public function get_rss_info($frameId = 0) {
 		$url = Hash::get($this->request->query, 'url');
 
 		try {
@@ -148,14 +148,14 @@ class RssReaderEditController extends RssReadersAppController {
 	}
 
 /**
- * getEditToken method
+ * get_edit_token method
  *
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @throws ForbiddenException
  * @return CakeResponse A response object containing the rendered view.
  */
-	public function getEditToken($frameId = 0) {
+	public function get_edit_token($frameId = 0) {
 		// Frameのデータをviewにセット
 		if (!$this->NetCommonsFrame->setView($this, $frameId)) {
 			throw new ForbiddenException('NetCommonsFrame');

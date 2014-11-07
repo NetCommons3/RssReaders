@@ -119,7 +119,7 @@ class RssReadersController extends RssReadersAppController {
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function updateStatus() {
+	public function update_status() {
 		$saveData = $this->request->data;
 		$result = $this->RssReader->save($saveData);
 
@@ -127,13 +127,13 @@ class RssReadersController extends RssReadersAppController {
 	}
 
 /**
- * getUpdateStatusToken method
+ * get_update_status_token method
  *
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return CakeResponse A response object containing the rendered view.
  */
-	public function getUpdateStatusToken($frameId = 0) {
+	public function get_update_status_token($frameId = 0) {
 		return $this->render('RssReaders/get_update_status_token', false);
 	}
 }

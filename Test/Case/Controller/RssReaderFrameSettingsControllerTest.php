@@ -137,7 +137,7 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 	}
 
 /**
- * test getEditToken
+ * test get_edit_token
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
@@ -145,7 +145,7 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 	public function testGetEditToken() {
 		$frameId = 1;
 		$this->testAction(
-			'/rss_readers/rss_reader_frame_settings/getEditToken/' . $frameId . '/',
+			'/rss_readers/rss_reader_frame_settings/get_edit_token/' . $frameId . '/',
 			array('method' => 'get')
 		);
 		$this->assertTextContains('data[RssReaderFrameSetting][frame_key]', $this->view);
@@ -157,7 +157,7 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 	}
 
 /**
- * test getEditToken case not exist data
+ * test get_edit_token case not exist data
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
@@ -165,7 +165,7 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 	public function testGetEditTokenNotExistData() {
 		$frameId = 5;
 		$this->testAction(
-			'/rss_readers/rss_reader_frame_settings/getEditToken/' . $frameId . '/',
+			'/rss_readers/rss_reader_frame_settings/get_edit_token/' . $frameId . '/',
 			array('method' => 'get')
 		);
 		$this->assertTextContains('data[RssReaderFrameSetting][frame_key]', $this->view);
@@ -177,7 +177,7 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 	}
 
 /**
- * test getEditToken case not exist frame
+ * test get_edit_token case not exist frame
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
@@ -186,7 +186,7 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 		$frameId = 999;
 		try {
 			$this->testAction(
-				'/rss_readers/rss_reader_frame_settings/getEditToken/' . $frameId . '/',
+				'/rss_readers/rss_reader_frame_settings/get_edit_token/' . $frameId . '/',
 				array('method' => 'get')
 			);
 		} catch (ForbiddenException $e) {

@@ -67,7 +67,7 @@ NetCommonsApp.controller('RssReaders',
           }
         ];
         // SecuryコンポーネントのToken値を取得する。
-        $http.get('/rss_readers/rss_readers/getUpdateStatusToken/' +
+        $http.get('/rss_readers/rss_readers/get_update_status_token/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成。
@@ -100,7 +100,7 @@ NetCommonsApp.controller('RssReaders',
        * @return {void}
        */
       $scope.sendPostUpdateStatus = function(postParams) {
-        $http.post('/rss_readers/rss_readers/updateStatus/' +
+        $http.post('/rss_readers/rss_readers/update_status/' +
             $scope.frameId + '/' + Math.random() + '.json',
             $.param(postParams),
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
@@ -211,7 +211,7 @@ NetCommonsApp.controller('RssReaders.edit',
         var paramData = $('#form-rss-reader-edit-' +
             $scope.frameId).serializeArray();
         // SecuryコンポーネントのToken値を取得する。
-        $http.get('/rss_readers/rss_reader_edit/getEditToken/' +
+        $http.get('/rss_readers/rss_reader_edit/get_edit_token/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成。
@@ -276,7 +276,7 @@ NetCommonsApp.controller('RssReaders.edit',
         $scope.loadingGetRssInfoBtn = true;
         rssReader['data[RssReader][url]'].$valid = true;
         $scope.getRssInfoErrorMessage = '';
-        $http.get('/rss_readers/rss_reader_edit/getRssInfo/' +
+        $http.get('/rss_readers/rss_reader_edit/get_rss_info/' +
             $scope.frameId + '?url=' + $scope.rssReaderData.RssReader.url,
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
         .success(function(data, status, headers, config) {
@@ -322,7 +322,7 @@ NetCommonsApp.controller('RssReaderFrameSettings.edit',
         var paramData = $('#form-rss-reader-frame-setting-edit-' +
             $scope.frameId).serializeArray();
         // SecuryコンポーネントのToken値を取得する。
-        $http.get('/rss_readers/rss_reader_frame_settings/getEditToken/' +
+        $http.get('/rss_readers/rss_reader_frame_settings/get_edit_token/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成。

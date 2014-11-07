@@ -115,7 +115,7 @@ class RssReadersController2Test extends ControllerTestCase {
 	}
 
 /**
- * test updateStatus
+ * test update_status
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
@@ -125,7 +125,7 @@ class RssReadersController2Test extends ControllerTestCase {
 			'id' => 1,
 			'status' => 2
 		);
-		$result = $this->testAction('/rss_readers/rss_readers/updateStatus', array('method' => 'post', 'data' => $data));
+		$result = $this->testAction('/rss_readers/rss_readers/update_status', array('method' => 'post', 'data' => $data));
 		$this->assertTextContains($data['id'], $result);
 		$this->assertTextContains($data['status'], $result);
 	}
