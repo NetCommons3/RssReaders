@@ -1,7 +1,4 @@
-<?php
-echo $this->Html->script('/rss_readers/js/rss_readers.js');
-echo $this->Html->css('/rss_readers/css/rss_readers.css');
-?>
+<?php echo $this->Html->script('/rss_readers/js/rss_readers.js'); ?>
 
 <div id="nc-rss-readers-container-<?php echo h($frameId); ?>"
 	ng-controller="RssReaders"
