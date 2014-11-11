@@ -20,6 +20,26 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
 class RssReader extends RssReadersAppModel {
 
 /**
+ * Validation rules
+ *
+ * @var array
+ */
+	public $validate = array(
+		'url' => array(
+			'numeric' => array(
+				'rule' => 'url',
+				'message' => 'Invalid request.',
+			)
+		),
+		'link' => array(
+			'numeric' => array(
+				'rule' => 'url',
+				'message' => 'Invalid request.'
+			)
+		)
+	);
+
+/**
  * belongsTo associations
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
@@ -85,7 +105,7 @@ class RssReader extends RssReadersAppModel {
 		$result = $this->saveAll($data);
 
 		// 新規登録の場合は、Frames.block_idを更新する。
-		if (!strlen($data[$this->name]['id'])) {
+		if ($result && !strlen($data[$this->name]['id'])) {
 			$rssReaderId = $this->getLastInsertID();
 			$rssReaderData = $this->findById($rssReaderId);
 			$blockId = $rssReaderData[$this->name]['block_id'];
@@ -97,7 +117,10 @@ class RssReader extends RssReadersAppModel {
 				)
 			);
 			$this->Frame = ClassRegistry::init('Frame');
-			$this->Frame->save($frameData);
+			$result = $this->Frame->save($frameData);
+			if ($result !== false) {
+				$result = true;
+			}
 		}
 
 		return $result;
