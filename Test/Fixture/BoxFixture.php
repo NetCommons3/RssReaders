@@ -13,7 +13,7 @@
  * Summary for BoxFixture
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
- * @package NetCommons\Iframes\Test
+ * @package NetCommons\RssReaders\Test
  */
 class BoxFixture extends CakeTestFixture {
 

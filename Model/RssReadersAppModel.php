@@ -15,7 +15,7 @@ App::uses('AppModel', 'Model');
  * RssReader Model
  *
  * @author  Kosuke Miura <k_miura@zenk.co.jp>
- * @package app.Plugin.RssReaders.Model
+ * @package app\Plugin\RssReaders\Model
  */
 class RssReadersAppModel extends AppModel {
 

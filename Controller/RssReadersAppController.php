@@ -14,7 +14,7 @@ App::uses('AppController', 'Controller');
  * RssReadersApp Controller
  *
  * @author  Kosuke Miura <k_miura@zenk.co.jp>
- * @package app.Plugin.RssReaders.Controller
+ * @package app\Plugin.RssReaders\Controller
  */
 class RssReadersAppController extends AppController {
 

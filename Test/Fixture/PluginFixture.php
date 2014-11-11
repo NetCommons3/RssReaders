@@ -12,7 +12,7 @@
  * Summary for PluginFixture
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @package NetCommons.RssReaders.Test
+ * @package NetCommons\RssReaders\Test
  */
 class PluginFixture extends CakeTestFixture {
 
