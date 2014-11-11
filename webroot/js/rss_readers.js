@@ -132,7 +132,7 @@ NetCommonsApp.controller('RssReaders',
             controller = 'RssReaders.edit';
             break;
           case 'rssReaderFrameSetting':
-            templateUrl = 'rss_readers/rss_reader_frame_settings/edit/' +
+            templateUrl = 'rss_readers/rss_reader_frame_settings/view/' +
                           $scope.frameId,
             controller = 'RssReaderFrameSettings.edit';
             break;

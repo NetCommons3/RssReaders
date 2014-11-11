@@ -58,6 +58,18 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 	}
 
 /**
+ * view RssReaderFrameSetting
+ *
+ * @param int $frameId frames.id
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @throws ForbiddenException
+ * @return void
+ */
+	public function view($frameId = 0) {
+		return $this->render('view', false);
+	}
+
+/**
  * edit RssReaderFrameSetting
  *
  * @param int $frameId frames.id
@@ -66,20 +78,16 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  * @return void
  */
 	public function edit($frameId = 0) {
-		if (!$this->request->isPost()) {
-			return $this->render('edit', false);
-		} else {
-			// 更新処理
-			$saveData = $this->request->data;
-			$this->RssReaderFrameSetting->save($saveData);
-			$params = array(
-				'name' => __d('net_commons', 'Successfully finished.')
-			);
-			$this->set(compact('params'));
-			$this->set('_serialize', 'params');
+		// 更新処理
+		$saveData = $this->request->data;
+		$this->RssReaderFrameSetting->save($saveData);
+		$params = array(
+			'name' => __d('net_commons', 'Successfully finished.')
+		);
+		$this->set(compact('params'));
+		$this->set('_serialize', 'params');
 
-			return $this->render(false);
-		}
+		return $this->render(false);
 	}
 
 /**

@@ -191,16 +191,16 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 	}
 
 /**
- * test edit case get
+ * test view
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function testEditGet() {
+	public function testView() {
 		$frameId = 1;
 
 		$this->testAction(
-			'/rss_readers/rss_reader_frame_settings/edit/' . $frameId,
+			'/rss_readers/rss_reader_frame_settings/view/' . $frameId,
 			array('method' => 'get')
 		);
 		$this->assertTextContains(
