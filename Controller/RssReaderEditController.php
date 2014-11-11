@@ -157,14 +157,14 @@ class RssReaderEditController extends RssReadersAppController {
 	}
 
 /**
- * get_edit_token method
+ * form method
  *
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @throws ForbiddenException
  * @return CakeResponse A response object containing the rendered view.
  */
-	public function get_edit_token($frameId = 0) {
+	public function form($frameId = 0) {
 		// Frameのデータをviewにセット
 		if (!$this->NetCommonsFrame->setView($this, $frameId)) {
 			throw new ForbiddenException('NetCommonsFrame');
@@ -182,6 +182,6 @@ class RssReaderEditController extends RssReadersAppController {
 		}
 		$this->set('rssReaderId', $rssReaderId);
 
-		return $this->render('RssReaderEdit/get_edit_token', false);
+		return $this->render('RssReaderEdit/form', false);
 	}
 }

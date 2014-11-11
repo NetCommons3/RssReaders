@@ -83,9 +83,12 @@ class RssReadersControllerTokenTest extends ControllerTestCase {
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function testGetUpdateStatusToken() {
+	public function testForm() {
 		$frameId = 1;
-		$this->testAction('/rss_readers/rss_readers/get_update_status_token/' . $frameId . '/', array('method' => 'get'));
+		$this->testAction(
+			'/rss_readers/rss_readers/form/' . $frameId . '/',
+			array('method' => 'get')
+		);
 		$this->assertTextContains('data[RssReader][id]', $this->view);
 		$this->assertTextContains('data[RssReader][status]', $this->view);
 	}

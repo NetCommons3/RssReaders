@@ -67,7 +67,7 @@ NetCommonsApp.controller('RssReaders',
           }
         ];
         // SecuryコンポーネントのToken値を取得する
-        $http.get('/rss_readers/rss_readers/get_update_status_token/' +
+        $http.get('/rss_readers/rss_readers/form/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成
@@ -211,7 +211,7 @@ NetCommonsApp.controller('RssReaders.edit',
         var paramData = $('#form-rss-reader-edit-' +
             $scope.frameId).serializeArray();
         // SecuryコンポーネントのToken値を取得する
-        $http.get('/rss_readers/rss_reader_edit/get_edit_token/' +
+        $http.get('/rss_readers/rss_reader_edit/form/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成
@@ -321,7 +321,7 @@ NetCommonsApp.controller('RssReaderFrameSettings.edit',
         var paramData = $('#form-rss-reader-frame-setting-edit-' +
             $scope.frameId).serializeArray();
         // SecuryコンポーネントのToken値を取得する。
-        $http.get('/rss_readers/rss_reader_frame_settings/get_edit_token/' +
+        $http.get('/rss_readers/rss_reader_frame_settings/form/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成

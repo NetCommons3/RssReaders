@@ -133,13 +133,13 @@ class RssReadersController extends RssReadersAppController {
 	}
 
 /**
- * get_update_status_token method
+ * form method
  *
  * @param int $frameId frames.id
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return CakeResponse A response object containing the rendered view.
  */
-	public function get_update_status_token($frameId = 0) {
-		return $this->render('RssReaders/get_update_status_token', false);
+	public function form($frameId = 0) {
+		return $this->render('RssReaders/form', false);
 	}
 }
