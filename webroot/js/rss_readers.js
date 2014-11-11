@@ -315,6 +315,16 @@ NetCommonsApp.controller('RssReaderFrameSettings.edit',
                          function($scope, $http, $sce, $modal, $modalStack) {
 
       /**
+       * Initialize
+       *
+       * @param {Object.<string>} rssReaderFrameSettingData
+       * @return {void}
+       */
+      $scope.initialize = function($rssReaderFrameSettingData) {
+        $scope.rssReaderFrameSettingData = $rssReaderFrameSettingData;
+      };
+
+      /**
        * dialog cancel
        *
        * @return {void}

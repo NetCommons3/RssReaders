@@ -78,61 +78,6 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 	}
 
 /**
- * test edit
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testEdit() {
-		$data = array(
-			'RssReaderFrameSetting' => array(
-				'frame_key' => 'jidkgji409u490u032jalk4j02jgraljijgkak494958030jj0hjaalek339rr',
-				'display_number_per_page' => 10,
-				'display_site_info' => true,
-				'display_summary' => true
-			)
-		);
-		$frameId = 1;
-
-		$this->testAction(
-			'/rss_readers/rss_reader_frame_settings/edit/' . $frameId,
-			array('method' => 'post', 'data' => $data)
-		);
-	}
-
-/**
- * test edit case not room role
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testEditNotRoomRole() {
-		CakeSession::write('Auth.User', null);
-		$user = array(
-			'id' => 999
-		);
-		CakeSession::write('Auth.User', $user);
-		$frameId = 1;
-
-		$data = array(
-			'RssReaderFrameSetting' => array(
-				'frame_key' => 'jidkgji409u490u032jalk4j02jgraljijgkak494958030jj0hjaalek339rr',
-				'display_number_per_page' => 10,
-				'display_site_info' => true,
-				'display_summary' => true
-			)
-		);
-		try {
-			$this->testAction(
-				'/rss_readers/rss_reader_frame_settings/edit/' . $frameId,
-				array('method' => 'post', 'data' => $data)
-			);
-		} catch (ForbiddenException $e) {
-			$this->assertEquals('Forbidden', $e->getMessage());
-		}
-	}
-
-/**
  * test form
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
@@ -219,6 +164,42 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 			'data[RssReaderFrameSetting][display_summary]',
 			$this->view
 		);
+	}
+
+/**
+ * test view case not exist frame
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function testViewNotExistFrame() {
+		$frameId = 999;
+		try {
+			$this->testAction(
+				'/rss_readers/rss_reader_frame_settings/view/' . $frameId . '/',
+				array('method' => 'get')
+			);
+		} catch (ForbiddenException $e) {
+			$this->assertEquals('NetCommonsFrame', $e->getMessage());
+		}
+	}
+
+/**
+ * test view case not exist data
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function testViewNotExistData() {
+		$frameId = 5;
+		try {
+			$this->testAction(
+				'/rss_readers/rss_reader_frame_settings/view/' . $frameId . '/',
+				array('method' => 'get')
+			);
+		} catch (ForbiddenException $e) {
+			$this->assertEquals('NetCommonsFrame', $e->getMessage());
+		}
 	}
 
 /**

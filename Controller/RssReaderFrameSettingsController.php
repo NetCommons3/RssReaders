@@ -66,6 +66,21 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  * @return void
  */
 	public function view($frameId = 0) {
+		// Frameのデータをviewにセット
+		if (!$this->NetCommonsFrame->setView($this, $frameId)) {
+			throw new ForbiddenException('NetCommonsFrame');
+		}
+
+		// RssReaderFrameSettingの取得
+		$rssReaderFrameData =
+			$this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey']);
+		// RssReaderFrameSettingが存在しない場合は初期化する
+		if (empty($rssReaderFrameData)) {
+			$rssReaderFrameData =
+				$this->RssReaderFrameSetting->createRssReaderFrameSetting($this->viewVars['frameKey']);
+		}
+		$this->set('rssReaderFrameSettingData', $rssReaderFrameData);
+
 		return $this->render('view', false);
 	}
 
