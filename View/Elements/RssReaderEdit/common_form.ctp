@@ -149,7 +149,7 @@
 				'value' => '{{rssReaderData.RssReader.id}}'
 			)
 		);
-		echo $this->element('RssReaders/edit_hidden_form');
+		echo $this->element('RssReaderEdit/hidden_form');
 		echo $this->Form->end();
 		?>
 	</div>

@@ -43,7 +43,7 @@ echo $this->Form->input(
 		'value' => $rssReaderId
 	)
 );
-echo $this->element('RssReaders/edit_hidden_form');
+echo $this->element('RssReaderEdit/hidden_form');
 
 if ($contentPublishable) {
 	$options = array(
