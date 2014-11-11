@@ -65,18 +65,31 @@ NetCommonsApp.controller('RssReaders',
         var controller = '';
         switch (tab) {
           case 'rssReader':
-            templateUrl = 'rss_readers/rss_reader_edit/view/' + $scope.frameId,
+            templateUrl = 'rss_readers/rss_reader_edit/view/' + $scope.frameId;
             controller = 'RssReaders.edit';
+            $scope.openModal(templateUrl, controller);
             break;
           case 'rssReaderFrameSetting':
             templateUrl = 'rss_readers/rss_reader_frame_settings/view/' +
-                          $scope.frameId,
+                          $scope.frameId;
             controller = 'RssReaderFrameSettings.edit';
+            $scope.openModal(templateUrl, controller);
             break;
           default:
             return;
         }
+      };
 
+      /**
+       * OPEN MODAL
+       *
+       * @param {string} templateurl
+       * @param {string} controller
+       * - edit
+       * - displayChange
+       * @return {void}
+       */
+      $scope.openModal = function(templateUrl, controller) {
         //display the dialog.
         $modal.open({
           templateUrl: templateUrl,
@@ -101,7 +114,9 @@ NetCommonsApp.controller('RssReaders',
        * @return {void}
        */
       $scope.showManage = function() {
-        $scope.changeTab('rssReader');
+        templateUrl = 'rss_readers/rss_reader_edit/view/' + $scope.frameId;
+        controller = 'RssReaders.edit';
+        $scope.openModal(templateUrl, controller);
       };
     }
 );
