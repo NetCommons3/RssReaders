@@ -8,9 +8,9 @@
 		break;
 	}
 	?>
-	<div class="list-group item-list">
+	<div class="list-group">
 		<div class="panel-body">
-			<a href="<?php echo h($itemData['link']); ?>" target="_blank" class="item">
+			<a href="<?php echo h($itemData['link']); ?>" target="_blank" class="text-muted">
 				<div class="list-group-item-heading">
 					<h4><?php echo h($itemData['title']); ?></h4>
 					<span class="text-info small">

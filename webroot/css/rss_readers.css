@@ -1,9 +1,0 @@
-.item-list a.item {
-	color: #000000;
-	text-decoration: none;
-	display: block;
-}
-
-.item-list a.item:hover {
-	text-decoration: underline;
-}
