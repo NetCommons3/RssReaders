@@ -2,6 +2,7 @@
 	<?php if ($contentPublishable) : ?>
 	<button class="btn btn-danger"
 		ng-show="(rssReaderData.RssReader.status === '<?php echo NetCommonsBlockComponent::STATUS_APPROVED ?>')"
+		ng-controller="RssReaders.edit"
 		ng-click="updateStatus('<?php echo NetCommonsBlockComponent::STATUS_PUBLISHED ?>')">
 		<span class="">
 			<?php echo __d('rss_readers', 'Publish'); ?>

@@ -50,69 +50,6 @@ NetCommonsApp.controller('RssReaders',
       };
 
       /**
-       * Update RssReader Status
-       *
-       * @param {string} postStatus
-       * @return {void}
-       */
-      $scope.updateStatus = function(postStatus) {
-        var paramData = [
-          {
-            name: 'data[RssReader][id]',
-            value: $scope.rssReaderData.RssReader.id
-          },
-          {
-            name: 'data[RssReader][status]',
-            value: postStatus
-          }
-        ];
-        // SecuryコンポーネントのToken値を取得する
-        $http.get('/rss_readers/rss_readers/form/' +
-            $scope.frameId + '/' + Math.random() + '.json')
-            .success(function(data) {
-              // フォームエレメント生成
-              var form = $('<div>').html(data);
-              // セキュリティキーセット
-              paramData.push({
-                name: 'data[_Token][key]',
-                value: $(form).find('input[name="data[_Token][key]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][fields]',
-                value: $(form).find('input[name="data[_Token][fields]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][unlocked]',
-                value: $(form)
-                    .find('input[name="data[_Token][unlocked]"]').val()
-              });
-              // 登録情報をPOST
-              $scope.sendPostUpdateStatus(paramData);
-            })
-            .error(function(data, status) {
-            });
-      };
-
-      /**
-       * send post update status
-       *
-       * @param {Object.<string>} postParams
-       * @return {void}
-       */
-      $scope.sendPostUpdateStatus = function(postParams) {
-        $http.post('/rss_readers/rss_readers/update_status/' +
-            $scope.frameId + '/' + Math.random() + '.json',
-            $.param(postParams),
-            {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-            .success(function(data) {
-              // 成功
-              location.reload();})
-            .error(function(data) {
-              // 失敗
-            });
-      };
-
-      /**
        * Change tab
        *
        * @param {number} tab
@@ -197,6 +134,69 @@ NetCommonsApp.controller('RssReaders.edit',
        */
       $scope.cancel = function() {
         $modalStack.dismissAll('canceled');
+      };
+
+      /**
+       * Update RssReader Status
+       *
+       * @param {string} postStatus
+       * @return {void}
+       */
+      $scope.updateStatus = function(postStatus) {
+        var paramData = [
+          {
+            name: 'data[RssReader][id]',
+            value: $scope.rssReaderData.RssReader.id
+          },
+          {
+            name: 'data[RssReader][status]',
+            value: postStatus
+          }
+        ];
+        // SecuryコンポーネントのToken値を取得する
+        $http.get('/rss_readers/rss_readers/form/' +
+            $scope.frameId + '/' + Math.random() + '.json')
+            .success(function(data) {
+              // フォームエレメント生成
+              var form = $('<div>').html(data);
+              // セキュリティキーセット
+              paramData.push({
+                name: 'data[_Token][key]',
+                value: $(form).find('input[name="data[_Token][key]"]').val()
+              });
+              paramData.push({
+                name: 'data[_Token][fields]',
+                value: $(form).find('input[name="data[_Token][fields]"]').val()
+              });
+              paramData.push({
+                name: 'data[_Token][unlocked]',
+                value: $(form)
+                    .find('input[name="data[_Token][unlocked]"]').val()
+              });
+              // 登録情報をPOST
+              $scope.sendPostUpdateStatus(paramData);
+            })
+            .error(function(data, status) {
+            });
+      };
+
+      /**
+       * send post update status
+       *
+       * @param {Object.<string>} postParams
+       * @return {void}
+       */
+      $scope.sendPostUpdateStatus = function(postParams) {
+        $http.post('/rss_readers/rss_readers/update_status/' +
+            $scope.frameId + '/' + Math.random() + '.json',
+            $.param(postParams),
+            {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+            .success(function(data) {
+              // 成功
+              location.reload();})
+            .error(function(data) {
+              // 失敗
+            });
       };
 
       /**
