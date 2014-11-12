@@ -141,9 +141,9 @@ class RssReaderEditController extends RssReadersAppController {
 			throw new ForbiddenException(__d('rss_readers', 'Feed Not Found.'));
 		}
 
-		$title = $rss['RDF']['channel']['title'];
-		$link = $rss['RDF']['channel']['link'];
-		$summary = $rss['RDF']['channel']['description'];
+		$title = Hash::get($rss, 'RDF.channel.title');
+		$link = Hash::get($rss, 'RDF.channel.link');
+		$summary = Hash::get($rss, 'RDF.channel.description');
 
 		$datas = array(
 			'title' => $title,
@@ -175,11 +175,7 @@ class RssReaderEditController extends RssReadersAppController {
 			$this->viewVars['blockId'],
 			$this->viewVars['contentEditable']
 		);
-		if (!empty($rssReaderData)) {
-			$rssReaderId = $rssReaderData['RssReader']['id'];
-		} else {
-			$rssReaderId = '';
-		}
+		$rssReaderId = Hash::get($rssReaderData, 'RssReader.id');
 		$this->set('rssReaderId', $rssReaderId);
 
 		return $this->render('RssReaderEdit/form', false);

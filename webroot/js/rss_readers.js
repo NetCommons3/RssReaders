@@ -133,13 +133,49 @@ NetCommonsApp.controller('RssReaders.edit',
                          function($scope, $http, $sce, $modal, $modalStack) {
 
       /**
-       * Initialize
+       * edit _method
        *
+       * @type {Object.<string>}
+       */
+      $scope.edit = {
+        _method: 'POST',
+        data: {}
+      };
+
+      /**
        * @param {Object.<string>} rssReaderData
+       * @param {Object.<int>} blockId
+       * @param {Object.<int>} roomId
+       * @param {Object.<int>} languageId
+       *
        * @return {void}
        */
-      $scope.initialize = function($rssReaderData) {
-        $scope.rssReaderData = $rssReaderData;
+      $scope.initialize = function(
+          $rssReaderData, $blockId, $roomId, $languageId) {
+        $scope.edit.data = {
+          RssReader: {
+            url: $rssReaderData.RssReader.url,
+            title: $rssReaderData.RssReader.title,
+            summary: $rssReaderData.RssReader.summary,
+            link: $rssReaderData.RssReader.link,
+            cache_time: $rssReaderData.RssReader.cache_time,
+            id: $rssReaderData.RssReader.id,
+            status: ''
+          },
+          Block: {
+            id: $blockId,
+            room_id: $roomId,
+            language_id: $languageId
+          },
+          Frame: {
+            id: $scope.frameId
+          },
+          _Token: {
+            key: '',
+            fields: '',
+            unlocked: ''
+          }
+        };
       };
 
       /**
@@ -158,36 +194,31 @@ NetCommonsApp.controller('RssReaders.edit',
        * @return {void}
        */
       $scope.updateStatus = function(postStatus) {
-        var paramData = [
-          {
-            name: 'data[RssReader][id]',
-            value: $scope.rssReaderData.RssReader.id
+        var paramData = {
+          RssReader: {
+            id: $scope.data.edit.RssReader.id,
+            status: postStatus
           },
-          {
-            name: 'data[RssReader][status]',
-            value: postStatus
+          _Token: {
+            key: '',
+            fields: '',
+            unlocked: ''
           }
-        ];
+        };
         // SecuryコンポーネントのToken値を取得する
         $http.get('/rss_readers/rss_readers/form/' +
             $scope.frameId + '/' + Math.random() + '.json')
             .success(function(data) {
               // フォームエレメント生成
               var form = $('<div>').html(data);
+
               // セキュリティキーセット
-              paramData.push({
-                name: 'data[_Token][key]',
-                value: $(form).find('input[name="data[_Token][key]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][fields]',
-                value: $(form).find('input[name="data[_Token][fields]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][unlocked]',
-                value: $(form)
-                    .find('input[name="data[_Token][unlocked]"]').val()
-              });
+              paramData._Token.key =
+                  $(form).find('input[name="data[_Token][key]"]').val();
+              paramData._Token.fields =
+                  $(form).find('input[name="data[_Token][fields]"]').val();
+              paramData._Token.unlocked =
+                  $(form).find('input[name="data[_Token][unlocked]"]').val();
               // 登録情報をPOST
               $scope.sendPostUpdateStatus(paramData);
             })
@@ -223,8 +254,6 @@ NetCommonsApp.controller('RssReaders.edit',
       $scope.saveRssReader = function(postStatus) {
         $scope.saveRssReaderError = false;
         $scope.sending = true;
-        var paramData = $('#form-rss-reader-edit-' +
-            $scope.frameId).serializeArray();
         // SecuryコンポーネントのToken値を取得する
         $http.get('/rss_readers/rss_reader_edit/form/' +
             $scope.frameId + '/' + Math.random() + '.json')
@@ -233,27 +262,18 @@ NetCommonsApp.controller('RssReaders.edit',
               var form = $('<div>').html(data);
 
               // セキュリティキーセット
-              paramData.push({
-                name: 'data[_Token][key]',
-                value: $(form).find('input[name="data[_Token][key]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][fields]',
-                value: $(form).find('input[name="data[_Token][fields]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][unlocked]',
-                value: $(form)
-                    .find('input[name="data[_Token][unlocked]"]').val()
-              });
+              $scope.edit.data._Token.key =
+                  $(form).find('input[name="data[_Token][key]"]').val();
+              $scope.edit.data._Token.fields =
+                  $(form).find('input[name="data[_Token][fields]"]').val();
+              $scope.edit.data._Token.unlocked =
+                  $(form).find('input[name="data[_Token][unlocked]"]').val();
 
               // ステータスをセット
-              paramData.push({
-                name: 'data[RssReader][status]',
-                value: postStatus
-              });
+              $scope.edit.data.RssReader.status = postStatus;
+
               // 登録情報をPOST
-              $scope.sendPostEdit(paramData);
+              $scope.sendPostEdit($scope.edit);
             })
             .error(function(data, status) {
             });
@@ -292,13 +312,13 @@ NetCommonsApp.controller('RssReaders.edit',
         $scope.getRssInfoErrorMessage = '';
         $http.get('/rss_readers/rss_reader_edit/get_rss_info/' +
             $scope.frameId + '/' + Math.random() + '.json' + '?url=' +
-            $scope.rssReaderData.RssReader.url,
+            $scope.edit.data.RssReader.url,
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
         .success(function(data) {
               // 成功
-              $scope.rssReaderData.RssReader.title = data.title;
-              $scope.rssReaderData.RssReader.summary = data.summary;
-              $scope.rssReaderData.RssReader.link = data.link;
+              $scope.edit.data.RssReader.title = data.title;
+              $scope.edit.data.RssReader.summary = data.summary;
+              $scope.edit.data.RssReader.link = data.link;
               $scope.getRssInfoBtn = true;
               $scope.loadingGetRssInfoBtn = false;})
         .error(function(data, status) {
@@ -315,13 +335,46 @@ NetCommonsApp.controller('RssReaderFrameSettings.edit',
                          function($scope, $http, $sce, $modal, $modalStack) {
 
       /**
-       * Initialize
+       * edit _method
        *
+       * @type {Object.<string>}
+       */
+      $scope.edit = {
+        _method: 'POST',
+        data: {}
+      };
+
+      /**
        * @param {Object.<string>} rssReaderFrameSettingData
+       * @param {Object.<int>} blockId
+       * @param {Object.<int>} roomId
+       * @param {Object.<int>} languageId
+       *
        * @return {void}
        */
-      $scope.initialize = function($rssReaderFrameSettingData) {
-        $scope.rssReaderFrameSettingData = $rssReaderFrameSettingData;
+      $scope.initialize = function(
+          $rssReaderFrameSettingData, $blockId, $roomId, $languageId) {
+        $scope.edit.data = {
+          RssReaderFrameSetting: {
+            display_number_per_page:
+                $rssReaderFrameSettingData
+                    .RssReaderFrameSetting.display_number_per_page,
+            display_site_info:
+                $rssReaderFrameSettingData
+                    .RssReaderFrameSetting.display_site_info,
+            display_summary:
+                $rssReaderFrameSettingData
+                    .RssReaderFrameSetting.display_summary,
+            frame_key:
+                $rssReaderFrameSettingData.RssReaderFrameSetting.frame_key,
+            id: $rssReaderFrameSettingData.RssReaderFrameSetting.id
+          },
+          _Token: {
+            key: '',
+            fields: '',
+            unlocked: ''
+          }
+        };
       };
 
       /**
@@ -343,8 +396,16 @@ NetCommonsApp.controller('RssReaderFrameSettings.edit',
         $scope.saveRssReaderFrameSuccess = false;
         $scope.saveRssReaderFrameError = false;
         $scope.sending = true;
-        var paramData = $('#form-rss-reader-frame-setting-edit-' +
-            $scope.frameId).serializeArray();
+        if ($scope.edit.data.RssReaderFrameSetting.display_site_info) {
+          $scope.edit.data.RssReaderFrameSetting.display_site_info = 1;
+        } else {
+          $scope.edit.data.RssReaderFrameSetting.display_site_info = 0;
+        }
+        if ($scope.edit.data.RssReaderFrameSetting.display_summary) {
+          $scope.edit.data.RssReaderFrameSetting.display_summary = 1;
+        } else {
+          $scope.edit.data.RssReaderFrameSetting.display_summary = 0;
+        }
         // SecuryコンポーネントのToken値を取得する。
         $http.get('/rss_readers/rss_reader_frame_settings/form/' +
             $scope.frameId + '/' + Math.random() + '.json')
@@ -353,22 +414,15 @@ NetCommonsApp.controller('RssReaderFrameSettings.edit',
               var form = $('<div>').html(data);
 
               // セキュリティキーセット
-              paramData.push({
-                name: 'data[_Token][key]',
-                value: $(form).find('input[name="data[_Token][key]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][fields]',
-                value: $(form).find('input[name="data[_Token][fields]"]').val()
-              });
-              paramData.push({
-                name: 'data[_Token][unlocked]',
-                value: $(form)
-                    .find('input[name="data[_Token][unlocked]"]').val()
-              });
+              $scope.edit.data._Token.key =
+                  $(form).find('input[name="data[_Token][key]"]').val();
+              $scope.edit.data._Token.fields =
+                  $(form).find('input[name="data[_Token][fields]"]').val();
+              $scope.edit.data._Token.unlocked =
+                  $(form).find('input[name="data[_Token][unlocked]"]').val();
 
               // 登録情報をPOST
-              $scope.sendPostEdit(paramData);
+              $scope.sendPostEdit($scope.edit);
             })
             .error(function(data, status) {
             });

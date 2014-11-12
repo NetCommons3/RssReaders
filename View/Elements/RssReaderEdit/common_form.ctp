@@ -4,7 +4,6 @@
 		echo $this->Form->create(
 			'RssReader',
 			array(
-				'id' => 'form-rss-reader-edit-{{frameId}}',
 				'name' => 'rssReader'
 			)
 		);
@@ -23,7 +22,7 @@
 					'required' => true,
 					'placeholder' => 'http://',
 					'class' => 'form-control',
-					'ng-model' => 'rssReaderData.RssReader.url',
+					'ng-model' => 'edit.data.RssReader.url',
 					'ng-pattern' => '/^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/'
 				)
 			);
@@ -64,7 +63,7 @@
 					'label' => false,
 					'type' => 'text',
 					'class' => 'form-control',
-					'ng-model' => 'rssReaderData.RssReader.title'
+					'ng-model' => 'edit.data.RssReader.title'
 				)
 			);
 			?>
@@ -81,7 +80,7 @@
 					'type' => 'textarea',
 					'rows' => 2,
 					'class' => 'form-control',
-					'ng-model' => 'rssReaderData.RssReader.summary'
+					'ng-model' => 'edit.data.RssReader.summary'
 				)
 			);
 			?>
@@ -99,7 +98,7 @@
 					'type' => 'text',
 					'class' => 'form-control',
 					'placeholder' => 'http://',
-					'ng-model' => 'rssReaderData.RssReader.link',
+					'ng-model' => 'edit.data.RssReader.link',
 					'ng-pattern' => '/^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/'
 				)
 			);
@@ -133,7 +132,7 @@
 					),
 					'class' => 'form-control',
 					'style' => 'width: 200px;',
-					'ng-model' => 'rssReaderData.RssReader.cache_time'
+					'ng-model' => 'edit.data.RssReader.cache_time'
 				)
 			);
 			?>
@@ -146,7 +145,7 @@
 			'id',
 			array(
 				'type' => 'hidden',
-				'value' => '{{rssReaderData.RssReader.id}}'
+				'value' => '{{edit.data.RssReader.id}}'
 			)
 		);
 		echo $this->element('RssReaderEdit/hidden_form');

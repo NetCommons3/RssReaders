@@ -122,11 +122,7 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 		// RssReaderFrameSettingの取得。
 		$rssReaderFrameData =
 			$this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey']);
-			if (!empty($rssReaderFrameData)) {
-				$rssReaderFrameId = $rssReaderFrameData['RssReaderFrameSetting']['id'];
-			} else {
-				$rssReaderFrameId = '';
-			}
+		$rssReaderFrameId = Hash::get($rssReaderFrameData, 'RssReaderFrameSetting.id');
 		$this->set('rssReaderFrameId', $rssReaderFrameId);
 
 		return $this->render('RssReaderFrameSettings/form', false);

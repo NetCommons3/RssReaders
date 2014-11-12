@@ -4,7 +4,6 @@
 		echo $this->Form->create(
 			'RssReaderFrameSetting',
 			array(
-				'id' => 'form-rss-reader-frame-setting-edit-{{frameId}}',
 				'name' => 'rssReaderFrameSetting'
 			)
 		);
@@ -12,7 +11,10 @@
 		<div class='form-group'>
 			<?php
 			// 表示件数
-			echo $this->Form->label('url', __d('rss_readers', 'Event Display'));
+			echo $this->Form->label(
+				'RssReaderFrameSetting.display_number_per_page',
+				__d('rss_readers', 'Event Display')
+			);
 			echo $this->Form->input(
 				'RssReaderFrameSetting.display_number_per_page',
 				array(
@@ -28,7 +30,7 @@
 					),
 					'class' => 'form-control',
 					'style' => 'width: 200px;',
-					'ng-model' => 'rssReaderFrameSettingData.RssReaderFrameSetting.display_number_per_page'
+					'ng-model' => 'edit.data.RssReaderFrameSetting.display_number_per_page'
 				)
 			);
 			?>
@@ -41,7 +43,7 @@
 					'label' => __d('rss_readers', 'Display Site Info'),
 					'type' => 'checkbox',
 					'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;'),
-					'ng-model' => 'rssReaderFrameSettingData.RssReaderFrameSetting.display_site_info'
+					'ng-model' => 'edit.data.RssReaderFrameSetting.display_site_info'
 				)
 			);
 			?>
@@ -54,7 +56,7 @@
 					'label' => __d('rss_readers', 'Display Summary'),
 					'type' => 'checkbox',
 					'div' => array('class' => 'bold', 'style' => 'margin-left: 0px;'),
-					'ng-model' => 'rssReaderFrameSettingData.RssReaderFrameSetting.display_summary'
+					'ng-model' => 'edit.data.RssReaderFrameSetting.display_summary'
 				)
 			);
 			?>
@@ -69,14 +71,14 @@
 			'RssReaderFrameSetting.id',
 			array(
 				'type' => 'hidden',
-				'value' => '{{rssReaderFrameSettingData.RssReaderFrameSetting.id}}'
+				'value' => '{{edit.data.RssReaderFrameSetting.id}}'
 			)
 		);
 		echo $this->Form->input(
 			'RssReaderFrameSetting.frame_key',
 			array(
 				'type' => 'hidden',
-				'value' => '{{rssReaderFrameSettingData.RssReaderFrameSetting.frame_key}}'
+				'value' => '{{edit.data.RssReaderFrameSetting.frame_key}}'
 			)
 		);
 		echo $this->Form->end();
