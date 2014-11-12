@@ -1,18 +1,18 @@
 # LANGUAGE translation of CakePHP Application
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2014-11-12 04:38+0000\n"
-"PO-Revision-Date: 2014-11-12 14:02+0900\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 1.5.7\n"
 
 #: /Controller/RssReaderEditController.php:141
 #: /Test/Case/Controller/RssReaderEditControllerTest.php:194
@@ -133,3 +133,4 @@ msgstr "下書き"
 #: /View/Elements/RssReaders/view_site_info.ctp:25
 msgid "Disapprovign"
 msgstr "差戻し"
+
