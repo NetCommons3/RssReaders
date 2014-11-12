@@ -149,13 +149,35 @@ class RssReaderEditControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testEditPost() {
+		$xml = <<<EOF
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+
+        <title>Example Feed</title>
+        <description>Insert witty or insightful remark here</description>
+        <link>http://example.org/</link>
+        <lastBuildDate>Sat, 13 Dec 2003 18:30:02 GMT</lastBuildDate>
+        <managingEditor>johndoe@example.com (John Doe)</managingEditor>
+
+        <item>
+            <title>Atom-Powered Robots Run Amok</title>
+            <link>http://example.org/2003/12/13/atom03</link>
+            <guid isPermaLink="false">urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</guid>
+            <pubDate>Sat, 13 Dec 2003 18:30:02 GMT</pubDate>
+            <description>Some text.</description>
+        </item>
+
+    </channel>
+</rss>
+EOF;
 		$data = array(
 			'RssReader' => array(
 				'id' => '',
-				'url' => 'http://zenk.co.jp/feed/rdf',
-				'title' => '株式会社ゼンク',
-				'summary' => '株式会社ゼンクです。',
-				'link' => 'http://zenk.co.jp',
+				'url' => $xml,
+				'title' => 'テストサイト',
+				'summary' => 'Rssのテスト用サイト',
+				'link' => 'http://example.com',
 				'cache_time' => 259200
 			),
 			'Block' => array(
@@ -177,9 +199,9 @@ class RssReaderEditControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testGetRssInfo() {
-		$url = 'http://zenk.co.jp/feed/rdf';
+		$xml = '<?xml version="1.0" encoding="utf-8"?><rss version="2.0"></rss>';
 		$this->testAction(
-			'/rss_readers/rss_reader_edit/get_rss_info?url=' . $url,
+			'/rss_readers/rss_reader_edit/get_rss_info?url=' . urlencode($xml),
 			array('method' => 'get')
 		);
 

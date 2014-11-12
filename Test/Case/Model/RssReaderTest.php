@@ -81,15 +81,16 @@ class RssReaderTest extends CakeTestCase {
  * @return void
  */
 	public function testSaveRssReaderCaseInsert() {
+		$xml = '<?xml version="1.0" encoding="utf-8"?><rdf:RDF><channel><item><title>title</title><link>link</link><pubDate>Sat, 13 Dec 2003 18:30:02 GMT</pubDate><description>description</description></item></channel></rdf:RDF>';
 		// 新規登録
 		$data = array(
 			'RssReader' => array(
 				'id' => '',
 				'status' => 1,
-				'url' => 'http://zenk.co.jp/feed/rdf',
+				'url' => $xml,
 				'title' => 'テストサイト',
 				'summary' => 'Rssのテスト用サイト',
-				'link' => 'http://test.com',
+				'link' => 'http://example.com',
 				'cache_time' => 1800
 			),
 			'Block' => array(
@@ -146,10 +147,10 @@ class RssReaderTest extends CakeTestCase {
 			'RssReader' => array(
 				'id' => '',
 				'status' => 1,
-				'url' => 'http://test.example',
+				'url' => 'http://example.com',
 				'title' => 'テストサイト',
 				'summary' => 'Rssのテスト用サイト',
-				'link' => 'http://test.com',
+				'link' => 'http://example.com',
 				'cache_time' => 1800
 			),
 			'Block' => array(
@@ -167,15 +168,16 @@ class RssReaderTest extends CakeTestCase {
  * @return void
  */
 	public function testSaveRssReaderCaseUpdate() {
+		$xml = '<?xml version="1.0" encoding="utf-8"?><rdf:RDF><channel><item><title>title</title><link>link</link><pubDate>Sat, 13 Dec 2003 18:30:02 GMT</pubDate><description>description</description></item></channel></rdf:RDF>';
 		// 更新
 		$data = array(
 			'RssReader' => array(
 				'id' => 1,
 				'status' => 1,
-				'url' => 'http://zenk.co.jp/feed/rdf',
+				'url' => $xml,
 				'title' => 'テストサイト',
 				'summary' => 'Rssのテスト用サイト',
-				'link' => 'http://test.com',
+				'link' => 'http://example.com',
 				'cache_time' => 3600
 			),
 			'Block' => array(
@@ -288,8 +290,8 @@ class RssReaderTest extends CakeTestCase {
  * @return void
  */
 	public function testSerializeRssData() {
-		$url = 'http://zenk.co.jp/feed/rdf';
-		$serializeValue = $this->RssReader->serializeRssData($url);
+		$xml = '<?xml version="1.0" encoding="utf-8"?><rdf:RDF><channel><item><title>title</title><link>link</link><pubDate>Sat, 13 Dec 2003 18:30:02 GMT</pubDate><description>description</description></item></channel></rdf:RDF>';
+		$serializeValue = $this->RssReader->serializeRssData($xml);
 		$this->assertNotEmpty($serializeValue);
 
 		// 存在しないURLを指定時はXmlExceptionが発生することを確認。

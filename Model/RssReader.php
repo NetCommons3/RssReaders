@@ -25,12 +25,6 @@ class RssReader extends RssReadersAppModel {
  * @var array
  */
 	public $validate = array(
-		'url' => array(
-			'numeric' => array(
-				'rule' => 'url',
-				'message' => 'Invalid request.',
-			)
-		),
 		'link' => array(
 			'numeric' => array(
 				'rule' => 'url',

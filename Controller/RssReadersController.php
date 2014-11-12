@@ -96,6 +96,13 @@ class RssReadersController extends RssReadersAppController {
 			// シリアライズされているRSSのデータを配列に戻す
 			$rssSerializeData = $this->RssReader->updateSerializeValue($rssReaderData);
 			$rssXmlData = unserialize($rssSerializeData);
+			// 記事の件数が1件の場合はitem以下の階層が1つ減るので
+			// フォーマットを2件以上に合わせる
+			if (!empty($rssXmlData) && !isset($rssXmlData['RDF']['item'][0])) {
+				$rssXmlItem = $rssXmlData['RDF']['item'];
+				unset($rssXmlData['RDF']['item']);
+				$rssXmlData['RDF']['item'] = array($rssXmlItem);
+			}
 		}
 		$this->set('rssReaderData', $rssReaderData);
 		$this->set('rssXmlData', $rssXmlData);
