@@ -1,6 +1,6 @@
 <?php
 /**
- * RssReadersController Test Case
+ * RssReadersController Test Case Status
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @link http://www.netcommons.org NetCommons Project
@@ -14,9 +14,9 @@ App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 
 /**
- * Summary for RssReadersController Test Case
+ * Summary for RssReadersController Test Case Status
  */
-class RssReadersController2Test extends ControllerTestCase {
+class RssReadersControllerStatusTest extends ControllerTestCase {
 
 /**
  * Fixtures
@@ -79,56 +79,42 @@ class RssReadersController2Test extends ControllerTestCase {
 	}
 
 /**
- * test view case not room role
+ * test index case rss_reader status approving
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function testIndexNotRoomRole() {
-		CakeSession::write('Auth.User', null);
-		$user = array(
-			'id' => 999
-		);
-		CakeSession::write('Auth.User', $user);
-		$frameId = 1;
-		try {
-			$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		} catch (ForbiddenException $e) {
-			$this->assertEquals('Forbidden', $e->getMessage());
-		}
+	public function testIndexApprovingData() {
+		// statusが申請中状態の表示
+		$frameId = 2;
+		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
+		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
 	}
 
 /**
- * test index case not exist frame
+ * test index case rss_reader status drafting
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function testIndexNotExistFrame() {
-		// 存在しないフレームにアクセスした場合に、例外処理が発生するか確認
-		$frameId = 999;
-		try {
-			$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		} catch (ForbiddenException $e) {
-			$this->assertEquals('NetCommonsFrame', $e->getMessage());
-		}
+	public function testIndexDraftingData() {
+		// statusが下書き状態の表示
+		$frameId = 3;
+		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
+		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
 	}
 
 /**
- * test update_status
+ * test index case rss_reader status disapproving
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
-	public function testUpdateStatus() {
-		$data = array(
-			'id' => 1,
-			'status' => 2
-		);
-		$this->testAction(
-			'/rss_readers/rss_readers/update_status',
-			array('method' => 'post', 'data' => $data)
-		);
+	public function testIndexDisapprovingData() {
+		// statusが差し戻し状態の表示
+		$frameId = 4;
+		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
+		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
 	}
 
 /**

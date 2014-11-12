@@ -84,60 +84,8 @@ class RssReadersControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testIndex() {
+		// statusが公開中状態の表示
 		$frameId = 1;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case rss_reader status approving
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexApprovingData() {
-		// statusが申請中状態の表示
-		$frameId = 2;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case rss_reader status drafting
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexDraftingData() {
-		// statusが下書き状態の表示
-		$frameId = 3;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case rss_reader status drafting and logout
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexDraftingDataCaseLogout() {
-		// ログアウト時のstatusが下書き状態のデータが非表示になるか確認
-		CakeSession::write('Auth.User', null);
-		$frameId = 3;
-		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		$this->assertTextNotContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
-
-/**
- * test index case rss_reader status disapproving
- *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @return void
- */
-	public function testIndexDisapprovingData() {
-		// statusが下書き状態の表示
-		$frameId = 4;
 		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
 		$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
 	}
@@ -153,6 +101,42 @@ class RssReadersControllerTest extends ControllerTestCase {
 		$frameId = 5;
 		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
 		$this->assertTextNotContains('nc-rss-readers-body-' . $frameId, $this->view);
+	}
+
+/**
+ * test view case not room role
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function testIndexNotRoomRole() {
+		CakeSession::write('Auth.User', null);
+		$user = array(
+			'id' => 999
+		);
+		CakeSession::write('Auth.User', $user);
+		$frameId = 1;
+		try {
+			$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
+		} catch (ForbiddenException $e) {
+			$this->assertEquals('Forbidden', $e->getMessage());
+		}
+	}
+
+/**
+ * test index case not exist frame
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function testIndexNotExistFrame() {
+		// 存在しないフレームにアクセスした場合に、例外処理が発生するか確認
+		$frameId = 999;
+		try {
+			$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
+		} catch (ForbiddenException $e) {
+			$this->assertEquals('NetCommonsFrame', $e->getMessage());
+		}
 	}
 
 /**
@@ -189,6 +173,23 @@ class RssReadersControllerTest extends ControllerTestCase {
 	}
 
 /**
+ * test update_status
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @return void
+ */
+	public function testUpdateStatus() {
+		$data = array(
+			'id' => 1,
+			'status' => 2
+		);
+		$this->testAction(
+			'/rss_readers/rss_readers/update_status',
+			array('method' => 'post', 'data' => $data)
+		);
+	}
+
+/**
  * logout method
  *
  * @return void
@@ -203,3 +204,4 @@ class RssReadersControllerTest extends ControllerTestCase {
 	}
 
 }
+		// statusが下書き状態の表示
