@@ -81,7 +81,6 @@ class RssReadersControllerStatusTest extends ControllerTestCase {
 /**
  * test index case rss_reader status approving
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testIndexApprovingData() {
@@ -94,7 +93,6 @@ class RssReadersControllerStatusTest extends ControllerTestCase {
 /**
  * test index case rss_reader status drafting
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testIndexDraftingData() {
@@ -107,7 +105,6 @@ class RssReadersControllerStatusTest extends ControllerTestCase {
 /**
  * test index case rss_reader status disapproving
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testIndexDisapprovingData() {

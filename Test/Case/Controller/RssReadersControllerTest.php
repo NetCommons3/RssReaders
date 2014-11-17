@@ -80,7 +80,6 @@ class RssReadersControllerTest extends ControllerTestCase {
 /**
  * test index
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testIndex() {
@@ -93,7 +92,6 @@ class RssReadersControllerTest extends ControllerTestCase {
 /**
  * test index case not exist rss_reader
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testIndexNotExistData() {
@@ -106,7 +104,6 @@ class RssReadersControllerTest extends ControllerTestCase {
 /**
  * test view case not room role
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testIndexNotRoomRole() {
@@ -126,7 +123,6 @@ class RssReadersControllerTest extends ControllerTestCase {
 /**
  * test index case not exist frame
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testIndexNotExistFrame() {
@@ -175,7 +171,6 @@ class RssReadersControllerTest extends ControllerTestCase {
 /**
  * test update_status
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testUpdateStatus() {

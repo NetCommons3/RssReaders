@@ -80,7 +80,6 @@ class RssReaderEditControllerTest extends ControllerTestCase {
 /**
  * test view
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testView() {
@@ -95,7 +94,6 @@ class RssReaderEditControllerTest extends ControllerTestCase {
 /**
  * test view case not exist rss_reader
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testViewNotExistData() {
@@ -110,7 +108,6 @@ class RssReaderEditControllerTest extends ControllerTestCase {
 /**
  * test view case not room role
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testViewNotRoomRole() {
@@ -130,7 +127,6 @@ class RssReaderEditControllerTest extends ControllerTestCase {
 /**
  * test view case not exist frame
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testViewNotExistFrame() {
@@ -145,7 +141,6 @@ class RssReaderEditControllerTest extends ControllerTestCase {
 /**
  * test edit case post
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testEditPost() {
@@ -195,7 +190,6 @@ EOF;
 /**
  * test getRssInfo
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testGetRssInfo() {

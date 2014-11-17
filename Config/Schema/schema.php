@@ -20,7 +20,6 @@ class RssReaderSchema extends CakeSchema {
 /**
  * Database connection
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var string
  */
 	public $connection = 'master';
@@ -29,7 +28,6 @@ class RssReaderSchema extends CakeSchema {
  * before
  *
  * @param array $event savent
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return bool
  */
 	public function before($event = array()) {
@@ -40,7 +38,6 @@ class RssReaderSchema extends CakeSchema {
  * after
  *
  * @param array $event event
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function after($event = array()) {
@@ -49,7 +46,6 @@ class RssReaderSchema extends CakeSchema {
 /**
  *  rss_reader_frame_settings table
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var array
  */
 	public $rss_reader_frame_settings = array(
@@ -71,7 +67,6 @@ class RssReaderSchema extends CakeSchema {
 /**
  *  rss_readers table
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var array
  */
 	public $rss_readers = array(

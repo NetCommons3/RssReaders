@@ -22,7 +22,6 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 /**
  * Model name
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var    array
  */
 	public $uses = array(
@@ -43,7 +42,6 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 /**
  * beforeFilter
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @throws ForbiddenException
  * @return void
  */
@@ -61,7 +59,6 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  * view RssReaderFrameSetting
  *
  * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @throws ForbiddenException
  * @return void
  */
@@ -88,7 +85,6 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  * edit RssReaderFrameSetting
  *
  * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @throws ForbiddenException
  * @return void
  */
@@ -109,7 +105,6 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  * form method
  *
  * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @throws ForbiddenException
  * @return CakeResponse A response object containing the rendered view.
  */

@@ -36,7 +36,6 @@ class RssReader extends RssReadersAppModel {
 /**
  * belongsTo associations
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var    array
  */
 	public $belongsTo = array(
@@ -54,7 +53,6 @@ class RssReader extends RssReadersAppModel {
  *
  * @param int $blockId blocks.id
  * @param bool $editable false:publish latest rssreader|true:all latest rssreader
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return array $rssReader
  */
 	public function getContent($blockId, $editable = 0) {
@@ -81,7 +79,6 @@ class RssReader extends RssReadersAppModel {
  *
  * @param array $data received post data
  * @param int $frameId frames.id
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return bool $result
  */
 	public function saveRssReader($data, $frameId) {
@@ -124,7 +121,6 @@ class RssReader extends RssReadersAppModel {
  * update serialize_value
  *
  * @param array $rssReaderData rss_reader
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return string $serializeValue
  */
 	public function updateSerializeValue($rssReaderData) {
@@ -149,7 +145,6 @@ class RssReader extends RssReadersAppModel {
  * serialize rss data
  *
  * @param string $url url
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return string $serializeValue
  */
 	public function serializeRssData($url) {

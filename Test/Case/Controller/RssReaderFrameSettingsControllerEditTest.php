@@ -80,7 +80,6 @@ class RssReaderFrameSettingsControllerEditTest extends ControllerTestCase {
 /**
  * test edit
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testEdit() {
@@ -103,7 +102,6 @@ class RssReaderFrameSettingsControllerEditTest extends ControllerTestCase {
 /**
  * test edit case not room role
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testEditNotRoomRole() {

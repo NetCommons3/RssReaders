@@ -20,7 +20,6 @@ class AllRssReadersTest extends CakeTestSuite {
 /**
  * All test suite
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return CakeTestSuite
  */
 	public static function suite() {

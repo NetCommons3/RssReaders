@@ -79,7 +79,6 @@ class RssReaderEditControllerErrorTest extends ControllerTestCase {
 /**
  * test edit case error
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testEditError() {

@@ -80,7 +80,6 @@ class RssReadersControllerTokenTest extends ControllerTestCase {
 /**
  * test get_update_status_token
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testForm() {

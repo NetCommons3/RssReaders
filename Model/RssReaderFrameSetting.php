@@ -42,7 +42,6 @@ class RssReaderFrameSetting extends RssReadersAppModel {
  * get RssReader frame setting
  *
  * @param int $frameKey frames.key
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return array RssReaderFrameSettingData
  */
 	public function getRssReaderFrameSetting($frameKey) {

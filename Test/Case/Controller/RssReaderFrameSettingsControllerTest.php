@@ -80,7 +80,6 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 /**
  * test form
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testForm() {
@@ -100,7 +99,6 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 /**
  * test form case not exist data
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testFormNotExistData() {
@@ -120,7 +118,6 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 /**
  * test form case not exist frame
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testFormNotExistFrame() {
@@ -138,7 +135,6 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 /**
  * test view
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testView() {
@@ -169,7 +165,6 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 /**
  * test view case not exist frame
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testViewNotExistFrame() {
@@ -187,7 +182,6 @@ class RssReaderFrameSettingsControllerTest extends ControllerTestCase {
 /**
  * test view case not exist data
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testViewNotExistData() {

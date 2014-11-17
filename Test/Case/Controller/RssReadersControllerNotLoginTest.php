@@ -63,7 +63,6 @@ class RssReadersControllerNotLoginTest extends ControllerTestCase {
 /**
  * test index case rss_reader status drafting and not login
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return void
  */
 	public function testIndexDraftingDataCaseNotLogin() {

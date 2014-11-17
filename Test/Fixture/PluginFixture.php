@@ -19,7 +19,6 @@ class PluginFixture extends CakeTestFixture {
 /**
  * Fields
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var array
  */
 	public $fields = array(
@@ -43,7 +42,6 @@ class PluginFixture extends CakeTestFixture {
 /**
  * Records
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var array
  */
 	public $records = array(

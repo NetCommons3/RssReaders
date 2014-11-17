@@ -20,7 +20,6 @@ class Init extends CakeMigration {
 /**
  * Migration description
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var string
  */
 	public $description = '';
@@ -28,7 +27,6 @@ class Init extends CakeMigration {
 /**
  * Actions to be performed
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @var array $migration
  */
 	public $migration = array(
@@ -113,7 +111,6 @@ class Init extends CakeMigration {
  * Before migration callback
  *
  * @param string $direction up or down direction of migration process
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return boolean Should process continue
  */
 	public function before($direction) {
@@ -124,7 +121,6 @@ class Init extends CakeMigration {
  * After migration callback
  *
  * @param string $direction up or down direction of migration process
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @return boolean Should process continue
  */
 	public function after($direction) {
