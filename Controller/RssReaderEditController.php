@@ -130,15 +130,21 @@ class RssReaderEditController extends RssReadersAppController {
 
 		try {
 			$rss = Xml::build($url);
-			$rss = Xml::toArray($rss);
 		} catch (XmlException $e) {
 			// Xmlが取得できない場合異常終了
 			throw new ForbiddenException(__d('rss_readers', 'Feed Not Found.'));
 		}
+		$rssType = $rss->getName();
 
-		$title = Hash::get($rss, 'RDF.channel.title');
-		$link = Hash::get($rss, 'RDF.channel.link');
-		$summary = Hash::get($rss, 'RDF.channel.description');
+		if ($rssType === 'feed') {
+			$title = (string)$rss->title;
+			$link = (string)$rss->link->attributes()->href;
+			$summary = (string)$rss->subtitle;
+		} else {
+			$title = (string)$rss->channel->title;
+			$link = (string)$rss->channel->link;
+			$summary = (string)$rss->channel->description;
+		}
 
 		$datas = array(
 			'title' => $title,

@@ -20,6 +20,13 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
 class RssReader extends RssReadersAppModel {
 
 /**
+ * helpers
+ *
+ * @var array
+ */
+	public $helpers = array('RssReader');
+
+/**
  * Validation rules
  *
  * @var array
@@ -149,7 +156,6 @@ class RssReader extends RssReadersAppModel {
  */
 	public function serializeRssData($url) {
 		$xmlData = Xml::toArray(Xml::build($url));
-		unset($xmlData['RDF']['channel']['items']);
 		$serializeValue = serialize($xmlData);
 
 		return $serializeValue;

@@ -188,36 +188,12 @@ EOF;
 	}
 
 /**
- * test getRssInfo
- *
- * @return void
- */
-	public function testGetRssInfo() {
-		$xml = '<?xml version="1.0" encoding="utf-8"?><rss version="2.0"></rss>';
-		$this->testAction(
-			'/rss_readers/rss_reader_edit/get_rss_info?url=' . urlencode($xml),
-			array('method' => 'get')
-		);
-
-		// 存在しないURLを指定時
-		$url = 'http://test.example';
-		try {
-			$this->testAction(
-				'/rss_readers/rss_reader_edit/get_rss_info?url=' . $url,
-				array('method' => 'get')
-			);
-		} catch (ForbiddenException $e) {
-			$this->assertEquals(__d('rss_readers', 'Feed Not Found.'), $e->getMessage());
-		}
-	}
-
-/**
  * login　method
  *
  * @return void
  */
 	private function __login() {
-		//ログイン処理
+		// ログイン処理
 		$this->Controller = $this->generate(
 			'RssReaders.RssReaderEdit',
 			array(
@@ -250,7 +226,7 @@ EOF;
  * @return void
  */
 	private function __logout() {
-		//ログアウト処理
+		// ログアウト処理
 		$this->Controller->Auth->logout();
 		$this->assertFalse($this->Controller->Auth->loggedIn(), 'logout');
 

@@ -19,11 +19,16 @@
 			if ($rssReaderFrameSettingData['RssReaderFrameSetting']['display_site_info']) {
 				echo $this->element('RssReaders/view_site_info');
 			}
-			if (!empty($rssXmlData)) {
-				echo $this->element('RssReaders/view_item');
-			}
 			?>
-		</div>
+			<?php if (!empty($rssXmlData)): ?>
+			<div class="panel panel-default" id ="nc-rss-readers-item-<?php echo h($frameId); ?>">
+				<?php
+				$pageLimit = $rssReaderFrameSettingData['RssReaderFrameSetting']['display_number_per_page'];
+				$displaySummary = $rssReaderFrameSettingData['RssReaderFrameSetting']['display_summary'];
+				$this->RssReader->showItem($rssXmlData, $pageLimit, $displaySummary);
+				?>
+			</div>
+			<?php endif; ?>
 	</div>
 	<?php endif; ?>
 </div>
