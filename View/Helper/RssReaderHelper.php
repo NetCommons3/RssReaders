@@ -24,7 +24,7 @@ class RssReaderHelper extends Helper {
  *
  * @param array $rssXmlData RssReader.serialize
  * @param int $pageLimit RssReaderFrameSettig.display_number_per_page
- * @param boolean $displaySummary RssReaderFrameSettig.display_summary
+ * @param bool $displaySummary RssReaderFrameSettig.display_summary
  * @return void
  */
 	public function showItem($rssXmlData, $pageLimit, $displaySummary) {
