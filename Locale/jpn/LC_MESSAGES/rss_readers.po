@@ -106,10 +106,6 @@ msgstr "サイト情報を表示する"
 msgid "Display Summary"
 msgstr "概要を表示する"
 
-#: /View/Elements/RssReaders/header_button.ctp:8
-msgid "Publish"
-msgstr "公開する"
-
 #: /View/Elements/RssReaders/header_button.ctp:16;20
 msgid "Manage"
 msgstr "管理"

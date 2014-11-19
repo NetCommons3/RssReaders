@@ -20,13 +20,6 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
 class RssReader extends RssReadersAppModel {
 
 /**
- * helpers
- *
- * @var array
- */
-	public $helpers = array('RssReader');
-
-/**
  * Validation rules
  *
  * @var array

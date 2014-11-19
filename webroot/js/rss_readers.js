@@ -196,7 +196,7 @@ NetCommonsApp.controller('RssReaders.edit',
       $scope.updateStatus = function(postStatus) {
         var paramData = {
           RssReader: {
-            id: $scope.data.edit.RssReader.id,
+            id: $scope.edit.data.RssReader.id,
             status: postStatus
           },
           _Token: {

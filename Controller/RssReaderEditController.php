@@ -106,8 +106,14 @@ class RssReaderEditController extends RssReadersAppController {
 		$result = $this->RssReader->saveRssReader($saveData, $frameId);
 
 		if ($result) {
+			// RssReaderの取得
+			$rssReaderData = $this->RssReader->getContent(
+				$this->viewVars['blockId'],
+				$this->viewVars['contentEditable']
+			);
 			$params = array(
-				'name' => __d('net_commons', 'Successfully finished.')
+				'name' => __d('net_commons', 'Successfully finished.'),
+				'rssReaderData' => $rssReaderData
 			);
 			$this->set(compact('params'));
 			$this->set('_serialize', 'params');

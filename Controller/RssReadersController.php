@@ -43,6 +43,13 @@ class RssReadersController extends RssReadersAppController {
 	);
 
 /**
+ * helpers
+ *
+ * @var array
+ */
+	public $helpers = array('RssReaders.RssReader');
+
+/**
  * beforeFilter
  *
  * @return void
