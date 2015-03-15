@@ -67,26 +67,9 @@ class RssReaderFixture extends CakeTestFixture {
 		array(
 			'id' => 2,
 			'language_id' => 2,
-			'block_id' => 2,
-			'status' => 2,
-			'key' => 'rss_reader_2',
-			'url' => '<?xml version="1.0"?><rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/"><item><title>1</title><link>2</link><dc:date>2014-11-12T17:52:41+09:00</dc:date><description>3</description></item></rdf:RDF>',
-			'title' => 'RssReader申請中',
-			'summary' => '申請中のRssReaderです。',
-			'link' => 'http://example.com',
-			'is_auto_translated' => 0,
-			'translation_engine' => '',
-			'created_user' => 1,
-			'created' => '2014-10-14 05:37:41',
-			'modified_user' => 1,
-			'modified' => '2014-10-14 05:37:41'
-		),
-		array(
-			'id' => 3,
-			'language_id' => 2,
-			'block_id' => 3,
+			'block_id' => 1,
 			'status' => 3,
-			'key' => 'rss_reader_3',
+			'key' => 'rss_reader_1',
 			'url' => '<?xml version="1.0"?><rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/"><item><title>1</title><link>2</link><dc:date>2014-11-12T17:52:41+09:00</dc:date><description>3</description></item></rdf:RDF>',
 			'title' => 'RssReader下書き',
 			'summary' => '下書きのRssReaderです。',
@@ -99,14 +82,14 @@ class RssReaderFixture extends CakeTestFixture {
 			'modified' => '2014-10-14 05:37:41'
 		),
 		array(
-			'id' => 4,
+			'id' => 3,
 			'language_id' => 2,
-			'block_id' => 4,
-			'status' => 4,
-			'key' => 'rss_reader_4',
+			'block_id' => 2,
+			'status' => 1,
+			'key' => 'rss_reader_2',
 			'url' => '<?xml version="1.0"?><rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/"><item><title>1</title><link>2</link><dc:date>2014-11-12T17:52:41+09:00</dc:date><description>3</description></item></rdf:RDF>',
-			'title' => 'RssReader差し戻し',
-			'summary' => '差し戻しのRssReaderです。',
+			'title' => 'RssReader申請中',
+			'summary' => '申請中のRssReaderです。',
 			'link' => 'http://example.com',
 			'is_auto_translated' => 0,
 			'translation_engine' => '',
@@ -114,7 +97,7 @@ class RssReaderFixture extends CakeTestFixture {
 			'created' => '2014-10-14 05:37:41',
 			'modified_user' => 1,
 			'modified' => '2014-10-14 05:37:41'
-		)
+		),
 	);
 
 }

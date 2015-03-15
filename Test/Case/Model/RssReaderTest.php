@@ -15,12 +15,131 @@ App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 class RssReaderTest extends RssReadersModelTestBase {
 
 /**
- * testIndex method
+ * __assertSaveRssReader
+ *
+ * @param array $expected Expected value
+ * @return void
+ */
+	private function __assertSaveRssReader($expected) {
+		//RssReader
+		$result = $this->RssReader->getRssReader($expected['Block']['id'], true);
+		$this->_assertArray(null, $expected['RssReader'], $result['RssReader']);
+
+		//RssReaderItem
+		$result = $this->RssReaderItem->find('all', array(
+			'fields' => array('id', 'rss_reader_id', 'title', 'summary', 'link', 'last_updated', 'serialize_value'),
+			'recursive' => -1,
+			'conditions' => array(
+				'rss_reader_id' => $expected['RssReader']['id']
+			)
+		));
+		$result = Hash::combine($result, '{n}.RssReaderItem.id', '{n}.RssReaderItem');
+		$result = Hash::remove($result, '{n}.id');
+
+		$this->_assertArray(null, $expected['RssReaderItem'], array_values($result));
+	}
+
+/**
+ * Test RssReader->getRssReader()
  *
  * @return void
  */
-	public function testIndex() {
-		$this->assertTrue(true);
+	public function testGetRssReader() {
+		$blockId = 1;
+		$contentEditable = true;
+		$result = $this->RssReader->getRssReader($blockId, $contentEditable);
+
+		$expected = array(
+			'RssReader' => array(
+				'id' => '2',
+				'block_id' => $blockId,
+				'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT,
+				'key' => 'rss_reader_1',
+			),
+		);
+
+		$this->_assertArray(null, $expected, $result);
+	}
+
+/**
+ * Test RssReader->getRssReader() by no editabale
+ *
+ * @return void
+ */
+	public function testGetRssReaderByNoEditable() {
+		$blockId = 1;
+		$contentEditable = false;
+		$result = $this->RssReader->getRssReader($blockId, $contentEditable);
+
+		$expected = array(
+			'RssReader' => array(
+				'id' => '1',
+				'block_id' => $blockId,
+				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
+				'key' => 'rss_reader_1',
+			),
+		);
+
+		$this->_assertArray(null, $expected, $result);
+	}
+
+/**
+ * Test RssReader->saveRssReader()
+ *
+ * @return void
+ */
+	public function testSaveRssReader() {
+		$frameId = 1;
+		$blockId = 1;
+
+		//コンテンツの公開権限true
+		$this->RssReader->Behaviors->attach('Publishable');
+		$this->RssReader->Behaviors->Publishable->setup($this->RssReader, ['contentPublishable' => true]);
+
+		$xml = '<?xml version="1.0" encoding="utf-8"?>' .
+			'<rdf:RDF>' .
+				'<channel>' .
+					'<item>' .
+						'<title>title</title>' .
+						'<link>link</link>' .
+						'<pubDate>Sat, 13 Dec 2003 18:30:02 GMT</pubDate>' .
+						'<description>description</description>' .
+					'</item>' .
+				'</channel>' .
+				'<item>' .
+					'<title>title1</title>' .
+					'<link>http://example.com/1</link>' .
+					'<dc:date>Fri, 13 Mar 2015 17:07:41 +0900</dc:date>' .
+					'<description>description1</description>' .
+				'</item>' .
+			'</rdf:RDF>';
+
+		//データ生成
+		$data = array(
+			'Frame' => array('id' => $frameId),
+			'Block' => array('id' => $blockId),
+			'RssReader' => array(
+				'block_id' => $blockId,
+				'key' => 'rss_reader_1',
+				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
+				'url' => $xml,
+				'title' => 'Edit title',
+				'summary' => 'Edit summary',
+				'link' => 'http://example.com',
+			),
+		);
+
+		//登録処理実行
+		$this->RssReader->saveRssReader($data);
+
+		//期待値の生成
+		$rssReaderId = 4;
+
+		$expected = $data;
+		$expected['RssReader']['id'] = $rssReaderId;
+
+		//テスト実施
+		$this->__assertSaveRssReader($expected);
 	}
 
 /**

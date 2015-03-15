@@ -145,9 +145,12 @@ class RssReaderItem extends RssReadersAppModel {
 			$summaryKey = 'description';
 		} else {
 			$items = Hash::get($xmlData, 'RDF.item');
-			$dateKey = 'dc:date';
+			$dateKey = 'date';
 			$linkKey = 'link';
 			$summaryKey = 'description';
+		}
+		if (! isset($items[0])) {
+			$items = array($items);
 		}
 
 		$data = array();
