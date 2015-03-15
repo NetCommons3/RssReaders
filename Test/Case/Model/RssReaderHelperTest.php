@@ -12,40 +12,19 @@
 App::uses('View', 'View');
 App::uses('Helper', 'View');
 //App::uses('RssReaderHelper', 'RssReaders.View/Helper');
+App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 
 /**
  * Summary for RssReaderHelper Test Case
  */
-class RssReaderHelperTest extends CakeTestCase {
-
-/**
- * setUp method
- *
- * @return void
- */
-	//public function setUp() {
-	//	parent::setUp();
-	//	$View = new View();
-	//	$this->RssReader = new RssReaderHelper($View);
-	//}
-
-/**
- * tearDown method
- *
- * @return void
- */
-	//public function tearDown() {
-	//	unset($this->RssReader);
-	//
-	//	parent::tearDown();
-	//}
+class RssReaderHelperTest extends RssReadersModelTestBase {
 
 /**
  * testShowItem method case rss type atom
  *
  * @return void
  */
-	public function testShowItemRssTypeAtom() {
+	//public function testShowItemRssTypeAtom() {
 		//$rssXmlData = array(
 		//	'feed' => array(
 		//		'entry' => array(
@@ -74,14 +53,14 @@ class RssReaderHelperTest extends CakeTestCase {
 		//$displaySummary = true;
 		//
 		//$this->RssReader->showItem($rssXmlData, $pageLimit, $displaySummary);
-	}
+	//}
 
 /**
  * testShowItem method case rss type 2.0
  *
  * @return void
  */
-	public function testShowItemRssType2() {
+	//public function testShowItemRssType2() {
 		//$rssXmlData = array(
 		//	'rss' => array(
 		//		'@version' => '2.0',
@@ -107,14 +86,14 @@ class RssReaderHelperTest extends CakeTestCase {
 		//$displaySummary = true;
 		//
 		//$this->RssReader->showItem($rssXmlData, $pageLimit, $displaySummary);
-	}
+	//}
 
 /**
  * testShowItem method case rss type 1.0
  *
  * @return void
  */
-	public function testShowItemRssType1() {
+	//public function testShowItemRssType1() {
 		//$rssXmlData = array(
 		//	'RDF' => array(
 		//		'item' => array(
@@ -137,6 +116,6 @@ class RssReaderHelperTest extends CakeTestCase {
 		//$displaySummary = true;
 		//
 		//$this->RssReader->showItem($rssXmlData, $pageLimit, $displaySummary);
-	}
+	//}
 
 }
