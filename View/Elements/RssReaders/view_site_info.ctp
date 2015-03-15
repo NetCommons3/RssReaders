@@ -1,54 +1,54 @@
-<div class="panel panel-default" id ="nc-rss-readers-site-info-<?php echo h($frameId); ?>">
+<?php
+/**
+ * view site information element
+ *
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+?>
+
+<div class="panel panel-default">
 	<div class="panel-heading">
-	<span><?php echo __d('rss_readers', 'Site Info'); ?></span>
-		<span class="label label-success ng-hide"
-			ng-init="label.publish=<?php echo ($rssReaderData['RssReader']['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED ? 'true' : 'false'); ?>"
-			ng-show="label.publish">
-			<?php echo __d('rss_readers', 'Publishing'); ?>
-		</span>
-	
-		<span class="label label-danger ng-hide"
-			ng-init="label.approval=<?php echo ($rssReaderData['RssReader']['status'] === NetCommonsBlockComponent::STATUS_APPROVED ? 'true' : 'false'); ?>"
-			ng-show="label.approval">
-			<?php echo __d('rss_readers', 'Approving'); ?>
-		</span>
-	
-		<span class="label label-info ng-hide"
-			ng-init="label.draft=<?php echo ($rssReaderData['RssReader']['status'] === NetCommonsBlockComponent::STATUS_DRAFTED ? 'true' : 'false'); ?>"
-			ng-show="label.draft">
-			<?php echo __d('rss_readers', 'Drafting'); ?>
-		</span>
-	
-		<span class="label label-warning ng-hide"
-			ng-init="label.disapproval=<?php echo ($rssReaderData['RssReader']['status'] === NetCommonsBlockComponent::STATUS_DISAPPROVED ? 'true' : 'false'); ?>"
-			ng-show="label.disapproval">
-			<?php echo __d('rss_readers', 'Disapprovign'); ?>
-		</span>
-	</div>
-	<div class="panel-body">
-
 		<div class="row">
-			<div class="col-md-3"><?php echo __d('rss_readers', 'Site Title'); ?></div>
-			<div class="col-md-9"><?php echo h($rssReaderData['RssReader']['title']); ?></div>
-		</div>
+			<div class="col-xs-8">
+				<button class="btn btn-default btn-xs" ng-class="{active:siteInfo}" ng-click="siteInfo = !siteInfo; switchDisplaySiteInfo();">
+					<span class="glyphicon glyphicon-info-sign nc-tooltip" tooltip="<?php echo __d('rss_readers', 'Site Info'); ?>"> </span>
+				</button >
 
-		<hr />
+				<?php echo __d('rss_readers', 'Site Info'); ?>
+			</div>
 
-		<div class="row">
-			<div class="col-md-3"><?php echo __d('rss_readers', 'Site Explanation'); ?></div>
-			<div class="col-md-9"><?php echo h($rssReaderData['RssReader']['summary']); ?></div>
-		</div>
-
-		<hr />
-
-		<div class="row">
-
-			<div class="col-md-3"><?php echo __d('rss_readers', 'Site Url'); ?></div>
-			<div class="col-md-9">
-				<a href="<?php echo h($rssReaderData['RssReader']['link']); ?>" target="_blank">
-					<?php echo h($rssReaderData['RssReader']['link']); ?>
-				</a>
+			<div class="col-xs-4 text-right">
+				<?php echo $this->element('NetCommons.status_label',
+						array('status' => $rssReader['status'])); ?>
 			</div>
 		</div>
+	</div>
+
+	<div class="panel-body rss-site-info hidden">
+		<div class="form-group">
+			<?php if ($rssReader['link']) : ?>
+				<a href="<?php echo h($rssReader['link']); ?>" target="_blank">
+			<?php endif; ?>
+
+			<?php echo h($rssReader['title']); ?>
+
+			<?php if ($rssReader['link']) : ?>
+				</a>
+			<?php endif; ?>
+			&nbsp;
+			<a class="btn btn-default btn-xs" href="<?php echo h($rssReader['url']); ?>" target="_blank">
+				<?php echo __d('rss_readers', 'RDF/RSS'); ?>
+			</a>
+		</div>
+
+		<?php if ($rssReader['summary']) : ?>
+			<div class="form-group">
+				<?php echo h($rssReader['summary']); ?>
+			</div>
+		<?php endif; ?>
 	</div>
 </div>

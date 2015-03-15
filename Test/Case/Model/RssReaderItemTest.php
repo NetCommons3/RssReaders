@@ -1,6 +1,6 @@
 <?php
 /**
- * RssReaderItem Test Case
+ * RssReaderFrameSetting Test Case
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @link     http://www.netcommons.org NetCommons Project
@@ -10,9 +10,9 @@
 App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 
 /**
- * Summary for RssReaderItem Test Case
+ * Summary for RssReaderFrameSetting Test Case
  */
-class RssReaderItemTest extends RssReadersModelTestBase {
+class RssReaderFrameSettingTest extends RssReadersModelTestBase {
 
 /**
  * testGetRssReaderFrameSetting method

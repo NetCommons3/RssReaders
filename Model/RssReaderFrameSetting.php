@@ -2,8 +2,8 @@
 /**
  * RssReaderFrameSetting Model
  *
- *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
@@ -11,7 +11,11 @@
 App::uses('RssReadersAppModel', 'RssReaders.Model');
 
 /**
- * Summary for RssReaderFrameSetting Model
+ * RssReaderFrameSetting Model
+ *
+ * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\RssReaders\Model
  */
 class RssReaderFrameSetting extends RssReadersAppModel {
 
@@ -32,47 +36,78 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 	);
 
 /**
- * Use database config
+ * Called during validation operations, before validation. Please note that custom
+ * validation rules can be defined in $validate.
  *
- * @var string
+ * @param array $options Options passed from Model::save().
+ * @return bool True if validate operation should continue, false to abort
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
+ * @see Model::save()
  */
-	public $useDbConfig = 'master';
+	public function beforeValidate($options = array()) {
+		$this->validate = Hash::merge($this->validate, array(
+			'frame_key' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'allowEmpty' => false,
+					'required' => true,
+				)
+			),
+		));
 
-/**
- * get RssReader frame setting
- *
- * @param int $frameKey frames.key
- * @return array RssReaderFrameSettingData
- */
-	public function getRssReaderFrameSetting($frameKey) {
-		$conditions = array(
-			'frame_key' => $frameKey
-		);
-		$rssReaderFrameData = $this->find(
-			'first',
-			array(
-				'conditions' => $conditions,
-				'order' => $this->name . '.id DESC',
-				'recursive' => -1
-			)
-		);
-
-		return $rssReaderFrameData;
+		return parent::beforeValidate($options);
 	}
 
 /**
- * create RssReader frame setting
+ * save edumap
  *
- * @param int $frameKey frames.key
- * @return array RssReaderFrameSettingData
+ * @param array $data received post data
+ * @return bool true success, false error
+ * @throws InternalErrorException
  */
-	public function createRssReaderFrameSetting($frameKey) {
-		$rssReaderFrameData = $this->create();
-		$rssReaderFrameData[$this->name]['display_number_per_page'] = 1;
-		$rssReaderFrameData[$this->name]['display_site_info'] = 0;
-		$rssReaderFrameData[$this->name]['display_summary'] = 0;
-		$rssReaderFrameData[$this->name]['frame_key'] = $frameKey;
+	public function saveRssReaderFrameSetting($data) {
+		$this->loadModels([
+			'RssReaderFrameSetting' => 'RssReaders.RssReaderFrameSetting',
+		]);
 
-		return $rssReaderFrameData;
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			//validate処理
+			if (! $this->validateRssReaderFrameSetting($data)) {
+				return false;
+			}
+
+			//登録処理
+			if (! $this->save(null, false)) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+
+			$dataSource->commit();
+		} catch (Exception $ex) {
+			// @codeCoverageIgnoreStart
+			$dataSource->rollback();
+			CakeLog::error($ex);
+			throw $ex;
+			// @codeCoverageIgnoreEnd
+		}
+
+		return true;
+	}
+
+/**
+ * validate edumap
+ *
+ * @param array $data received post data
+ * @return bool True on success, false on error
+ */
+	public function validateRssReaderFrameSetting($data) {
+		$this->set($data);
+		$this->validates();
+		return $this->validationErrors ? false : true;
 	}
 }

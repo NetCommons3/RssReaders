@@ -1,34 +1,23 @@
-<?php echo $this->Html->script('/rss_readers/js/rss_readers.js'); ?>
+<?php
+/**
+ * RssReaders view template
+ *
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+?>
 
-<div id="nc-rss-readers-container-<?php echo h($frameId); ?>"
-	ng-controller="RssReaders"
-	ng-init="initialize(
-		<?php echo h(json_encode($rssReaderData)); ?>,
-		<?php echo h(json_encode($rssReaderFrameSettingData)); ?>,
-		<?php echo h($frameId); ?>
-	)">
+<?php echo $this->Html->script('/rss_readers/js/rss_readers.js', false); ?>
 
-	<div>
-		<?php echo $this->element('RssReaders/header_button'); ?>
-	</div>
+<div id="nc-rss-readers-<?php echo (int)$frameId; ?>"
+		ng-controller="RssReaders"
+		ng-init="initialize(<?php echo h(json_encode(['frameId' => $frameId])); ?>)">
 
-	<?php if (!empty($rssReaderData)): ?>
-	<div id="nc-rss-readers-body-<?php echo h($frameId); ?>">
-		<div>
-			<?php
-			if ($rssReaderFrameSettingData['RssReaderFrameSetting']['display_site_info']) {
-				echo $this->element('RssReaders/view_site_info');
-			}
-			?>
-			<?php if (!empty($rssXmlData)): ?>
-			<div class="panel panel-default" id ="nc-rss-readers-item-<?php echo h($frameId); ?>">
-				<?php
-				$pageLimit = $rssReaderFrameSettingData['RssReaderFrameSetting']['display_number_per_page'];
-				$displaySummary = $rssReaderFrameSettingData['RssReaderFrameSetting']['display_summary'];
-				$this->RssReader->showItem($rssXmlData, $pageLimit, $displaySummary);
-				?>
-			</div>
-			<?php endif; ?>
-	</div>
-	<?php endif; ?>
+	<?php echo $this->element('RssReaders/view_site_info'); ?>
+
+	<?php echo $this->element('RssReaders/view_items'); ?>
 </div>
+
