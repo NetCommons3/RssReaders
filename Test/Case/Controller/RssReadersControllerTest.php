@@ -20,12 +20,12 @@ class RssReadersControllerTest extends RssReadersControllerTestBase {
  *
  * @return void
  */
-	public function testIndex() {
+	//public function testIndex() {
 		// statusが公開中状態の表示
 		//$frameId = 1;
 		//$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
 		//$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	}
+	//}
 
 /**
  * test index case not exist rss_reader

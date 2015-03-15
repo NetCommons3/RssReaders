@@ -45,7 +45,7 @@ class RssReaderTest extends RssReadersModelTestBase {
  *
  * @return void
  */
-	public function testSaveRssReaderCaseInsert() {
+	//public function testSaveRssReaderCaseInsert() {
 		/*
 		$xml = '<?xml version="1.0" encoding="utf-8"?><rdf:RDF><channel><item><title>title</title><link>link</link><pubDate>Sat, 13 Dec 2003 18:30:02 GMT</pubDate><description>description</description></item></channel></rdf:RDF>';
 		*/
@@ -127,14 +127,14 @@ class RssReaderTest extends RssReadersModelTestBase {
 		//
 		//$result = $this->RssReader->saveRssReader($data, $frameId);
 		//$this->assertFalse($result);
-	}
+	//}
 
 /**
  * testSaveRssReader method
  *
  * @return void
  */
-	public function testSaveRssReaderCaseUpdate() {
+	//public function testSaveRssReaderCaseUpdate() {
 		/*
 		$xml = '<?xml version="1.0" encoding="utf-8"?><rdf:RDF><channel><item><title>title</title><link>link</link><pubDate>Sat, 13 Dec 2003 18:30:02 GMT</pubDate><description>description</description></item></channel></rdf:RDF>';
 		*/
@@ -197,7 +197,7 @@ class RssReaderTest extends RssReadersModelTestBase {
 		//$newBlockCount = $this->RssReader->Block->find('count');
 		//$this->assertEquals($oldRssReaderCount, $newRssReaderCount);
 		//$this->assertEquals($oldBlockCount, $newBlockCount);
-	}
+	//}
 
 /**
  * updateSerializeValue method
@@ -258,7 +258,7 @@ class RssReaderTest extends RssReadersModelTestBase {
  *
  * @return void
  */
-	public function testSerializeRssData() {
+	//public function testSerializeRssData() {
 		/*
 		$xml = '<?xml version="1.0" encoding="utf-8"?><rdf:RDF><channel><item><title>title</title><link>link</link><pubDate>Sat, 13 Dec 2003 18:30:02 GMT</pubDate><description>description</description></item></channel></rdf:RDF>';
 		*/
@@ -274,5 +274,5 @@ class RssReaderTest extends RssReadersModelTestBase {
 		//	$errorMessage = $e;
 		//}
 		//$this->assertNotEmpty($errorMessage);
-	}
+	//}
 }
