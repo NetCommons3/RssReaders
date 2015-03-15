@@ -16,6 +16,15 @@ App::uses('RssReadersControllerTestBase', 'RssReaders.Test/Case/Controller');
 class RssReadersControllerTest extends RssReadersControllerTestBase {
 
 /**
+ * testIndex method
+ *
+ * @return void
+ */
+	public function testIndex() {
+		$this->assertTrue(true);
+	}
+
+/**
  * test index
  *
  * @return void

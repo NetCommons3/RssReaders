@@ -25,4 +25,14 @@ class RssReaderItemTest extends RssReadersModelTestBase {
 	//
 	//	$this->assertNotEmpty($rssReaderFrameData);
 	//}
+
+/**
+ * testIndex method
+ *
+ * @return void
+ */
+	public function testIndex() {
+		$this->assertTrue(true);
+	}
+
 }

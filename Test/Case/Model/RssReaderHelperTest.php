@@ -20,6 +20,15 @@ App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 class RssReaderHelperTest extends RssReadersModelTestBase {
 
 /**
+ * testIndex method
+ *
+ * @return void
+ */
+	public function testIndex() {
+		$this->assertTrue(true);
+	}
+
+/**
  * testShowItem method case rss type atom
  *
  * @return void

@@ -16,6 +16,15 @@ App::uses('RssReadersControllerTestBase', 'RssReaders.Test/Case/Controller');
 class FrameSettingsControllerTest extends RssReadersControllerTestBase {
 
 /**
+ * testIndex method
+ *
+ * @return void
+ */
+	public function testIndex() {
+		$this->assertTrue(true);
+	}
+
+/**
  * test form
  *
  * @return void
