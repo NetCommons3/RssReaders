@@ -1,6 +1,6 @@
 <?php
 /**
- * RssReadersController Test Case
+ * RssReaders Test Case
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,24 +9,21 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
-App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
-App::uses('RolesControllerTest', 'Roles.Test/Case/Controller');
-App::uses('AuthGeneralControllerTest', 'AuthGeneral.Test/Case/Controller');
+App::uses('YACakeTestCase', 'NetCommons.TestSuite');
+App::uses('AuthComponent', 'Component');
 App::uses('RssReader', 'RssReaders.Model');
 App::uses('RssReaderItem', 'RssReaders.Model');
 App::uses('RssReaderFrameSetting', 'RssReaders.Model');
 
 /**
- * RssReadersController Test Case
+ * RssReaders Model Test Case
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\RssReaders\Test\Case\Controller
- * @SuppressWarnings(PHPMD.LongVariable)
+ * @package NetCommons\RssReaders\Test\Case\Model
  */
-class RssReadersControllerTestBase extends YAControllerTestCase {
+class RssReadersModelTestCase extends YACakeTestCase {
 
 /**
  * Fixtures
@@ -34,15 +31,8 @@ class RssReadersControllerTestBase extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'site_setting',
-		'plugin.blocks.block_role_permission',
-		'plugin.boxes.boxes_page',
-		'plugin.containers.container',
-		'plugin.containers.containers_page',
 		'plugin.frames.box',
 		'plugin.m17n.language',
-		'plugin.m17n.languages_page',
-		'plugin.pages.page',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
@@ -55,8 +45,8 @@ class RssReadersControllerTestBase extends YAControllerTestCase {
 		'plugin.rss_readers.rss_reader_item',
 		'plugin.rss_readers.frame',
 		'plugin.rss_readers.plugin',
-		'plugin.rss_readers.user_attributes_user',
 		'plugin.rss_readers.user',
+		'plugin.rss_readers.user_attributes_user',
 	);
 
 /**
@@ -66,7 +56,10 @@ class RssReadersControllerTestBase extends YAControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		Configure::write('Config.language', 'ja');
+
+		$this->RssReader = ClassRegistry::init('RssReaders.RssReader');
+		$this->RssReaderItem = ClassRegistry::init('RssReaders.RssReaderItem');
+		$this->RssReaderFrameSetting = ClassRegistry::init('RssReaders.RssReaderFrameSetting');
 	}
 
 /**
@@ -75,29 +68,35 @@ class RssReadersControllerTestBase extends YAControllerTestCase {
  * @return void
  */
 	public function tearDown() {
-		Configure::write('Config.language', null);
-		CakeSession::write('Auth.User', null);
+		unset($this->RssReader);
+		unset($this->RssReaderItem);
+		unset($this->RssReaderFrameSetting);
+
 		parent::tearDown();
 	}
 
 /**
- * _generateController method
+ * _assertArray method
  *
- * @param string $controllerName controller name
- * @param array $addMocks generate options
+ * @param string $key target key
+ * @param mixed $value array or string, number
+ * @param array $result result data
  * @return void
  */
-	protected function _generateController($controllerName, $addMocks = array()) {
-		$mocks = array(
-			'components' => array(
-				'Auth' => array('user'),
-				'Session',
-				'Security',
-			)
-		);
-		$params = array_merge_recursive($mocks, $addMocks);
-
-		$this->generate($controllerName, $params);
+	protected function _assertArray($key, $value, $result) {
+		if ($key !== null) {
+			$this->assertArrayHasKey($key, $result);
+			$target = $result[$key];
+		} else {
+			$target = $result;
+		}
+		if (is_array($value)) {
+			foreach ($value as $nextKey => $nextValue) {
+				$this->_assertArray($nextKey, $nextValue, $target);
+			}
+		} elseif (isset($value)) {
+			$this->assertEquals($value, $target, 'key=' . print_r($key, true) . '|value=' . print_r($value, true) . '|result=' . print_r($result, true));
+		}
 	}
 
 /**
@@ -108,4 +107,5 @@ class RssReadersControllerTestBase extends YAControllerTestCase {
 	public function testIndex() {
 		$this->assertTrue(true);
 	}
+
 }

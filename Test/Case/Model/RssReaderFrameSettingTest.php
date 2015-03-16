@@ -1,38 +1,56 @@
 <?php
 /**
- * RssReaderItem Test Case
+ * RssReaderFrameSetting Test Case
  *
  * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @link     http://www.netcommons.org NetCommons Project
  * @license  http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
+App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
 
 /**
- * Summary for RssReaderItem Test Case
+ * Summary for RssReaderFrameSetting Test Case
  */
-class RssReaderItemTest extends RssReadersModelTestBase {
+class RssReaderFrameSettingTest extends RssReadersModelTestCase {
 
 /**
- * testGetRssReaderFrameSetting method
+ * Expect RssReader->testSaveRssReaderFrameSetting()
  *
  * @return void
  */
-	//public function testGetRssReaderFrameSetting() {
-	//	$frameKey = 'd6c512c3cb0e3cde4892ffbc1bf05b6dd0da70f22ce1404907d36b30cebe1553';
-	//	$rssReaderFrameData = $this->RssReaderFrameSetting->getRssReaderFrameSetting($frameKey);
-	//
-	//	$this->assertNotEmpty($rssReaderFrameData);
-	//}
+	public function testSaveRssReaderFrameSetting() {
+		$frameId = 1;
+		$framekey = 'frame_1';
+		$blockId = 1;
+		$rssFrameSettingId = 1;
 
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
-		$this->assertTrue(true);
+		//データ生成
+		$data = array(
+			'Frame' => array('id' => $frameId),
+			'Block' => array('id' => $blockId),
+			'RssReaderFrameSetting' => array(
+				'id' => $rssFrameSettingId,
+				'frame_key' => $framekey,
+				'display_number_per_page' => '5'
+			),
+		);
+
+		//登録処理実行
+		$this->RssReaderFrameSetting->saveRssReaderFrameSetting($data);
+
+		//期待値の生成
+		$expected = $data;
+
+		//テスト実施
+		$result = $this->RssReaderFrameSetting->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'id' => $expected['RssReaderFrameSetting']['id']
+			)
+		));
+
+		$this->_assertArray(null, $expected['RssReaderFrameSetting'], $result['RssReaderFrameSetting']);
 	}
 
 }

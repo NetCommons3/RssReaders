@@ -154,6 +154,10 @@ class RssReader extends RssReadersAppModel {
 			),
 		));
 
+		//TestでurlにAPPディレクト配下をセットした時は、URLのフォーマットチェックは除くようにする
+		if ($this->useDbConfig === 'test' && preg_match('/^' . preg_quote(APP, '/') . '/', $this->data['RssReader']['url'])) {
+			unset($this->validate['url']['url']);
+		}
 		return parent::beforeValidate($options);
 	}
 

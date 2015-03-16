@@ -8,140 +8,150 @@
  */
 
 App::uses('FrameSettingsController', 'RssReaders.Controller');
-App::uses('RssReadersControllerTestBase', 'RssReaders.Test/Case/Controller');
+App::uses('RssReadersControllerTestCase', 'RssReaders.Test/Case/Controller');
 
 /**
  * Summary for RssReaderFrameSettingsController Test Case
  */
-class FrameSettingsControllerTest extends RssReadersControllerTestBase {
+class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 
 /**
- * testIndex method
+ * setUp method
  *
  * @return void
  */
-	public function testIndex() {
-		$this->assertTrue(true);
+	public function setUp() {
+		$this->generate(
+			'RssReaders.FrameSettings',
+			[
+				'components' => [
+					'Auth' => ['user'],
+					'Session',
+					'Security',
+				]
+			]
+		);
+		parent::setUp();
 	}
 
 /**
- * test form
+ * Expect admin user can access edit action
  *
  * @return void
  */
-	//public function testForm() {
-	//	$frameId = 1;
-	//	$this->testAction(
-	//		'/rss_readers/rss_reader_frame_settings/form/' . $frameId . '/',
-	//		array('method' => 'get')
-	//	);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][frame_key]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][display_number_per_page]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][display_site_info]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][display_summary]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][id]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][frame_key]', $this->view);
-	//}
+	public function testEditGet() {
+		RolesControllerTest::login($this);
+
+		$this->testAction(
+			'/rss_readers/frame_settings/edit/1',
+			array(
+				'method' => 'get',
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 
 /**
- * test form case not exist data
+ * Expect view action to be successfully handled w/ null frame.block_id
+ * This situation typically occur after placing new plugin into page
  *
  * @return void
  */
-	//public function testFormNotExistData() {
-	//	$frameId = 5;
-	//	$this->testAction(
-	//		'/rss_readers/rss_reader_frame_settings/form/' . $frameId . '/',
-	//		array('method' => 'get')
-	//	);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][frame_key]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][display_number_per_page]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][display_site_info]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][display_summary]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][id]', $this->view);
-	//	$this->assertTextContains('data[RssReaderFrameSetting][frame_key]', $this->view);
-	//}
+	public function testAddFrameWithoutBlock() {
+		RolesControllerTest::login($this);
+
+		$this->testAction(
+			'/rss_readers/frame_settings/edit/2',
+			array(
+				'method' => 'get',
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 
 /**
- * test form case not exist frame
+ * Expect admin user can publish edumap
  *
  * @return void
  */
-	//public function testFormNotExistFrame() {
-	//	$frameId = 999;
-	//	try {
-	//		$this->testAction(
-	//			'/rss_readers/rss_reader_frame_settings/form/' . $frameId . '/',
-	//			array('method' => 'get')
-	//		);
-	//	} catch (ForbiddenException $e) {
-	//		$this->assertEquals('NetCommonsFrame', $e->getMessage());
-	//	}
-	//}
+	public function testEditPost() {
+		RolesControllerTest::login($this);
+
+		//データ生成
+		$frameId = 1;
+		$blockId = 1;
+		$framekey = 'frame_1';
+		$rssFrameSettingId = 1;
+
+		//登録処理実行
+		$data = array(
+			'Frame' => array('id' => $frameId),
+			'Block' => array('id' => $blockId),
+			'RssReaderFrameSetting' => array(
+				'id' => $rssFrameSettingId,
+				'frame_key' => $framekey,
+				'display_number_per_page' => '5'
+			),
+			'save' => ''
+		);
+
+		$this->testAction(
+			'/rss_readers/frame_settings/edit/' . $frameId,
+			array(
+				'method' => 'post',
+				'data' => $data,
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 
 /**
- * test view
+ * Expect without block
  *
  * @return void
  */
-	//public function testView() {
-	//	$frameId = 1;
-	//
-	//	$this->testAction(
-	//		'/rss_readers/rss_reader_frame_settings/view/' . $frameId,
-	//		array('method' => 'get')
-	//	);
-	//	$this->assertTextContains(
-	//		'data[RssReaderFrameSetting][frame_key]',
-	//		$this->view
-	//	);
-	//	$this->assertTextContains(
-	//		'data[RssReaderFrameSetting][display_number_per_page]',
-	//		$this->view
-	//	);
-	//	$this->assertTextContains(
-	//		'data[RssReaderFrameSetting][display_site_info]',
-	//		$this->view
-	//	);
-	//	$this->assertTextContains(
-	//		'data[RssReaderFrameSetting][display_summary]',
-	//		$this->view
-	//	);
-	//}
+	public function testEditPostWithoutBlock() {
+		RolesControllerTest::login($this);
 
-/**
- * test view case not exist frame
- *
- * @return void
- */
-	//public function testViewNotExistFrame() {
-	//	$frameId = 999;
-	//	try {
-	//		$this->testAction(
-	//			'/rss_readers/rss_reader_frame_settings/view/' . $frameId . '/',
-	//			array('method' => 'get')
-	//		);
-	//	} catch (ForbiddenException $e) {
-	//		$this->assertEquals('NetCommonsFrame', $e->getMessage());
-	//	}
-	//}
+		//データ生成
+		$frameId = 2;
+		$blockId = 2;
+		$framekey = 'frame_2';
+		$rssFrameSettingId = 2;
 
-/**
- * test view case not exist data
- *
- * @return void
- */
-	//public function testViewNotExistData() {
-	//	$frameId = 5;
-	//	try {
-	//		$this->testAction(
-	//			'/rss_readers/rss_reader_frame_settings/view/' . $frameId . '/',
-	//			array('method' => 'get')
-	//		);
-	//	} catch (ForbiddenException $e) {
-	//		$this->assertEquals('NetCommonsFrame', $e->getMessage());
-	//	}
-	//}
+		//登録処理実行
+		$data = array(
+			'Frame' => array('id' => $frameId),
+			'Block' => array('id' => $blockId),
+			'RssReaderFrameSetting' => array(
+				'id' => $rssFrameSettingId,
+				'frame_key' => $framekey,
+				'display_number_per_page' => '5'
+			),
+			'save' => ''
+		);
+
+		$this->testAction(
+			'/rss_readers/frame_settings/edit/' . $frameId,
+			array(
+				'method' => 'post',
+				'data' => $data,
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 
 }
 

@@ -87,7 +87,7 @@ e.g.) ルーム管理者、またはそれに準ずるユーザ: ルーム管理
 			'box_id' => 1,
 			'plugin_key' => 'rss_readers',
 			'block_id' => null,
-			'key' => 'frame_1',
+			'key' => 'frame_3',
 			'weight' => 1,
 			'is_published' => 1,
 			'from' => '2014-07-25 08:10:53',

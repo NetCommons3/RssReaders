@@ -137,7 +137,7 @@ class RssReaderItem extends RssReadersAppModel {
 			$items = Hash::get($xmlData, 'feed.entry');
 			$dateKey = 'published';
 			$linkKey = 'link.@href';
-			$summaryKey = 'summary.@';
+			$summaryKey = 'summary';
 		} elseif (Hash::get($xmlData, 'rss.@version') === '2.0') {
 			$items = Hash::get($xmlData, 'rss.channel.item');
 			$dateKey = 'pubDate';
@@ -145,11 +145,11 @@ class RssReaderItem extends RssReadersAppModel {
 			$summaryKey = 'description';
 		} else {
 			$items = Hash::get($xmlData, 'RDF.item');
-			$dateKey = 'date';
+			$dateKey = 'dc:date';
 			$linkKey = 'link';
 			$summaryKey = 'description';
 		}
-		if (! isset($items[0])) {
+		if (! isset($items[0]) && is_array($items)) {
 			$items = array($items);
 		}
 
@@ -193,6 +193,7 @@ class RssReaderItem extends RssReadersAppModel {
 
 			//RssReaderの登録
 			if (! $this->RssReader->save($data, false)) {
+			//if (! $this->RssReader->save($data, false, ['modified', 'modified_user'])) {
 				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				// @codeCoverageIgnoreEnd

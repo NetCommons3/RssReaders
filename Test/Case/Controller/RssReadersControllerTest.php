@@ -8,12 +8,31 @@
  */
 
 App::uses('RssReadersController', 'RssReaders.Controller');
-App::uses('RssReadersControllerTestBase', 'RssReaders.Test/Case/Controller');
+App::uses('RssReadersControllerTestCase', 'RssReaders.Test/Case/Controller');
 
 /**
  * Summary for RssReadersController Test Case
  */
-class RssReadersControllerTest extends RssReadersControllerTestBase {
+class RssReadersControllerTest extends RssReadersControllerTestCase {
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		$this->generate(
+			'RssReaders.RssReaders',
+			[
+				'components' => [
+					'Auth' => ['user'],
+					'Session',
+					'Security',
+				]
+			]
+		);
+		parent::setUp();
+	}
 
 /**
  * testIndex method
@@ -21,81 +40,231 @@ class RssReadersControllerTest extends RssReadersControllerTestBase {
  * @return void
  */
 	public function testIndex() {
-		$this->assertTrue(true);
+		$this->testAction(
+			'/rss_readers/rss_readers/index/1',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+
+		$this->assertTextEquals('RssReaders/view', $this->controller->view);
 	}
 
 /**
- * test index
+ * Expect visitor can access view action
  *
  * @return void
  */
-	//public function testIndex() {
-		// statusが公開中状態の表示
-		//$frameId = 1;
-		//$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-		//$this->assertTextContains('nc-rss-readers-body-' . $frameId, $this->view);
-	//}
+	public function testView() {
+		$this->testAction(
+			'/rss_readers/rss_readers/view/1',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+
+		$this->assertTextEquals('view', $this->controller->view);
+	}
 
 /**
- * test index case not exist rss_reader
+ * Expect visitor can access view action by json
  *
  * @return void
  */
-	//public function testIndexNotExistData() {
-	//	// RssReaderが存在しない場合の表示
-	//	$frameId = 5;
-	//	$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-	//	$this->assertTextNotContains('nc-rss-readers-body-' . $frameId, $this->view);
-	//}
+	public function testViewJson() {
+		$ret = $this->testAction(
+			'/rss_readers/rss_readers/view/1.json',
+			array(
+				'method' => 'get',
+				'type' => 'json',
+				'return' => 'contents',
+			)
+		);
+		$result = json_decode($ret, true);
+
+		$this->assertTextEquals('view', $this->controller->view);
+		$this->assertArrayHasKey('code', $result, print_r($result, true));
+		$this->assertEquals(200, $result['code'], print_r($result, true));
+	}
 
 /**
- * test view case not room role
+ * Expect admin user can access view action
  *
  * @return void
  */
-	//public function testIndexNotRoomRole() {
-	//	CakeSession::write('Auth.User', null);
-	//	$user = array(
-	//		'id' => 999
-	//	);
-	//	CakeSession::write('Auth.User', $user);
-	//	$frameId = 1;
-	//	try {
-	//		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-	//	} catch (ForbiddenException $e) {
-	//		$this->assertEquals('Forbidden', $e->getMessage());
-	//	}
-	//}
+	public function testViewByAdmin() {
+		RolesControllerTest::login($this);
+
+		$view = $this->testAction(
+			'/rss_readers/rss_readers/view/1',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+
+		$this->assertTextEquals('RssReaders/viewForEditor', $this->controller->view);
+		$this->assertTextContains('nc-rss-readers-1', $view, print_r($view, true));
+		$this->assertTextContains('/rss_readers/rss_readers/edit/1', $view, print_r($view, true));
+
+		AuthGeneralControllerTest::logout($this);
+	}
 
 /**
- * test index case not exist frame
+ * Expect user cannot access view action with unknown frame id
  *
  * @return void
  */
-	//public function testIndexNotExistFrame() {
-	//	// 存在しないフレームにアクセスした場合に、例外処理が発生するか確認
-	//	$frameId = 999;
-	//	try {
-	//		$this->testAction('/rss_readers/rss_readers/index/' . $frameId . '/', array('method' => 'get'));
-	//	} catch (ForbiddenException $e) {
-	//		$this->assertEquals('NetCommonsFrame', $e->getMessage());
-	//	}
-	//}
+	public function testViewByUnkownFrameId() {
+		$this->setExpectedException('InternalErrorException');
+		$this->testAction(
+			'/rss_readers/rss_readers/view/999',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+	}
 
 /**
- * test update_status
+ * Expect admin user can access edit action
  *
  * @return void
  */
-	//public function testUpdateStatus() {
-	//	$data = array(
-	//		'id' => 1,
-	//		'status' => 2
-	//	);
-	//	$this->testAction(
-	//		'/rss_readers/rss_readers/update_status',
-	//		array('method' => 'post', 'data' => $data)
-	//	);
-	//}
+	public function testEditGet() {
+		RolesControllerTest::login($this);
+
+		$this->testAction(
+			'/rss_readers/rss_readers/edit/1',
+			array(
+				'method' => 'get',
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect admin user can access edit action
+ *
+ * @return void
+ */
+	public function testEditGetWithoutBlock() {
+		RolesControllerTest::login($this);
+
+		$this->testAction(
+			'/rss_readers/rss_readers/edit/3',
+			array(
+				'method' => 'get',
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect view action to be successfully handled w/ null frame.block_id
+ * This situation typically occur after placing new plugin into page
+ *
+ * @return void
+ */
+	public function testAddFrameWithoutBlock() {
+		$this->testAction(
+			'/rss_readers/rss_readers/view/3',
+			array(
+				'method' => 'get',
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('view', $this->controller->view);
+	}
+
+/**
+ * Expect admin user can publish edumap
+ *
+ * @return void
+ */
+	public function testEditPost() {
+		RolesControllerTest::login($this);
+
+		//データ生成
+		$frameId = 1;
+		$blockId = 1;
+
+		//データ生成
+		$data = array(
+			'Frame' => array('id' => $frameId),
+			'Block' => array('id' => $blockId),
+			'RssReader' => array(
+				'key' => 'rss_reader_1',
+				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
+				'title' => 'Edit title',
+				'summary' => 'Edit summary',
+				'link' => 'http://example.com',
+			),
+			'Comment' => array('comment' => 'Edit comment'),
+			sprintf('save_%s', NetCommonsBlockComponent::STATUS_PUBLISHED) => '',
+		);
+
+		//テスト実行
+		$this->testAction(
+			'/rss_readers/rss_readers/edit/' . $frameId,
+			array(
+				'method' => 'post',
+				'data' => $data,
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect admin user can publish edumap
+ *
+ * @return void
+ */
+	public function testEditPostWithoutBlock() {
+		RolesControllerTest::login($this);
+
+		//データ生成
+		$frameId = 3;
+		$blockId = '';
+
+		$data = array(
+			'Frame' => array('id' => $frameId),
+			'Block' => array('id' => $blockId),
+			'RssReader' => array(
+				'id' => '',
+				'key' => 'rss_reader_3',
+				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
+				'title' => 'Edit title',
+				'summary' => 'Edit summary',
+				'link' => 'http://example.com',
+			),
+			'Comment' => array('comment' => 'Edit comment'),
+			sprintf('save_%s', NetCommonsBlockComponent::STATUS_PUBLISHED) => '',
+		);
+
+		//テスト実行
+		$this->testAction(
+			'/rss_readers/rss_readers/edit/' . $frameId,
+			array(
+				'method' => 'post',
+				'data' => $data,
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
 
 }

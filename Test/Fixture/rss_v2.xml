@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss version='2.0'>
+	<channel>
+		<title>test rss2.0</title>
+		<link>http://example.com/</link>
+		<description>test rss2.0 description</description>
+		<item>
+			<title>content title</title>
+			<link>http://example.com/1.html</link>
+			<description>content description</description>
+			<pubDate>Fri, 13 Mar 2015 17:07:41</pubDate>
+		</item>
+	</channel>
+</rss>
