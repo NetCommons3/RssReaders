@@ -41,7 +41,7 @@
 					</a>
 				<?php endif; ?>
 				&nbsp;
-				<a class="btn btn-default btn-xs" href="<?php echo h($rssReader['url']); ?>" target="_blank">
+				<a class="btn btn-warning btn-xs" href="<?php echo h($rssReader['url']); ?>" target="_blank">
 					<?php echo __d('rss_readers', 'RDF/RSS'); ?>
 				</a>
 			</div>

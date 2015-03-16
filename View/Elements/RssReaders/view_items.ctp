@@ -19,13 +19,11 @@ $i = 0;
 				<?php $summaryKey = 'rssSummary' . $item['id']; ?>
 
 				<div class="col-xs-12 col-md-10">
-					<a href=""
-					   class="btn btn-link btn-xs glyphicon glyphicon-menu-right"
-					   ng-class="{'glyphicon-menu-down':<?php echo $summaryKey; ?>}"
-					   ng-click="<?php echo $summaryKey . ' = ! ' . $summaryKey . '; switchDisplaySummary(\'#' . $summaryKey . '\')'; ?>">
+					<a href="<?php echo h($item['link']); ?>"
+					   ng-click="<?php echo $summaryKey . ' = ! ' . $summaryKey . '; switchDisplaySummary(\'#' . $summaryKey . '\')'; ?>;"
+					   onclick="return false;">
 
-					</a>
-					<a href="<?php echo h($item['link']); ?>" target="_blank">
+						<span class="glyphicon glyphicon-menu-right" ng-class="{'glyphicon-menu-down':<?php echo $summaryKey; ?>}"> </span>
 						<?php echo h($item['title']); ?>
 					</a>
 				</div>
@@ -36,6 +34,10 @@ $i = 0;
 				<div class="col-xs-12 text-muted hidden" id="<?php echo $summaryKey ?>">
 					<small>
 						<em><?php echo h($item['summary']); ?></em>
+
+						<a href="<?php echo h($item['link']); ?>" target="_blank"
+						   class="btn btn-info btn-xs glyphicon glyphicon-new-window">
+						</a>
 					</small>
 				</div>
 			</div>

@@ -27,11 +27,14 @@
 					<span class="glyphicon glyphicon-edit"> </span>
 				</a>
 			</span>
-			<span>
-				<a href="<?php echo $this->Html->url('/rss_readers/frame_settings/edit/' . $frameId) ?>" class="btn btn-default">
-					<span class="glyphicon glyphicon-cog"> </span>
-				</a>
-			</span>
+
+			<?php if (Page::isSetting()) : ?>
+				<span>
+					<a href="<?php echo $this->Html->url('/rss_readers/frame_settings/edit/' . $frameId) ?>" class="btn btn-default">
+						<span class="glyphicon glyphicon-cog"> </span>
+					</a>
+				</span>
+			<?php endif; ?>
 		</div>
 	</div>
 
