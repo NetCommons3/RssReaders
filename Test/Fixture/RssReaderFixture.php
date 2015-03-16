@@ -9,7 +9,8 @@
  */
 
 /**
- * Summary for RssReaderFixture
+ * RssReaderFixture
+ * @codeCoverageIgnore
  */
 class RssReaderFixture extends CakeTestFixture {
 
