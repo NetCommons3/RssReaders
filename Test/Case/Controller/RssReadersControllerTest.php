@@ -169,6 +169,69 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 	}
 
 /**
+ * Expect admin user can access edit action
+ *
+ * @return void
+ */
+	public function testEditGetSiteInfoByRss1() {
+		RolesControllerTest::login($this);
+
+		$url = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml';
+		$this->testAction(
+			'/rss_readers/rss_readers/edit/1?url=' . rawurlencode($url),
+			array(
+				'method' => 'get',
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect admin user can access edit action
+ *
+ * @return void
+ */
+	public function testEditGetSiteInfoByRss2() {
+		RolesControllerTest::login($this);
+
+		$url = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v2.xml';
+		$this->testAction(
+			'/rss_readers/rss_readers/edit/1?url=' . rawurlencode($url),
+			array(
+				'method' => 'get',
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect admin user can access edit action
+ *
+ * @return void
+ */
+	public function testEditGetSiteInfoByAtom() {
+		RolesControllerTest::login($this);
+
+		$url = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_atom.xml';
+		$this->testAction(
+			'/rss_readers/rss_readers/edit/1?url=' . rawurlencode($url),
+			array(
+				'method' => 'get',
+				'return' => 'contents'
+			)
+		);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
  * Expect view action to be successfully handled w/ null frame.block_id
  * This situation typically occur after placing new plugin into page
  *

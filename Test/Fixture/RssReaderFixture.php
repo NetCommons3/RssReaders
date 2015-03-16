@@ -100,4 +100,16 @@ class RssReaderFixture extends CakeTestFixture {
 		),
 	);
 
+/**
+ * Initialize the fixture.
+ *
+ * @return void
+ */
+	public function init() {
+		foreach ($this->records as $i => $recode) {
+			$this->records[$i]['url'] = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml';
+		}
+		parent::init();
+	}
+
 }

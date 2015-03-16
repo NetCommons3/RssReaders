@@ -27,6 +27,10 @@ class AllRssReadersTest extends CakeTestSuite {
 		$suite = new CakeTestSuite(sprintf('All %s Plugin tests', $plugin));
 		$suite->addTestDirectoryRecursive(CakePlugin::path($plugin) . 'Test' . DS . 'Case');
 
+		//$task = 'RssReaderItem';
+		//var_dump($task);
+		//$suite->addTestFile(CakePlugin::path($plugin) . 'Test' . DS . 'Case' . DS . 'Model' . DS . $task . 'Test.php');
+
 		return $suite;
 	}
 }

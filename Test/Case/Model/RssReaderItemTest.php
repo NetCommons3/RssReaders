@@ -108,15 +108,22 @@ class RssReaderItemTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testUpdateRssReaderItems() {
-		$frameId = 1;
-		$blockId = 1;
 		$rssReaderId = 1;
 
+		//コンテンツの公開権限true
+		$this->RssReader->Behaviors->attach('Publishable');
+		$this->RssReader->Behaviors->Publishable->setup($this->RssReader, ['contentPublishable' => true]);
+
 		//データ生成
+		$rssReader = $this->RssReader->find('first', array(
+			'recursive' => -1,
+			'conditions' => array('id' => $rssReaderId)
+		));
 		$url = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml';
 		$xmlData = $this->RssReaderItem->serializeXmlToArray($url);
+		$xmlData = Hash::insert($xmlData, '{n}.rss_reader_id', $rssReaderId);
 		$data = array(
-			'RssReader' => array('id' => $rssReaderId),
+			'RssReader' => $rssReader['RssReader'],
 			'RssReaderItem' => $xmlData,
 		);
 
@@ -125,15 +132,12 @@ class RssReaderItemTest extends RssReadersModelTestCase {
 
 		//期待値の生成
 		$expected = $data;
-		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
 
 		//RssReaderのテスト実施
 		$now = date('Y-m-d H:i:s');
 		$rssReader = $this->RssReader->find('first', array(
 			'recursive' => -1,
-			'conditions' => array(
-				'id' => $rssReaderId
-			)
+			'conditions' => array('id' => $rssReaderId)
 		));
 		$date = new DateTime($rssReader['RssReader']['modified']);
 		$this->assertTrue($date->format('Y-m-d H:i:s') <= $now);
@@ -142,27 +146,12 @@ class RssReaderItemTest extends RssReadersModelTestCase {
 		$result = $this->RssReaderItem->find('all', array(
 			'fields' => array('id', 'rss_reader_id', 'title', 'summary', 'link', 'last_updated', 'serialize_value'),
 			'recursive' => -1,
-			'conditions' => array(
-				'rss_reader_id' => $rssReaderId
-			)
+			'conditions' => array('rss_reader_id' => $rssReaderId)
 		));
-		var_dump($result);
 		$result = Hash::combine($result, '{n}.RssReaderItem.id', '{n}.RssReaderItem');
 		$result = Hash::remove($result, '{n}.id');
 
-		var_dump($expected['RssReaderItem'], array_values($result));
 		$this->_assertArray(null, $expected['RssReaderItem'], array_values($result));
 	}
 
-/**
- * testGetRssReaderFrameSetting method
- *
- * @return void
- */
-	//public function testGetRssReaderFrameSetting() {
-	//	$frameKey = 'd6c512c3cb0e3cde4892ffbc1bf05b6dd0da70f22ce1404907d36b30cebe1553';
-	//	$rssReaderFrameData = $this->RssReaderFrameSetting->getRssReaderFrameSetting($frameKey);
-	//
-	//	$this->assertNotEmpty($rssReaderFrameData);
-	//}
 }

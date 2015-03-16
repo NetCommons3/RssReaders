@@ -190,13 +190,10 @@ class RssReaderItem extends RssReadersAppModel {
 			if (! $this->validateRssReaderItems($data['RssReaderItem'])) {
 				return false;
 			}
-
-			//RssReaderの登録
-			if (! $this->RssReader->save($data, false)) {
-			//if (! $this->RssReader->save($data, false, ['modified', 'modified_user'])) {
-				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
+			//RssReaderのvalidate
+			if (! $this->RssReader->validateRssReader($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->RssReader->validationErrors);
+				return false;
 			}
 
 			//既存データの削除
@@ -207,6 +204,12 @@ class RssReaderItem extends RssReadersAppModel {
 			}
 			//RSS Itemsの登録
 			if (! $this->saveMany($data['RssReaderItem'], ['validate' => false])) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
+			//RssReaderの登録
+			if (! $this->RssReader->save($data, false)) {
 				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				// @codeCoverageIgnoreEnd

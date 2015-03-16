@@ -261,10 +261,13 @@ class RssReadersController extends RssReadersAppController {
 			$rssReaderItem, '{n}.rss_reader_id', $this->viewVars['rssReader']['id']
 		);
 
+		$rssReader = array();
+		$callback = ['Inflector', 'underscore'];
+		foreach ($this->viewVars['rssReader'] as $key => $value) {
+			$rssReader[call_user_func($callback, $key)] = $value;
+		}
 		$this->RssReaderItem->updateRssReaderItems(array(
-			'RssReader' => array(
-				'id' => $this->viewVars['rssReader']['id']
-			),
+			'RssReader' => $rssReader,
 			'RssReaderItem' => $rssReaderItem
 		));
 
