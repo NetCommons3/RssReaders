@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-12 04:38+0000\n"
+"POT-Creation-Date: 2015-03-17 14:02+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,119 +14,79 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /Controller/RssReaderEditController.php:141
-#: /Test/Case/Controller/RssReaderEditControllerTest.php:194
+#: /Controller/RssReadersController.php:206;248
 msgid "Feed Not Found."
-msgstr "フィードが見つかりませんでした。"
+msgstr ""
 
-#: /View/Elements/manage_tab_header.ctp:11
-msgid "Edit RSS"
-msgstr "RSS編集"
-
-#: /View/Elements/manage_tab_header.ctp:16
-msgid "Change Indication Method"
-msgstr "表示方法変更"
-
-#: /View/Elements/manage_tab_header.ctp:21
-msgid "Set Up Email"
-msgstr "メール設定"
-
-#: /View/Elements/RssReaderEdit/common_form.ctp:16
+#: /Model/RssReader.php:119;124
+#: /Test/Case/Model/RssReaderValidateErrorTest.php:89;142
+#: /View/Elements/RssReaders/edit_form.ctp:26
 msgid "RDF/RSS URL"
-msgstr "RDF/RSSファイルのURL"
+msgstr ""
 
-#: /View/Elements/RssReaderEdit/common_form.ctp:34
-msgid "Get Site Info"
-msgstr "サイト情報取得"
+#: /Model/RssReader.php:124;139
+#: /Model/RssReaderItem.php:82
+#: /Test/Case/Model/RssReaderItemValidateErrorTest.php:96
+#: /Test/Case/Model/RssReaderValidateErrorTest.php:142;143
+msgid "URL"
+msgstr ""
 
-#: /View/Elements/RssReaderEdit/common_form.ctp:37
-msgid "Loading..."
-msgstr "取得中..."
-
-#: /View/Elements/RssReaderEdit/common_form.ctp:47
-msgid "Required field."
-msgstr "入力必須の項目です。"
-
-#: /View/Elements/RssReaderEdit/common_form.ctp:51;109
-msgid "Invalid URL format."
-msgstr "不正なURL形式です。"
-
-#: /View/Elements/RssReaderEdit/common_form.ctp:59
-#: /View/Elements/RssReaders/view_site_info.ctp:31
+#: /Model/RssReader.php:132
+#: /Test/Case/Model/RssReaderValidateErrorTest.php:90
+#: /View/Elements/RssReaders/edit_form.ctp:63
 msgid "Site Title"
-msgstr "サイト名"
+msgstr ""
 
-#: /View/Elements/RssReaderEdit/common_form.ctp:75
-#: /View/Elements/RssReaders/view_site_info.ctp:38
-msgid "Site Explanation"
-msgstr "サイトの説明"
-
-#: /View/Elements/RssReaderEdit/common_form.ctp:93
-#: /View/Elements/RssReaders/view_site_info.ctp:46
+#: /Model/RssReader.php:139
+#: /Test/Case/Model/RssReaderValidateErrorTest.php:143
+#: /View/Elements/RssReaders/edit_form.ctp:70
 msgid "Site Url"
-msgstr "サイトURL"
+msgstr ""
 
-#: /View/Elements/RssReaderEdit/common_form.ctp:117
-msgid "Chache Time"
-msgstr "キャッシュ時間"
+#: /Model/RssReaderItem.php:70
+#: /Test/Case/Model/RssReaderItemValidateErrorTest.php:41
+msgid "Title"
+msgstr ""
 
-#: /View/Elements/RssReaderEdit/common_form.ctp:124
-msgid "%dminutes"
-msgstr "%d分"
+#: /Model/RssReaderItem.php:77;82
+#: /Test/Case/Model/RssReaderItemValidateErrorTest.php:40;96
+msgid "Url"
+msgstr ""
 
-#: /View/Elements/RssReaderEdit/common_form.ctp:125;126;127
-msgid "%dhours"
-msgstr "%d時間"
-
-#: /View/Elements/RssReaderEdit/common_form.ctp:128;129
-msgid "%ddays"
-msgstr "%d日"
-
-#: /View/Elements/RssReaderEdit/common_form.ctp:130
-msgid "%dweeks"
-msgstr "%d週"
-
-#: /View/Elements/RssReaderEdit/common_form.ctp:131
-msgid "%dmonths"
-msgstr "%dヶ月"
-
-#: /View/Elements/RssReaderFrameSettings/edit_form.ctp:16
+#: /View/Elements/FrameSettings/edit_form.ctp:33
 msgid "Event Display"
-msgstr "表示件数"
+msgstr ""
 
-#: /View/Elements/RssReaderFrameSettings/edit_form.ctp:24;25;26;27;28;29
+#: /View/Elements/FrameSettings/edit_form.ctp:41;42;43;44;45;46
 msgid "%dcases"
-msgstr "%d件"
+msgstr ""
 
-#: /View/Elements/RssReaderFrameSettings/edit_form.ctp:43
-msgid "Display Site Info"
-msgstr "サイト情報を表示する"
+#: /View/Elements/RssReaders/edit_form.ctp:44
+msgid "Get Site Info"
+msgstr ""
 
-#: /View/Elements/RssReaderFrameSettings/edit_form.ctp:56
-msgid "Display Summary"
-msgstr "概要を表示する"
+#: /View/Elements/RssReaders/edit_form.ctp:80
+msgid "Site Explanation"
+msgstr ""
 
-#: /View/Elements/RssReaders/header_button.ctp:16;20
-msgid "Manage"
-msgstr "管理"
-
-#: /View/Elements/RssReaders/view_site_info.ctp:3
+#: /View/Elements/RssReaders/view_site_info.ctp:16
 msgid "Site Info"
-msgstr "サイト情報"
+msgstr ""
 
-#: /View/Elements/RssReaders/view_site_info.ctp:7
-msgid "Publishing"
-msgstr "公開中"
+#: /View/Elements/RssReaders/view_site_info.ctp:37
+msgid "RDF/RSS"
+msgstr ""
 
-#: /View/Elements/RssReaders/view_site_info.ctp:13
-msgid "Approving"
-msgstr "申請中"
+#: /View/FrameSettings/edit.ctp:24
+#: /View/RssReaders/edit.ctp:25
+msgid "Plugin name"
+msgstr ""
 
-#: /View/Elements/RssReaders/view_site_info.ctp:19
-msgid "Drafting"
-msgstr "下書き"
+#: /View/FrameSettings/edit.ctp:30
+msgid "Frame settings"
+msgstr ""
 
-#: /View/Elements/RssReaders/view_site_info.ctp:25
-msgid "Disapprovign"
-msgstr "差戻し"
+#: /View/RssReaders/edit.ctp:31
+msgid "Rss readers edit"
+msgstr ""
 

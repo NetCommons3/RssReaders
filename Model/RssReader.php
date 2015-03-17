@@ -207,14 +207,6 @@ class RssReader extends RssReadersAppModel {
 			//ブロックの登録
 			$block = $this->Block->saveByFrameId($data['Frame']['id'], false);
 
-			//ブロック名の登録
-			$block['Block']['name'] = $this->data['RssReader']['title'];
-			if (! $this->Block->save($block)) {
-				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
-			}
-
 			//RssReaderの登録
 			$this->data['RssReader']['block_id'] = (int)$block['Block']['id'];
 			$rssReader = $this->save(null, false);
