@@ -107,7 +107,8 @@ class RssReaderFixture extends CakeTestFixture {
  * @return void
  */
 	public function init() {
-		foreach ($this->records as $i => $recode) {
+		$recodeCount = count($this->records);
+		for ($i = 0; $i < $recodeCount; $i++) {
 			$this->records[$i]['url'] = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml';
 		}
 		parent::init();

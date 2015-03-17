@@ -132,7 +132,7 @@ class RssReaderTest extends RssReadersModelTestCase {
 		);
 
 		//登録処理実行
-		$ret = $this->RssReader->saveRssReader($data);
+		$this->RssReader->saveRssReader($data);
 
 		//期待値の生成
 		$rssReaderId = 4;
@@ -175,7 +175,7 @@ class RssReaderTest extends RssReadersModelTestCase {
 		);
 
 		//登録処理実行
-		$ret = $this->RssReader->saveRssReader($data);
+		$this->RssReader->saveRssReader($data);
 
 		//期待値の生成
 		$rssReaderId = 4;

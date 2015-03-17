@@ -11,7 +11,10 @@ App::uses('RssReadersController', 'RssReaders.Controller');
 App::uses('RssReadersControllerTestCase', 'RssReaders.Test/Case/Controller');
 
 /**
- * Summary for RssReadersController Test Case
+ * Expect RssReadersController
+ *
+ * @package NetCommons\RssReaders\Test\Case\Controller
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class RssReadersControllerTest extends RssReadersControllerTestCase {
 
