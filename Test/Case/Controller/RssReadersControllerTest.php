@@ -132,6 +132,23 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 	}
 
 /**
+ * Expect visitor can access view action
+ *
+ * @return void
+ */
+	public function testViewCache() {
+		$this->testAction(
+			'/rss_readers/rss_readers/view/2',
+			array(
+				'method' => 'get',
+				'return' => 'view',
+			)
+		);
+
+		$this->assertTextEquals('view', $this->controller->view);
+	}
+
+/**
  * Expect admin user can access edit action
  *
  * @return void

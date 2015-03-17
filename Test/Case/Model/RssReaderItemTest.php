@@ -103,6 +103,31 @@ class RssReaderItemTest extends RssReadersModelTestCase {
 	}
 
 /**
+ * Expect RssReaderItem->getRssReaderItems()
+ *
+ * @return void
+ */
+	public function testGetRssReaderItems() {
+		$rssReaderId = 1;
+		$result = $this->RssReaderItem->getRssReaderItems($rssReaderId);
+
+		$expected = array(
+			array(
+				'RssReaderItem' => array(
+					'id' => 1,
+					'rss_reader_id' => 1,
+					'title' => 'Title',
+					'summary' => 'Summary',
+					'link' => 'http://example.com',
+					'serialize_value' => 'serialize()',
+				)
+			),
+		);
+
+		$this->_assertArray(null, $expected, $result);
+	}
+
+/**
  * Expect RssReader->saveRssReader()
  *
  * @return void

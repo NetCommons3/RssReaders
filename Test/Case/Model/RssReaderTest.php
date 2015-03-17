@@ -85,18 +85,18 @@ class RssReaderTest extends RssReadersModelTestCase {
 			),
 			'Comment' => array('comment' => 'Edit comment'),
 		);
+		$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray(
+			APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml'
+		);
 
 		//登録処理実行
 		$this->RssReader->saveRssReader($data);
 
 		//期待値の生成
-		$rssReaderId = 4;
+		$rssReaderId = 5;
 
 		$expected = $data;
 		$expected['RssReader']['id'] = $rssReaderId;
-		$expected['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray(
-			APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml'
-		);
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
 
 		//テスト実施
@@ -130,20 +130,20 @@ class RssReaderTest extends RssReadersModelTestCase {
 			),
 			'Comment' => array('comment' => 'Edit comment'),
 		);
+		$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray(
+			APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml'
+		);
 
 		//登録処理実行
 		$this->RssReader->saveRssReader($data);
 
 		//期待値の生成
-		$rssReaderId = 4;
+		$rssReaderId = 5;
 
 		$expected = $data;
 		$expected['RssReader']['id'] = $rssReaderId;
-		$expected['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray(
-			APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml'
-		);
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
-		$expected['Block']['id'] = 3;
+		$expected['Block']['id'] = 4;
 		$expected['RssReader']['block_id'] = $expected['Block']['id'];
 
 		//テスト実施
@@ -173,18 +173,18 @@ class RssReaderTest extends RssReadersModelTestCase {
 			),
 			'Comment' => array('comment' => 'Edit comment'),
 		);
+		$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray(
+			APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml'
+		);
 
 		//登録処理実行
 		$this->RssReader->saveRssReader($data);
 
 		//期待値の生成
-		$rssReaderId = 4;
+		$rssReaderId = 5;
 
 		$expected = $data;
 		$expected['RssReader']['id'] = $rssReaderId;
-		$expected['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray(
-			APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml'
-		);
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
 
 		//テスト実施

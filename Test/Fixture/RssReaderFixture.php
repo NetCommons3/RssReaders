@@ -99,6 +99,23 @@ class RssReaderFixture extends CakeTestFixture {
 			'modified_user' => 1,
 			'modified' => '2014-10-14 05:37:41'
 		),
+		array(
+			'id' => 4,
+			'language_id' => 2,
+			'block_id' => 3,
+			'status' => 1,
+			'key' => 'rss_reader_4',
+			'url' => 'test',
+			'title' => 'Title',
+			'summary' => 'Summary',
+			'link' => 'http://example.com',
+			'is_auto_translated' => 0,
+			'translation_engine' => '',
+			'created_user' => 1,
+			'created' => '2014-10-14 05:37:41',
+			'modified_user' => 1,
+			'modified' => '2014-10-14 05:37:41'
+		),
 	);
 
 /**
@@ -107,9 +124,13 @@ class RssReaderFixture extends CakeTestFixture {
  * @return void
  */
 	public function init() {
-		$recodeCount = count($this->records);
-		for ($i = 0; $i < $recodeCount; $i++) {
-			$this->records[$i]['url'] = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml';
+		foreach ($this->records as $i => $recode) {
+			if ($recode['id'] !== 4) {
+				$this->records[$i]['url'] = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml';
+			}
+			if ($recode['id'] === 3) {
+				$this->records[$i]['modified'] = date('Y-m-d H:i:s');
+			}
 		}
 		parent::init();
 	}

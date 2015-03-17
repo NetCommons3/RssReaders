@@ -80,21 +80,6 @@ class FrameSettingsController extends RssReadersAppController {
  * @throws BadRequestException
  */
 	private function __initRssReaderFrameSetting() {
-		if (! $this->RssReader->getRssReader(
-			$this->viewVars['blockId'],
-			$this->viewVars['contentEditable']
-		)) {
-			if ($this->request->is('ajax')) {
-				$this->renderJson(
-					['error' => ['validationErrors' => ['id' => __d('net_commons', 'Invalid request.')]]],
-					__d('net_commons', 'Bad Request'), 400
-				);
-				return;
-			} else {
-				throw new BadRequestException(__d('net_commons', 'Bad Request'));
-			}
-		}
-
 		if (! $rssFrameSetting = $this->RssReaderFrameSetting->find('first', array(
 			'recursive' => -1,
 			'conditions' => array(

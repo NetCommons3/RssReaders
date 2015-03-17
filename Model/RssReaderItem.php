@@ -64,8 +64,6 @@ class RssReaderItem extends RssReadersAppModel {
 				),
 			),
 
-			//status to set in PublishableBehavior.
-
 			'title' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
@@ -217,9 +215,11 @@ class RssReaderItem extends RssReadersAppModel {
 
 			$dataSource->commit();
 		} catch (Exception $ex) {
+			// @codeCoverageIgnoreStart
 			$dataSource->rollback();
 			CakeLog::error($ex);
 			throw $ex;
+			// @codeCoverageIgnoreEnd
 		}
 
 		return true;

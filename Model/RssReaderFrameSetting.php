@@ -54,6 +54,14 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 					'required' => true,
 				)
 			),
+			'display_number_per_page' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'allowEmpty' => false,
+					'required' => true,
+				),
+			),
 		));
 
 		return parent::beforeValidate($options);

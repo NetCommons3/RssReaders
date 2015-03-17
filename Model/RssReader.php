@@ -140,23 +140,13 @@ class RssReader extends RssReadersAppModel {
 					'allowEmpty' => true,
 				)
 			),
-			'is_first_auto_translation' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'is_auto_translated' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
 		));
 
 		//TestでurlにAPPディレクト配下をセットした時は、URLのフォーマットチェックは除くようにする
-		if ($this->useDbConfig === 'test' && preg_match('/^' . preg_quote(APP, '/') . '/', $this->data['RssReader']['url'])) {
-			unset($this->validate['url']['url']);
+		if ($this->useDbConfig === 'test' && isset($this->data['RssReader']['url'])) {
+			if (preg_match('/^' . preg_quote(APP, '/') . '/', $this->data['RssReader']['url'])) {
+				unset($this->validate['url']['url']);
+			}
 		}
 		return parent::beforeValidate($options);
 	}
@@ -199,8 +189,6 @@ class RssReader extends RssReadersAppModel {
 			'Block' => 'Blocks.Block',
 			'Comment' => 'Comments.Comment',
 		]);
-
-		$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data[$this->alias]['url']);
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
@@ -269,7 +257,7 @@ class RssReader extends RssReadersAppModel {
  */
 	public function validateRssReaderAssociated($data) {
 		//RssItemsのvalidate
-		if (! $this->RssReaderItem->validateRssReaderItems($data['RssReaderItem'])) {
+		if (isset($data['RssReaderItem']) && ! $this->RssReaderItem->validateRssReaderItems($data['RssReaderItem'])) {
 			$this->validationErrors = Hash::merge($this->validationErrors, $this->RssReaderItem->validationErrors);
 			return false;
 		}
@@ -292,11 +280,13 @@ class RssReader extends RssReadersAppModel {
  */
 	public function saveRssReaderAssociated($data) {
 		//RSS Itemsの登録
-		$data['RssReaderItem'] = Hash::insert($data['RssReaderItem'], '{n}.rss_reader_id', $data[$this->alias]['id']);
-		if (! $this->RssReaderItem->saveMany($data['RssReaderItem'], ['validate' => false])) {
-			// @codeCoverageIgnoreStart
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			// @codeCoverageIgnoreEnd
+		if (isset($data['RssReaderItem'])) {
+			$data['RssReaderItem'] = Hash::insert($data['RssReaderItem'], '{n}.rss_reader_id', $data[$this->alias]['id']);
+			if (! $this->RssReaderItem->saveMany($data['RssReaderItem'], ['validate' => false])) {
+				// @codeCoverageIgnoreStart
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				// @codeCoverageIgnoreEnd
+			}
 		}
 
 		//コメントの登録

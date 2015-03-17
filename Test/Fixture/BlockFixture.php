@@ -64,6 +64,16 @@ class BlockFixture extends CakeTestFixture {
 			'modified_user' => 1,
 			'modified' => '2014-06-18 02:06:22'
 		),
+		array(
+			'id' => 3,
+			'language_id' => 2,
+			'room_id' => 1,
+			'key' => 'block_3',
+			'created_user' => 1,
+			'created' => '2014-06-18 02:06:22',
+			'modified_user' => 1,
+			'modified' => '2014-06-18 02:06:22'
+		),
 	);
 
 }

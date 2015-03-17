@@ -110,21 +110,9 @@ class RssReadersController extends RssReadersAppController {
 		}
 
 		if ($this->request->isPost()) {
-			if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
+			if (! $data = $this->__parseRequestData()) {
 				return;
 			}
-
-			$data = Hash::merge(
-				$this->data,
-				['RssReader' => ['status' => $status]]
-			);
-			if (!$rssReader = $this->RssReader->getRssReader(
-				isset($data['Block']['id']) ? (int)$data['Block']['id'] : null,
-				true
-			)) {
-				$rssReader = $this->RssReader->create(['key' => Security::hash('rss_reader' . mt_rand() . microtime(), 'md5')]);
-			}
-			$data = Hash::merge($rssReader, $data);
 
 			$rssReader = $this->RssReader->saveRssReader($data);
 			if (! $this->handleValidationError($this->RssReader->validationErrors)) {
@@ -252,11 +240,15 @@ class RssReadersController extends RssReadersAppController {
 			return;
 		}
 
-		if (! $rssReaderItem = $this->RssReaderItem->serializeXmlToArray(
-				$this->viewVars['rssReader']['url']
-		)) {
+		try {
+			$rssReaderItem = $this->RssReaderItem->serializeXmlToArray($this->viewVars['rssReader']['url']);
+
+		} catch (XmlException $e) {
+			// Xmlが取得できない場合異常終了
+			$this->RssReader->invalidate('url', __d('rss_readers', 'Feed Not Found.'));
 			return;
 		}
+
 		$rssReaderItem = Hash::insert(
 			$rssReaderItem, '{n}.rss_reader_id', $this->viewVars['rssReader']['id']
 		);
@@ -272,6 +264,35 @@ class RssReadersController extends RssReadersAppController {
 		));
 
 		$this->__initRssReader(['rssReaderItems']);
+	}
+
+/**
+ * Parse data from request
+ *
+ * @return array
+ */
+	private function __parseRequestData() {
+		if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
+			return;
+		}
+
+		$data = Hash::merge(
+			$this->data,
+			['RssReader' => ['status' => $status]]
+		);
+		if (!$rssReader = $this->RssReader->getRssReader(
+			isset($data['Block']['id']) ? (int)$data['Block']['id'] : null,
+			true
+		)) {
+			$rssReader = $this->RssReader->create(['key' => Security::hash('rss_reader' . mt_rand() . microtime(), 'md5')]);
+		}
+
+		$data = Hash::merge($rssReader, $data);
+		if ($data[$this->RssReader->alias]['url']) {
+			$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data[$this->RssReader->alias]['url']);
+		}
+
+		return $data;
 	}
 
 }
