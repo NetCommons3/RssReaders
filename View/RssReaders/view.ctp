@@ -16,6 +16,10 @@
 		ng-controller="RssReaders"
 		ng-init="initialize(<?php echo h(json_encode(['frameId' => $frameId])); ?>)">
 
+	<div class="form-group">
+		<?php echo $this->element('RssReaders/site_info_button'); ?>
+	</div>
+
 	<?php echo $this->element('RssReaders/view_site_info'); ?>
 
 	<?php echo $this->element('RssReaders/view_items'); ?>

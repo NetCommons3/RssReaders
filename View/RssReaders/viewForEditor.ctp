@@ -16,12 +16,12 @@
 		ng-controller="RssReaders"
 		ng-init="initialize(<?php echo h(json_encode(['frameId' => $frameId])); ?>)">
 
-	<div class="row">
-		<div class="col-xs-10">
-			<?php echo $this->element('RssReaders/view_site_info'); ?>
+	<div class="row form-group">
+		<div class="col-xs-6">
+			<?php echo $this->element('RssReaders/site_info_button'); ?>
 		</div>
 
-		<div class="col-xs-2 text-right">
+		<div class="col-xs-6 text-right">
 			<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
 				<a href="<?php echo $this->Html->url('/rss_readers/rss_readers/edit/' . $frameId) ?>" class="btn btn-primary">
 					<span class="glyphicon glyphicon-edit"> </span>
@@ -37,6 +37,8 @@
 			<?php endif; ?>
 		</div>
 	</div>
+
+	<?php echo $this->element('RssReaders/view_site_info'); ?>
 
 	<?php echo $this->element('RssReaders/view_items'); ?>
 </div>
