@@ -93,7 +93,7 @@ class RssReaderTest extends RssReadersModelTestCase {
 		$this->RssReader->saveRssReader($data);
 
 		//期待値の生成
-		$rssReaderId = 5;
+		$rssReaderId = $this->RssReader->getLastInsertID();
 
 		$expected = $data;
 		$expected['RssReader']['id'] = $rssReaderId;
@@ -138,7 +138,7 @@ class RssReaderTest extends RssReadersModelTestCase {
 		$this->RssReader->saveRssReader($data);
 
 		//期待値の生成
-		$rssReaderId = 5;
+		$rssReaderId = $this->RssReader->getLastInsertID();
 
 		$expected = $data;
 		$expected['RssReader']['id'] = $rssReaderId;
@@ -181,7 +181,7 @@ class RssReaderTest extends RssReadersModelTestCase {
 		$this->RssReader->saveRssReader($data);
 
 		//期待値の生成
-		$rssReaderId = 5;
+		$rssReaderId = $this->RssReader->getLastInsertID();
 
 		$expected = $data;
 		$expected['RssReader']['id'] = $rssReaderId;
