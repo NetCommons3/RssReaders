@@ -11,7 +11,7 @@
  * @param {string} Controller name
  * @param {function($scope, $sce, NetCommonsTab)} Controller
  */
-NetCommonsApp.controller('RssReaders', function($scope, $sce, NetCommonsTab) {
+NetCommonsApp.controller('RssReaders', function($scope, $window, NetCommonsTab) {
 
   /**
    * tab
@@ -65,7 +65,7 @@ NetCommonsApp.controller('RssReaders', function($scope, $sce, NetCommonsTab) {
    */
   $scope.getSiteInfo = function() {
     var element = $('input[name="data[RssReader][url]"]');
-    location.href = '/rss_readers/rss_readers/edit/' + $scope.frameId +
+    $window.location.href = '/rss_readers/rss_readers/edit/' + $scope.frameId +
                     '?url=' + encodeURIComponent(element[0].value);
   };
 });
