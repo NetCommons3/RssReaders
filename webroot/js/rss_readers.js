@@ -32,20 +32,6 @@ NetCommonsApp.controller('RssReaders',
       };
 
       /**
-       * Switching display of item summary
-       *
-       * @return {void}
-       */
-      $scope.switchDisplaySummary = function(id) {
-        var element = $(id);
-        if (element.hasClass('hidden')) {
-          element.removeClass('hidden');
-        } else {
-          element.addClass('hidden');
-        }
-      };
-
-      /**
        * Switching display of the site information
        *
        * @return {void}
