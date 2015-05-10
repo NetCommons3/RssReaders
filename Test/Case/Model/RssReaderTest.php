@@ -20,7 +20,7 @@ class RssReaderTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testGetRssReader() {
-		$blockId = 1;
+		$blockId = '181';
 		$contentEditable = true;
 		$result = $this->RssReader->getRssReader($blockId, $contentEditable);
 
@@ -42,7 +42,7 @@ class RssReaderTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testGetRssReaderByNoEditable() {
-		$blockId = 1;
+		$blockId = '181';
 		$contentEditable = false;
 		$result = $this->RssReader->getRssReader($blockId, $contentEditable);
 
@@ -64,8 +64,8 @@ class RssReaderTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReader() {
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//コンテンツの公開権限true
 		$this->RssReader->Behaviors->attach('Publishable');
@@ -109,7 +109,7 @@ class RssReaderTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderWithoutBlockId() {
-		$frameId = 3;
+		$frameId = '183';
 		$blockId = null;
 
 		//コンテンツの公開権限true
@@ -143,7 +143,7 @@ class RssReaderTest extends RssReadersModelTestCase {
 		$expected = $data;
 		$expected['RssReader']['id'] = $rssReaderId;
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
-		$expected['Block']['id'] = 4;
+		$expected['Block']['id'] = $this->Block->getLastInsertID();
 		$expected['RssReader']['block_id'] = $expected['Block']['id'];
 
 		//テスト実施
@@ -156,8 +156,8 @@ class RssReaderTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderWithoutPublishable() {
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//データ生成
 		$data = array(

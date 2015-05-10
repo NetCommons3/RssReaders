@@ -31,22 +31,22 @@ class RssReadersModelTestCase extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.frames.box',
+		'plugin.blocks.block',
+		'plugin.boxes.box',
+		'plugin.comments.comment',
+		'plugin.frames.frame',
 		'plugin.m17n.language',
-		'plugin.rooms.room',
-		'plugin.rooms.roles_rooms_user',
-		'plugin.roles.default_role_permission',
-		'plugin.rooms.roles_room',
-		'plugin.rooms.room_role_permission',
-		'plugin.rss_readers.block',
-		'plugin.rss_readers.comment',
+		'plugin.net_commons.plugin',
 		'plugin.rss_readers.rss_reader',
 		'plugin.rss_readers.rss_reader_frame_setting',
 		'plugin.rss_readers.rss_reader_item',
-		'plugin.rss_readers.frame',
-		'plugin.rss_readers.plugin',
-		'plugin.rss_readers.user',
-		'plugin.rss_readers.user_attributes_user',
+		'plugin.roles.default_role_permission',
+		'plugin.rooms.roles_room',
+		'plugin.rooms.roles_rooms_user',
+		'plugin.rooms.room',
+		'plugin.rooms.room_role_permission',
+		'plugin.users.user',
+		'plugin.users.user_attributes_user',
 	);
 
 /**
@@ -57,6 +57,7 @@ class RssReadersModelTestCase extends YACakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->Block = ClassRegistry::init('Blocks.Block');
 		$this->RssReader = ClassRegistry::init('RssReaders.RssReader');
 		$this->RssReaderItem = ClassRegistry::init('RssReaders.RssReaderItem');
 		$this->RssReaderFrameSetting = ClassRegistry::init('RssReaders.RssReaderFrameSetting');
@@ -68,6 +69,7 @@ class RssReadersModelTestCase extends YACakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		unset($this->Block);
 		unset($this->RssReader);
 		unset($this->RssReaderItem);
 		unset($this->RssReaderFrameSetting);

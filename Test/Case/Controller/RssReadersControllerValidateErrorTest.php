@@ -47,8 +47,8 @@ class RssReadersControllerValidateErrorTest extends RssReadersControllerTestCase
 	public function testEditWithInvalidStatus() {
 		RolesControllerTest::login($this);
 
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//データ生成
 		$data = array(
@@ -87,8 +87,8 @@ class RssReadersControllerValidateErrorTest extends RssReadersControllerTestCase
 		RolesControllerTest::login($this);
 
 		//データ生成
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		$data = array(
 			'Frame' => array('id' => $frameId),
@@ -129,8 +129,8 @@ class RssReadersControllerValidateErrorTest extends RssReadersControllerTestCase
 		RolesControllerTest::login($this);
 
 		//データ生成
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		$data = array(
 			'Frame' => array('id' => $frameId),
@@ -177,8 +177,8 @@ class RssReadersControllerValidateErrorTest extends RssReadersControllerTestCase
 		RolesControllerTest::login($this);
 
 		//データ生成
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		$data = array(
 			'Frame' => array('id' => $frameId),
@@ -225,7 +225,7 @@ class RssReadersControllerValidateErrorTest extends RssReadersControllerTestCase
 
 		$url = 'test';
 		$this->testAction(
-			'/rss_readers/rss_readers/edit/1?url=' . rawurlencode($url),
+			'/rss_readers/rss_readers/edit/181?url=' . rawurlencode($url),
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -243,7 +243,7 @@ class RssReadersControllerValidateErrorTest extends RssReadersControllerTestCase
  */
 	public function testViewUpdateCacheError() {
 		$this->testAction(
-			'/rss_readers/rss_readers/view/4',
+			'/rss_readers/rss_readers/view/185',
 			array(
 				'method' => 'get',
 				'return' => 'contents'

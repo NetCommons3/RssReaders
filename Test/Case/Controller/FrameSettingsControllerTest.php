@@ -43,7 +43,7 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		$this->testAction(
-			'/rss_readers/frame_settings/edit/1',
+			'/rss_readers/frame_settings/edit/181',
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -64,7 +64,7 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		$this->testAction(
-			'/rss_readers/frame_settings/edit/2',
+			'/rss_readers/frame_settings/edit/182',
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -84,10 +84,10 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		//データ生成
-		$frameId = 1;
-		$blockId = 1;
-		$framekey = 'frame_1';
-		$rssFrameSettingId = 1;
+		$frameId = '181';
+		$blockId = '181';
+		$framekey = 'frame_181';
+		$rssFrameSettingId = '1';
 
 		//登録処理実行
 		$data = array(
@@ -123,10 +123,10 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		//データ生成
-		$frameId = 2;
-		$blockId = 2;
-		$framekey = 'frame_2';
-		$rssFrameSettingId = 2;
+		$frameId = '182';
+		$blockId = '182';
+		$framekey = 'frame_182';
+		$rssFrameSettingId = '2';
 
 		//登録処理実行
 		$data = array(

@@ -48,10 +48,10 @@ class FrameSettingsControllerValidateErrorTest extends RssReadersControllerTestC
 		RolesControllerTest::login($this);
 
 		//データ生成
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 		$framekey = '';
-		$rssFrameSettingId = 1;
+		$rssFrameSettingId = '1';
 
 		//登録処理実行
 		$data = array(

@@ -49,10 +49,10 @@ class RssReaderFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'language_id' => 2,
-			'block_id' => 1,
-			'status' => 1,
+			'id' => '1',
+			'language_id' => '2',
+			'block_id' => '181',
+			'status' => '1',
 			'key' => 'rss_reader_1',
 			'url' => '<?xml version="1.0"?><rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/"><item><title>1</title><link>2</link><dc:date>2014-11-12T17:52:41+09:00</dc:date><description>3</description></item></rdf:RDF>',
 			'title' => 'RssReaderタイトル',
@@ -66,10 +66,10 @@ class RssReaderFixture extends CakeTestFixture {
 			'modified' => '2015-03-14 13:04:25'
 		),
 		array(
-			'id' => 2,
-			'language_id' => 2,
-			'block_id' => 1,
-			'status' => 3,
+			'id' => '2',
+			'language_id' => '2',
+			'block_id' => '181',
+			'status' => '3',
 			'key' => 'rss_reader_1',
 			'url' => '<?xml version="1.0"?><rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/"><item><title>1</title><link>2</link><dc:date>2014-11-12T17:52:41+09:00</dc:date><description>3</description></item></rdf:RDF>',
 			'title' => 'RssReader下書き',
@@ -83,10 +83,10 @@ class RssReaderFixture extends CakeTestFixture {
 			'modified' => '2014-10-14 05:37:41'
 		),
 		array(
-			'id' => 3,
-			'language_id' => 2,
-			'block_id' => 2,
-			'status' => 1,
+			'id' => '3',
+			'language_id' => '2',
+			'block_id' => '182',
+			'status' => '1',
 			'key' => 'rss_reader_2',
 			'url' => '<?xml version="1.0"?><rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/"><item><title>1</title><link>2</link><dc:date>2014-11-12T17:52:41+09:00</dc:date><description>3</description></item></rdf:RDF>',
 			'title' => 'RssReader申請中',
@@ -100,10 +100,10 @@ class RssReaderFixture extends CakeTestFixture {
 			'modified' => '2014-10-14 05:37:41'
 		),
 		array(
-			'id' => 4,
-			'language_id' => 2,
-			'block_id' => 3,
-			'status' => 1,
+			'id' => '4',
+			'language_id' => '2',
+			'block_id' => '186',
+			'status' => '1',
 			'key' => 'rss_reader_4',
 			'url' => 'test',
 			'title' => 'Title',
@@ -125,10 +125,10 @@ class RssReaderFixture extends CakeTestFixture {
  */
 	public function init() {
 		foreach ($this->records as $i => $recode) {
-			if ($recode['id'] !== 4) {
+			if ($recode['id'] !== '4') {
 				$this->records[$i]['url'] = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml';
 			}
-			if ($recode['id'] === 3) {
+			if ($recode['id'] === '3') {
 				$this->records[$i]['modified'] = date('Y-m-d H:i:s');
 			}
 		}

@@ -29,8 +29,8 @@ class RssReaderErrorTest extends RssReadersModelTestCase {
 	public function testSaveRssReaderByUnknownFrameId() {
 		$this->setExpectedException('InternalErrorException');
 
-		$frameId = 10;
-		$blockId = 1;
+		$frameId = '99999';
+		$blockId = '181';
 
 		//データ生成
 		$data = array(

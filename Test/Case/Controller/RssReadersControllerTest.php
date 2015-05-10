@@ -44,7 +44,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
  */
 	public function testIndex() {
 		$this->testAction(
-			'/rss_readers/rss_readers/index/1',
+			'/rss_readers/rss_readers/index/181',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -61,7 +61,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
  */
 	public function testView() {
 		$this->testAction(
-			'/rss_readers/rss_readers/view/1',
+			'/rss_readers/rss_readers/view/181',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -78,7 +78,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
  */
 	public function testViewJson() {
 		$ret = $this->testAction(
-			'/rss_readers/rss_readers/view/1.json',
+			'/rss_readers/rss_readers/view/181.json',
 			array(
 				'method' => 'get',
 				'type' => 'json',
@@ -101,7 +101,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		$view = $this->testAction(
-			'/rss_readers/rss_readers/view/1',
+			'/rss_readers/rss_readers/view/181',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -138,7 +138,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
  */
 	public function testViewCache() {
 		$this->testAction(
-			'/rss_readers/rss_readers/view/2',
+			'/rss_readers/rss_readers/view/182',
 			array(
 				'method' => 'get',
 				'return' => 'view',
@@ -157,7 +157,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		$this->testAction(
-			'/rss_readers/rss_readers/edit/1',
+			'/rss_readers/rss_readers/edit/181',
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -177,7 +177,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		$this->testAction(
-			'/rss_readers/rss_readers/edit/3',
+			'/rss_readers/rss_readers/edit/183',
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -198,7 +198,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 
 		$url = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml';
 		$this->testAction(
-			'/rss_readers/rss_readers/edit/1?url=' . rawurlencode($url),
+			'/rss_readers/rss_readers/edit/181?url=' . rawurlencode($url),
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -219,7 +219,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 
 		$url = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v2.xml';
 		$this->testAction(
-			'/rss_readers/rss_readers/edit/1?url=' . rawurlencode($url),
+			'/rss_readers/rss_readers/edit/181?url=' . rawurlencode($url),
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -240,7 +240,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 
 		$url = APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_atom.xml';
 		$this->testAction(
-			'/rss_readers/rss_readers/edit/1?url=' . rawurlencode($url),
+			'/rss_readers/rss_readers/edit/181?url=' . rawurlencode($url),
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -259,7 +259,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
  */
 	public function testAddFrameWithoutBlock() {
 		$this->testAction(
-			'/rss_readers/rss_readers/view/3',
+			'/rss_readers/rss_readers/view/183',
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -277,8 +277,8 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		//データ生成
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//データ生成
 		$data = array(
@@ -318,7 +318,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		//データ生成
-		$frameId = 3;
+		$frameId = '183';
 		$blockId = '';
 
 		$data = array(

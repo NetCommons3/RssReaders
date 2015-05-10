@@ -38,8 +38,8 @@ class RssReaderFrameSettingFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'frame_key' => 'd6c512c3cb0e3cde4892ffbc1bf05b6dd0da70f22ce1404907d36b30cebe1553',
+			'id' => '1',
+			'frame_key' => 'frame_181',
 			'display_number_per_page' => 1,
 			'created_user' => 1,
 			'created' => '2014-10-14 05:39:46',
@@ -48,7 +48,7 @@ class RssReaderFrameSettingFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => 2,
-			'frame_key' => 'dijgidoa9302ut30jg0a8du0jij0ge02j84892jikijglijgr00ajoifjbnir04',
+			'frame_key' => 'frame_182',
 			'display_number_per_page' => 5,
 			'created_user' => 1,
 			'created' => '2014-10-14 05:39:46',
@@ -57,7 +57,7 @@ class RssReaderFrameSettingFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => 3,
-			'frame_key' => 'plao00193u93z0o849jgkr049u48jiojgirajozmpqepoririwmcmndklfj39zf',
+			'frame_key' => 'frame_183',
 			'display_number_per_page' => 5,
 			'created_user' => 1,
 			'created' => '2014-10-14 05:39:46',
@@ -66,7 +66,7 @@ class RssReaderFrameSettingFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => 4,
-			'frame_key' => 'idiug930foajhjhufoaosstsrsr3838ghdshai9302jgjydhhenijij40gjg00',
+			'frame_key' => 'frame_184',
 			'display_number_per_page' => 5,
 			'created_user' => 1,
 			'created' => '2014-10-14 05:39:46',

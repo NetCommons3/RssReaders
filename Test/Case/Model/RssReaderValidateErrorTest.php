@@ -29,8 +29,8 @@ class RssReaderValidateErrorTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderByStatus() {
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//コンテンツの公開権限true
 		$this->RssReader->Behaviors->attach('Publishable');
@@ -81,8 +81,8 @@ class RssReaderValidateErrorTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderByNotEmpty() {
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//Checkカラム
 		$fields = array(
@@ -134,8 +134,8 @@ class RssReaderValidateErrorTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderByUrl() {
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//Checkカラム
 		$fields = array(
@@ -186,8 +186,8 @@ class RssReaderValidateErrorTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderByComment() {
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//コンテンツの公開権限true
 		$this->RssReader->Behaviors->attach('Publishable');
@@ -226,8 +226,8 @@ class RssReaderValidateErrorTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderByRssReaderItem() {
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '181';
+		$blockId = '181';
 
 		//データ生成
 		$data = array(

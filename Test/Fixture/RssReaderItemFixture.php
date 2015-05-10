@@ -47,8 +47,8 @@ class RssReaderItemFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'rss_reader_id' => 1,
+			'id' => '1',
+			'rss_reader_id' => '1',
 			'title' => 'Title',
 			'summary' => 'Summary',
 			'link' => 'http://example.com',

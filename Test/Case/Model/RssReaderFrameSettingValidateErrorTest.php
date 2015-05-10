@@ -29,9 +29,9 @@ class RssReaderFrameSettingValidateErrorTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderFrameSettingByFrameKey() {
-		$frameId = 1;
-		$framekey = 'frame_1';
-		$blockId = 1;
+		$frameId = '181';
+		$framekey = 'frame_181';
+		$blockId = '181';
 		$rssFrameSettingId = 1;
 
 		//Check項目
@@ -70,9 +70,9 @@ class RssReaderFrameSettingValidateErrorTest extends RssReadersModelTestCase {
  * @return void
  */
 	public function testSaveRssReaderFrameSettingByNumber() {
-		$frameId = 1;
-		$framekey = 'frame_1';
-		$blockId = 1;
+		$frameId = '181';
+		$framekey = 'frame_181';
+		$blockId = '181';
 		$rssFrameSettingId = 1;
 
 		//Check項目
