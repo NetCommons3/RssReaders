@@ -36,6 +36,7 @@ class RssReader extends RssReadersAppModel {
  * @var array
  */
 	public $actsAs = array(
+		'NetCommons.OriginalKey',
 		'NetCommons.Publishable'
 	);
 
@@ -155,21 +156,25 @@ class RssReader extends RssReadersAppModel {
  * Get rss reader
  *
  * @param int $blockId blocks.id
+ * @param int $roomId rooms.id
  * @param bool $contentEditable true can edit the content, false not can edit the content.
  * @return array $rssReader
  */
-	public function getRssReader($blockId, $contentEditable) {
+	public function getRssReader($blockId, $roomId, $contentEditable) {
 		$conditions = array(
-			'block_id' => $blockId,
+			'Block.id' => $blockId,
+			'Block.room_id' => $roomId,
 		);
-		if (! $contentEditable) {
-			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
+		if ($contentEditable) {
+			$conditions[$this->alias . '.is_latest'] = true;
+		} else {
+			$conditions[$this->alias . '.is_active'] = true;
 		}
 
 		$rssReader = $this->find('first', array(
-			'recursive' => -1,
+			'recursive' => 0,
 			'conditions' => $conditions,
-			'order' => 'RssReader.id DESC',
+			//'order' => 'RssReader.id DESC',
 		));
 
 		return $rssReader;
@@ -196,24 +201,18 @@ class RssReader extends RssReadersAppModel {
 
 		try {
 			//RssReaderのvalidate
-			if (! $this->validateRssReader($data)) {
-				return false;
-			}
-			//Associatedのvalidate
-			if (! $this->validateRssReaderAssociated($data)) {
+			if (! $this->validateRssReader($data, ['block', 'comment', 'rss_reader_item'])) {
 				return false;
 			}
 
 			//ブロックの登録
-			$block = $this->Block->saveByFrameId($data['Frame']['id'], false);
+			$block = $this->Block->saveByFrameId($data['Frame']['id']);
 
 			//RssReaderの登録
 			$this->data['RssReader']['block_id'] = (int)$block['Block']['id'];
 			$rssReader = $this->save(null, false);
 			if (! $rssReader) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 
 			//Associatedの登録
@@ -233,12 +232,41 @@ class RssReader extends RssReadersAppModel {
  * validate rssReader
  *
  * @param array $data received post data
+ * @param array $contains Optional validate sets
  * @return bool True on success, false on error
  */
-	public function validateRssReader($data) {
+	public function validateRssReader($data, $contains = []) {
 		$this->set($data);
 		$this->validates();
-		return $this->validationErrors ? false : true;
+		if ($this->validationErrors) {
+			return false;
+		}
+
+		//ブロックのvalidate
+		if (in_array('block', $contains, true)) {
+			if (! $this->Block->validateBlock($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
+				return false;
+			}
+		}
+
+		//RssItemsのvalidate
+		if (in_array('rss_reader_item', $contains, true) && isset($data['RssReaderItem'])) {
+			if (! $this->RssReaderItem->validateRssReaderItems($data['RssReaderItem'])) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->RssReaderItem->validationErrors);
+				return false;
+			}
+		}
+
+		//コメントのvalidate
+		if (in_array('comment', $contains, true) && isset($data['Comment'])) {
+			if (! $this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 /**
@@ -247,21 +275,21 @@ class RssReader extends RssReadersAppModel {
  * @param array $data received post data
  * @return bool True on success, false on error
  */
-	public function validateRssReaderAssociated($data) {
-		//RssItemsのvalidate
-		if (isset($data['RssReaderItem']) && ! $this->RssReaderItem->validateRssReaderItems($data['RssReaderItem'])) {
-			$this->validationErrors = Hash::merge($this->validationErrors, $this->RssReaderItem->validationErrors);
-			return false;
-		}
-
-		//コメントのvalidate
-		if (! $this->Comment->validateByStatus($data, array('caller' => $this->name))) {
-			$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-			return false;
-		}
-
-		return true;
-	}
+//	public function validateRssReaderAssociated($data) {
+//		//RssItemsのvalidate
+//		if (isset($data['RssReaderItem']) && ! $this->RssReaderItem->validateRssReaderItems($data['RssReaderItem'])) {
+//			$this->validationErrors = Hash::merge($this->validationErrors, $this->RssReaderItem->validationErrors);
+//			return false;
+//		}
+//
+//		//コメントのvalidate
+//		if (! $this->Comment->validateByStatus($data, array('caller' => $this->name))) {
+//			$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+//			return false;
+//		}
+//
+//		return true;
+//	}
 
 /**
  * saveRssReaderAssociated

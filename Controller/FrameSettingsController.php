@@ -28,7 +28,6 @@ class FrameSettingsController extends RssReadersAppController {
  * @var    array
  */
 	public $uses = array(
-		'RssReaders.RssReader',
 		'RssReaders.RssReaderFrameSetting'
 	);
 
@@ -38,7 +37,6 @@ class FrameSettingsController extends RssReadersAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定

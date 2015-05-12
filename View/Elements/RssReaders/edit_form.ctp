@@ -10,77 +10,124 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('id'); ?>
-
 <?php echo $this->Form->hidden('Frame.id', array(
-	'value' => $frameId
-)); ?>
+		'value' => $frameId,
+	)); ?>
 
 <?php echo $this->Form->hidden('Block.id', array(
-	'value' => $blockId,
-)); ?>
+		'value' => $block['id'],
+	)); ?>
 
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->label('RssReader.url',
-				__d('rss_readers', 'RDF/RSS URL') . $this->element('NetCommons.required')
+<?php echo $this->Form->hidden('Block.key', array(
+		'value' => $block['key'],
+	)); ?>
+
+<?php echo $this->Form->hidden('Block.language_id', array(
+		'value' => $languageId,
+	)); ?>
+
+<?php echo $this->Form->hidden('Block.room_id', array(
+		'value' => $roomId,
+	)); ?>
+
+<?php echo $this->Form->hidden('Block.plugin_key', array(
+		'value' => $this->params['plugin'],
+	)); ?>
+
+<?php echo $this->Form->hidden('RssReader.id', array(
+		'value' => isset($rssReader['id']) ? (int)$rssReader['id'] : null,
+	)); ?>
+
+<?php echo $this->Form->hidden('RssReader.key', array(
+		'value' => isset($rssReader['key']) ? $rssReader['key'] : null,
+	)); ?>
+
+<?php echo $this->Form->hidden('RssReader.language_id', array(
+		'value' => $languageId,
+	)); ?>
+
+<div class="form-group">
+	<?php echo $this->Form->label('RssReader.url',
+			__d('rss_readers', 'RDF/RSS URL') . $this->element('NetCommons.required')
+		); ?>
+
+	<div class="input-group">
+		<?php echo $this->Form->input(
+				'RssReader.url',
+				array(
+					'type' => 'text',
+					'label' => false,
+					'error' => false,
+					'class' => 'form-control',
+					'value' => isset($rssReader['url']) ? $rssReader['url'] : null,
+					'placeholder' => 'http://',
+				)
 			); ?>
 
-		<div class="input-group">
-			<?php echo $this->Form->input(
-					'RssReader.url',
-					array(
-						'type' => 'text',
-						'label' => false,
-						'error' => false,
-						'class' => 'form-control',
-						'value' => (isset($rssReader['url']) ? $rssReader['url'] : ''),
-						'placeholder' => 'http://',
-					)
-				); ?>
-
-			<span class="input-group-btn">
-				<button class="btn btn-default" type="button" ng-click="getSiteInfo()">
-					<?php echo __d('rss_readers', 'Get Site Info'); ?>
-				</button>
-			</span>
-		</div>
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="button" ng-click="getSiteInfo()">
+				<?php echo __d('rss_readers', 'Get Site Info'); ?>
+			</button>
+		</span>
 	</div>
 
-	<div class="col-xs-12">
-		<?php echo $this->element(
-			'RssReaders.errors', [
-				'errors' => $this->validationErrors,
-				'model' => 'RssReader',
-				'field' => 'url',
-			]); ?>
-	</div>
+	<?php echo $this->element(
+		'RssReaders.errors', [
+			'errors' => $this->validationErrors,
+			'model' => 'RssReader',
+			'field' => 'url',
+		]); ?>
 </div>
 
-<?php echo $this->element('RssReaders/input_field', array(
+<div class="form-group">
+	<?php echo $this->Form->input('RssReader.title', array(
+			'type' => 'text',
+			'label' =>  __d('rss_readers', 'Site Title') . $this->element('NetCommons.required'),
+			'error' => false,
+			'class' => 'form-control',
+			'value' => isset($rssReader['title']) ? $rssReader['title'] : null
+		)); ?>
+
+	<?php echo $this->element(
+		'NetCommons.errors', [
+			'errors' => $this->validationErrors,
 			'model' => 'RssReader',
 			'field' => 'title',
-			'label' => __d('rss_readers', 'Site Title') . $this->element('NetCommons.required'),
-		)
-	); ?>
+		]); ?>
+</div>
 
-<?php echo $this->element('RssReaders/input_field', array(
+<div class="form-group">
+	<?php echo $this->Form->input('RssReader.link', array(
+			'type' => 'text',
+			'label' =>  __d('rss_readers', 'Site Url'),
+			'error' => false,
+			'class' => 'form-control',
+			'value' => isset($rssReader['link']) ? $rssReader['link'] : null,
+			'placeholder' => 'http://',
+		)); ?>
+
+	<?php echo $this->element(
+		'NetCommons.errors', [
+			'errors' => $this->validationErrors,
 			'model' => 'RssReader',
 			'field' => 'link',
-			'label' => __d('rss_readers', 'Site Url'),
-			'attributes' => array(
-				'placeholder' => 'http://',
-			),
-		)
-	); ?>
+		]); ?>
+</div>
 
-<?php echo $this->element('RssReaders/input_field', array(
+<div class="form-group">
+	<?php echo $this->Form->input('RssReader.summary', array(
+			'type' => 'textarea',
+			'label' =>  __d('rss_readers', 'Site Explanation'),
+			'error' => false,
+			'class' => 'form-control',
+			'value' => isset($rssReader['summary']) ? $rssReader['summary'] : null,
+			'rows' => 2,
+		)); ?>
+
+	<?php echo $this->element(
+		'NetCommons.errors', [
+			'errors' => $this->validationErrors,
 			'model' => 'RssReader',
 			'field' => 'summary',
-			'label' => __d('rss_readers', 'Site Explanation'),
-			'attributes' => array(
-				'type' => 'textarea',
-				'rows' => 2,
-			),
-		)
-	);
+		]); ?>
+</div>

@@ -30,7 +30,6 @@ class RssReadersController extends RssReadersAppController {
  */
 	public $uses = array(
 		'Comments.Comment',
-		'RssReaders.RssReader',
 		'RssReaders.RssReaderItem',
 		'RssReaders.RssReaderFrameSetting'
 	);
@@ -41,7 +40,6 @@ class RssReadersController extends RssReadersAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
