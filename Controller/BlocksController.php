@@ -145,6 +145,7 @@ class BlocksController extends RssReadersAppController {
 			$data['RssReader']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
 
 			$rssReader = $this->RssReader->saveRssReader($data);
+
 			if ($this->handleValidationError($this->RssReader->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
@@ -154,6 +155,7 @@ class BlocksController extends RssReadersAppController {
 
 			$data['Block']['id'] = null;
 			$data['Block']['key'] = null;
+			unset($data['Frame']);
 		}
 
 		$data = Hash::merge($rssReader, $block, $data);
@@ -167,30 +169,30 @@ class BlocksController extends RssReadersAppController {
  * @return void
  */
 	public function edit() {
-//		if (! $this->NetCommonsBlock->validateBlockId()) {
-//			$this->throwBadRequest();
-//			return false;
-//		}
-//		$this->set('blockId', (int)$this->params['pass'][1]);
-//
-//		if (! $this->initEdumap()) {
-//			return;
-//		}
-//
-//		if ($this->request->isPost()) {
-//			$data = $this->__parseRequestData();
-//
-//			$this->RssReader->saveEdumap($data);
-//			if ($this->handleValidationError($this->RssReader->validationErrors)) {
-//				if (! $this->request->is('ajax')) {
-//					$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
-//				}
-//				return;
-//			}
-//
-//			$results = $this->camelizeKeyRecursive($data);
-//			$this->set($results);
-//		}
+		if (! $this->NetCommonsBlock->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('blockId', (int)$this->params['pass'][1]);
+
+		if (! $this->initRssReader()) {
+			return;
+		}
+
+		if ($this->request->isPost()) {
+			$data = $this->__parseRequestData();
+
+			$this->RssReader->saveRssReader($data);
+			if ($this->handleValidationError($this->RssReader->validationErrors)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
+				}
+				return;
+			}
+
+			$results = $this->camelizeKeyRecursive($data);
+			$this->set($results);
+		}
 	}
 
 /**
@@ -200,26 +202,26 @@ class BlocksController extends RssReadersAppController {
  * @return void
  */
 	public function delete() {
-//		if (! $this->NetCommonsBlock->validateBlockId()) {
-//			$this->throwBadRequest();
-//			return false;
-//		}
-//		$this->set('blockId', (int)$this->params['pass'][1]);
-//
-//		if (! $this->initEdumap()) {
-//			return;
-//		}
-//
-//		if ($this->request->isDelete()) {
-//			if ($this->RssReader->deleteEdumap($this->data)) {
-//				if (! $this->request->is('ajax')) {
-//					$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
-//				}
-//				return;
-//			}
-//		}
-//
-//		$this->throwBadRequest();
+		if (! $this->NetCommonsBlock->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('blockId', (int)$this->params['pass'][1]);
+
+		if (! $this->initRssReader()) {
+			return;
+		}
+
+		if ($this->request->isDelete()) {
+			if ($this->RssReader->deleteRssReader($this->data)) {
+				if (! $this->request->is('ajax')) {
+					$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
+				}
+				return;
+			}
+		}
+
+		$this->throwBadRequest();
 	}
 
 /**

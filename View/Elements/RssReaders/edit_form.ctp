@@ -58,6 +58,7 @@
 					'type' => 'text',
 					'label' => false,
 					'error' => false,
+					'div' => false,
 					'class' => 'form-control',
 					'value' => isset($rssReader['url']) ? $rssReader['url'] : null,
 					'placeholder' => 'http://',
@@ -77,6 +78,12 @@
 			'model' => 'RssReader',
 			'field' => 'url',
 		]); ?>
+
+	<div class="has-error" ng-show="urlError" ng-cloak>
+		<div class="help-block">
+			{{urlError}}
+		</div>
+	</div>
 </div>
 
 <div class="form-group">

@@ -9,8 +9,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
+<?php echo $this->Html->script('/rss_readers/js/rss_readers.js', false); ?>
 
-<div class="modal-body">
+<div id="nc-rss-readers-<?php echo (int)$frameId; ?>" class="modal-body"
+		ng-controller="RssReaders"
+		ng-init="initialize(<?php echo h(json_encode(['frameId' => $frameId])); ?>)">
+
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">

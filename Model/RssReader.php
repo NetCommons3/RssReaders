@@ -102,15 +102,11 @@ class RssReader extends RssReadersAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					//'required' => true,
+					'on' => 'update', // Limit validation to 'create' or 'update' operations
 				)
 			),
-			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				)
-			),
+
+			//key to set in OriginalKeyBehavior.
 
 			//status to set in PublishableBehavior.
 
@@ -205,6 +201,12 @@ class RssReader extends RssReadersAppModel {
 				return false;
 			}
 
+			//ブロックのvalidate
+			if (! $this->Block->validateBlock($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
+				return false;
+			}
+
 			//ブロックの登録
 			$block = $this->Block->saveByFrameId($data['Frame']['id']);
 
@@ -215,8 +217,20 @@ class RssReader extends RssReadersAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//Associatedの登録
-			$this->saveRssReaderAssociated($rssReader);
+			//RSS Itemsの登録
+			if (isset($rssReader['RssReaderItem'])) {
+				$rssReader['RssReaderItem'] = Hash::insert($rssReader['RssReaderItem'], '{n}.rss_reader_id', $rssReader[$this->alias]['id']);
+				if (! $this->RssReaderItem->saveMany($rssReader['RssReaderItem'], ['validate' => false])) {
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				}
+			}
+
+			//コメントの登録
+			if ($this->Comment->data) {
+				if (! $this->Comment->save(null, false)) {
+					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+				}
+			}
 
 			$dataSource->commit();
 		} catch (Exception $ex) {
@@ -240,14 +254,6 @@ class RssReader extends RssReadersAppModel {
 		$this->validates();
 		if ($this->validationErrors) {
 			return false;
-		}
-
-		//ブロックのvalidate
-		if (in_array('block', $contains, true)) {
-			if (! $this->Block->validateBlock($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-				return false;
-			}
 		}
 
 		//RssItemsのvalidate
@@ -298,25 +304,80 @@ class RssReader extends RssReadersAppModel {
  * @return bool true on success, exception on error
  * @throws InternalErrorException
  */
-	public function saveRssReaderAssociated($data) {
-		//RSS Itemsの登録
-		if (isset($data['RssReaderItem'])) {
-			$data['RssReaderItem'] = Hash::insert($data['RssReaderItem'], '{n}.rss_reader_id', $data[$this->alias]['id']);
-			if (! $this->RssReaderItem->saveMany($data['RssReaderItem'], ['validate' => false])) {
-				// @codeCoverageIgnoreStart
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
-			}
-		}
+//	public function saveRssReaderAssociated($data) {
+//		//RSS Itemsの登録
+//		if (isset($data['RssReaderItem'])) {
+//			$data['RssReaderItem'] = Hash::insert($data['RssReaderItem'], '{n}.rss_reader_id', $data[$this->alias]['id']);
+//			if (! $this->RssReaderItem->saveMany($data['RssReaderItem'], ['validate' => false])) {
+//				// @codeCoverageIgnoreStart
+//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//				// @codeCoverageIgnoreEnd
+//			}
+//		}
+//
+//		//コメントの登録
+//		if ($this->Comment->data) {
+//			$this->Comment->data['Comment']['plugin_key'] = 'rss_readers';
+//			if (! $this->Comment->save(null, false)) {
+//				// @codeCoverageIgnoreStart
+//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//				// @codeCoverageIgnoreEnd
+//			}
+//		}
+//
+//		return true;
+//	}
 
-		//コメントの登録
-		if ($this->Comment->data) {
-			$this->Comment->data['Comment']['plugin_key'] = 'rss_readers';
-			if (! $this->Comment->save(null, false)) {
-				// @codeCoverageIgnoreStart
+/**
+ * Delete RssReader
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function deleteRssReader($data) {
+		$this->loadModels([
+			'RssReader' => 'RssReaders.RssReader',
+			'RssReaderItem' => 'RssReaders.RssReaderItem',
+			'Block' => 'Blocks.Block',
+			'Comment' => 'Comments.Comment',
+		]);
+
+		//トランザクションBegin
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		$conditions = array(
+			$this->alias . '.key' => $data[$this->alias]['key']
+		);
+		$rssReaders = $this->find('list', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			)
+		);
+		$rssReaderIds = array_keys($rssReaders);
+
+		try {
+			if (! $this->deleteAll(array($this->alias . '.key' => $data[$this->alias]['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
+
+			if (! $this->RssReaderItem->deleteAll(array($this->RssReaderItem->alias . '.rss_reader_id' => $rssReaderIds), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//Blockデータ削除
+			$this->Block->deleteBlock($data['Block']['key']);
+
+			//トランザクションCommit
+			$dataSource->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			CakeLog::error($ex);
+			throw $ex;
 		}
 
 		return true;

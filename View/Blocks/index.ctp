@@ -34,7 +34,7 @@
 						<tr>
 							<th>#</th>
 							<th>
-								<?php echo $this->Paginator->sort('RssReader.name', __d('rss_readers', 'Site Title')); ?>
+								<?php echo $this->Paginator->sort('RssReader.title', __d('rss_readers', 'Site Title')); ?>
 							</th>
 							<th>
 								<?php echo $this->Paginator->sort('RssReader.modified', __d('net_commons', 'Updated date')); ?>
@@ -60,7 +60,7 @@
 								</td>
 								<td>
 									<a href="<?php echo $this->Html->url('/rss_readers/blocks/edit/' . $frameId . '/' . (int)$rssReader['block']['id']); ?>">
-										<?php echo h($rssReader['rssReader']['name']); ?>
+										<?php echo h($rssReader['rssReader']['title']); ?>
 									</a>
 								</td>
 								<td>

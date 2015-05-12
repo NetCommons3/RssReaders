@@ -44,7 +44,7 @@ class RssReadersController extends RssReadersAppController {
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
-				'contentEditable' => array('edit')
+				'contentEditable' => array('edit', 'get')
 			),
 		),
 	);
@@ -179,6 +179,34 @@ class RssReadersController extends RssReadersAppController {
 
 		$results = $this->camelizeKeyRecursive($results);
 		$this->set($results);
+	}
+
+
+/**
+ * Get site information
+ *
+ * @return void
+ */
+	public function get() {
+		$url = Hash::get($this->request->query, 'url');
+		if (! $url) {
+			return;
+		}
+
+		$rss = Xml::build($url);
+		$rssType = $rss->getName();
+
+		$results = array();
+		if ($rssType === 'feed') {
+			$results['title'] = (string)$rss->title;
+			$results['link'] = (string)$rss->link->attributes()->href;
+			$results['summary'] = (string)$rss->subtitle;
+		} else {
+			$results['title'] = (string)$rss->channel->title;
+			$results['link'] = (string)$rss->channel->link;
+			$results['summary'] = (string)$rss->channel->description;
+		}
+		$this->renderJson($results);
 	}
 
 /**

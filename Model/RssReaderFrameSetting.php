@@ -68,7 +68,24 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 	}
 
 /**
- * save edumap
+ * Get RssReaderFrameSetting
+ *
+ * @param string $frameKey frames.key
+ * @return array $rssFrameSetting
+ */
+	public function getRssReaderFrameSetting($frameKey) {
+		$rssFrameSetting = $this->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'frame_key' => $frameKey
+			)
+		));
+
+		return $rssFrameSetting;
+	}
+
+/**
+ * save RssReaderFrameSetting
  *
  * @param array $data received post data
  * @return bool true success, false error
@@ -90,25 +107,21 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 
 			//登録処理
 			if (! $this->save(null, false)) {
-				// @codeCoverageIgnoreStart
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				// @codeCoverageIgnoreEnd
 			}
 
 			$dataSource->commit();
 		} catch (Exception $ex) {
-			// @codeCoverageIgnoreStart
 			$dataSource->rollback();
 			CakeLog::error($ex);
 			throw $ex;
-			// @codeCoverageIgnoreEnd
 		}
 
 		return true;
 	}
 
 /**
- * validate edumap
+ * validate RssReaderFrameSetting
  *
  * @param array $data received post data
  * @return bool True on success, false on error
@@ -116,6 +129,9 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 	public function validateRssReaderFrameSetting($data) {
 		$this->set($data);
 		$this->validates();
-		return $this->validationErrors ? false : true;
+		if ($this->validationErrors) {
+			return false;
+		}
+		return true;
 	}
 }

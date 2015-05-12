@@ -9,10 +9,10 @@
  * RssReaders Javascript
  *
  * @param {string} Controller name
- * @param {function($scope, $sce, NetCommonsTab)} Controller
+ * @param {function($scope, $http, NetCommonsTab)} Controller
  */
 NetCommonsApp.controller('RssReaders',
-    function($scope, $window, NetCommonsTab) {
+    function($scope, $http, NetCommonsTab) {
 
       /**
        * tab
@@ -47,14 +47,40 @@ NetCommonsApp.controller('RssReaders',
       };
 
       /**
-       * Get site information
+       * Get url
        *
        * @return {void}
        */
       $scope.getSiteInfo = function() {
         var element = $('input[name="data[RssReader][url]"]');
-        $window.location.href =
-            '/rss_readers/rss_readers/edit/' + $scope.frameId +
-            '?url=' + encodeURIComponent(element[0].value);
+
+        $http.get('/rss_readers/rss_readers/get/' + $scope.frameId + '.json',
+            {params: {url: element[0].value}})
+          .success(function(data) {
+              element = $('input[name="data[RssReader][title]"]');
+              if (! angular.isUndefined(element[0]) &&
+                      ! angular.isUndefined(data['title'])) {
+                element[0].value = data['title'];
+              }
+
+              element = $('input[name="data[RssReader][link]"]');
+              if (! angular.isUndefined(element[0]) &&
+                      ! angular.isUndefined(data['link'])) {
+                element[0].value = data['link'];
+              }
+
+              element = $('textarea[name="data[RssReader][summary]"]');
+              if (! angular.isUndefined(element[0]) &&
+                      ! angular.isUndefined(data['summary'])) {
+                element[0].value = data['summary'];
+              }
+
+              $scope.urlError = '';
+            })
+          .error(function(data) {
+              $scope.urlError =
+                  angular.isUndefined(data['error']) ? data['name'] : data['error'];
+            });
       };
+
     });
