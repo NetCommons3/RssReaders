@@ -1,64 +1,21 @@
 <?php
 /**
- * RssReader Test Case
+ * Test of RssReader->saveRssReader()
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @link     http://www.netcommons.org NetCommons Project
- * @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
 App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
 
 /**
- * Summary for RssReader Test Case
- */
-class RssReaderTest extends RssReadersModelTestCase {
-
-/**
- * Expect RssReader->getRssReader()
+ * Test of RssReader->saveRssReader()
  *
- * @return void
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\RssReaders\Test\Case\Model
  */
-	public function testGetRssReader() {
-		$blockId = '181';
-		$roomId = '1';
-		$contentEditable = true;
-		$result = $this->RssReader->getRssReader($blockId, $roomId, $contentEditable);
-
-		$expected = array(
-			'RssReader' => array(
-				'id' => '2',
-				'block_id' => $blockId,
-				'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT,
-				'key' => 'rss_reader_1',
-			),
-		);
-
-		$this->_assertArray(null, $expected, $result);
-	}
-
-/**
- * Expect RssReader->getRssReader() by not editabale
- *
- * @return void
- */
-	public function testGetRssReaderByNoEditable() {
-		$blockId = '181';
-		$roomId = '1';
-		$contentEditable = false;
-		$result = $this->RssReader->getRssReader($blockId, $roomId, $contentEditable);
-
-		$expected = array(
-			'RssReader' => array(
-				'id' => '1',
-				'block_id' => $blockId,
-				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
-				'key' => 'rss_reader_1',
-			),
-		);
-
-		$this->_assertArray(null, $expected, $result);
-	}
+class RssReaderTestSaveRssReader extends RssReadersModelTestCase {
 
 /**
  * Expect RssReader->saveRssReader()
@@ -207,6 +164,7 @@ class RssReaderTest extends RssReadersModelTestCase {
  * __assertSaveRssReader
  *
  * @param array $expected Expected value
+ * @param int $roomId rooms.id
  * @return void
  */
 	private function __assertSaveRssReader($expected, $roomId) {
@@ -227,4 +185,38 @@ class RssReaderTest extends RssReadersModelTestCase {
 
 		$this->_assertArray(null, $expected['RssReaderItem'], array_values($result));
 	}
+
+/**
+ * Expect RssReader->saveRssReader() to validate frames.id and throw exception on error
+ *
+ * @return void
+ */
+	public function testSaveRssReaderByUnknownFrameId() {
+		$this->setExpectedException('InternalErrorException');
+
+		$frameId = '99999';
+		$blockId = '181';
+
+		//データ生成
+		$data = array(
+			'Frame' => array('id' => $frameId),
+			'Block' => array('id' => $blockId),
+			'RssReader' => array(
+				'key' => 'rss_reader_1',
+				'status' => NetCommonsBlockComponent::STATUS_APPROVED,
+				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
+				'title' => 'Edit title',
+				'summary' => 'Edit summary',
+				'link' => 'http://example.com',
+			),
+			'Comment' => array('comment' => 'Edit comment'),
+		);
+		$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray(
+			APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml'
+		);
+
+		//登録処理実行
+		$this->RssReader->saveRssReader($data);
+	}
+
 }

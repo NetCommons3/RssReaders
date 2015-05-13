@@ -50,6 +50,45 @@ class RssReadersModelTestCase extends YACakeTestCase {
 	);
 
 /**
+ * Test case of status
+ *
+ * @var array
+ */
+	public $testCaseStatus = array(
+		null, '', -1, 0, 5, 9999, 'abcde', false,
+	);
+
+/**
+ * Test case of notEmpty
+ *
+ * @var array
+ */
+	public $testCaseNotEmpty = array(
+		null, '', false,
+	);
+
+/**
+ * Test case of url
+ *
+ * @var array
+ */
+	public $testCaseUrl = array(
+		'http:', 'https:', 'ftp:', 'javascript:',
+		'http:/', 'https:/', 'ftp:/', 'javascript:/',
+		'http://', 'https://', 'ftp://', 'javascript://',
+		'http://test', 'https://test', 'ftp://test', 'javascript:test', 'abc://exapmle.com',
+	);
+
+/**
+ * Test case of number
+ *
+ * @var array
+ */
+	public $testCaseNumber = array(
+		null, '', 'abcde', false, true, '123abcd', 'false', 'true'
+	);
+
+/**
  * setUp method
  *
  * @return void

@@ -1,18 +1,21 @@
 <?php
 /**
- * RssReaderFrameSetting Test Case
+ * Test of RssReaderFrameSetting->saveRssReaderFrameSetting()
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
- * @link     http://www.netcommons.org NetCommons Project
- * @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
 App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
 
 /**
- * Summary for RssReaderFrameSetting Test Case
+ * Test of RssReaderFrameSetting->saveRssReaderFrameSetting()
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\RssReaders\Test\Case\Model
  */
-class RssReaderFrameSettingTest extends RssReadersModelTestCase {
+class RssReaderFrameSettingTestSaveRssReaderFrameSetting extends RssReadersModelTestCase {
 
 /**
  * Expect RssReader->testSaveRssReaderFrameSetting()
