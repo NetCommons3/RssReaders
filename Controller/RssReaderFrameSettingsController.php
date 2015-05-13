@@ -79,42 +79,25 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 			return false;
 		}
 
-		if (! $rssFrameSetting = $this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey'])) {
-			$rssFrameSetting = $this->RssReaderFrameSetting->create(
-				['frame_key' => $this->viewVars['frameKey']]
-			);
-		}
-		$results = $this->camelizeKeyRecursive($rssFrameSetting);
-		$this->set($results);
-
+		$data = array();
 		if ($this->request->isPost()) {
+			$data = $this->data;
+
 			$this->RssReaderFrameSetting->saveRssReaderFrameSetting($this->data);
 			if ($this->handleValidationError($this->RssReaderFrameSetting->validationErrors)) {
 				$this->redirectByFrameId();
 				return;
 			}
-		}
-	}
 
-/**
- * __initRssReaderFrameSetting method
- *
- * @return void
- * @throws BadRequestException
- */
-//	private function __initRssReaderFrameSetting() {
-//		if (! $rssFrameSetting = $this->RssReaderFrameSetting->find('first', array(
-//			'recursive' => -1,
-//			'conditions' => array(
-//				'frame_key' => $this->viewVars['frameKey']
-//			)
-//		))) {
-//			$rssFrameSetting = $this->RssReaderFrameSetting->create(
-//				['frame_key' => $this->viewVars['frameKey']]
-//			);
-//		}
-//
-//		$results = $this->camelizeKeyRecursive($rssFrameSetting);
-//		$this->set($results);
-//	}
+			unset($data['Frame']);
+		}
+
+		if (! $rssFrameSetting = $this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey'])) {
+			$rssFrameSetting = $this->RssReaderFrameSetting->create(
+				['frame_key' => $this->viewVars['frameKey']]
+			);
+		}
+		$results = $this->camelizeKeyRecursive(Hash::merge($rssFrameSetting, $data));
+		$this->set($results);
+	}
 }

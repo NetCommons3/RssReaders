@@ -12,23 +12,19 @@
 
 <?php if ($rssReaderItems) : ?>
 	<?php foreach ($rssReaderItems as $item): ?>
-		<div class="form-group">
-			<div class="row">
-				<div class="col-xs-12 col-md-10">
-					<a href="<?php echo h($item['link']); ?>" target="_blank">
-						<?php echo h($item['title']); ?>
-					</a>
-				</div>
-				<div class="col-xs-12 col-md-2 text-right">
+		<article>
+			<h2 class="clearfix">
+				<a href="<?php echo h($item['link']); ?>" target="_blank">
+					<?php echo h($item['title']); ?>
+				</a>
+				&nbsp;
+				<div class="pull-right">
 					<?php echo $this->Date->dateFormat($item['lastUpdated']); ?>
 				</div>
-
-				<div class="col-xs-12 text-muted">
-					<small>
-						<?php echo h($item['summary']); ?>
-					</small>
-				</div>
+			</h2>
+			<div class="text-muted">
+				<?php echo h($item['summary']); ?>
 			</div>
-		</div>
+		</article>
 	<?php endforeach ?>
 <?php endif;

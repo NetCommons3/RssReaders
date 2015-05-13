@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('FrameSettingsController', 'RssReaders.Controller');
+App::uses('RssReaderFrameSettingsController', 'RssReaders.Controller');
 App::uses('RssReadersControllerTestCase', 'RssReaders.Test/Case/Controller');
 
 /**
@@ -18,7 +18,7 @@ App::uses('RssReadersControllerTestCase', 'RssReaders.Test/Case/Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Controller
  */
-class FrameSettingsControllerValidateErrorTest extends RssReadersControllerTestCase {
+class RssReaderFrameSettingsControllerValidateErrorTest extends RssReadersControllerTestCase {
 
 /**
  * setUp method
@@ -27,7 +27,7 @@ class FrameSettingsControllerValidateErrorTest extends RssReadersControllerTestC
  */
 	public function setUp() {
 		$this->generate(
-			'RssReaders.FrameSettings',
+			'RssReaders.RssReaderFrameSettings',
 			[
 				'components' => [
 					'Auth' => ['user'],
@@ -66,7 +66,7 @@ class FrameSettingsControllerValidateErrorTest extends RssReadersControllerTestC
 		);
 
 		$this->testAction(
-			'/rss_readers/frame_settings/edit/' . $frameId,
+			'/rss_readers/rss_reader_frame_settings/edit/' . $frameId,
 			array(
 				'method' => 'post',
 				'data' => $data,

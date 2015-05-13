@@ -53,37 +53,6 @@ class RssReadersAppController extends AppController {
 	}
 
 /**
- * initRssReader
- *
- * @param array $contains Optional result sets
- * @return bool True on success, False on failure
- */
-	public function initRssReader($contains = []) {
-		if (! $rssReader = $this->RssReader->getRssReader(
-				$this->viewVars['blockId'],
-				$this->viewVars['roomId'],
-				$this->viewVars['contentEditable']
-		)) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$rssReader = $this->camelizeKeyRecursive($rssReader);
-		$this->set($rssReader);
-
-		if (in_array('rssReaderFrameSetting', $contains, true)) {
-			if (! $rssFrameSetting = $this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey'])) {
-				$rssFrameSetting = $this->RssReaderFrameSetting->create(
-					['frame_key' => $this->viewVars['frameKey']]
-				);
-			}
-			$results = $this->camelizeKeyRecursive($rssFrameSetting);
-			$this->set($results);
-		}
-
-		return true;
-	}
-
-/**
  * initTabs
  *
  * @param string $mainActiveTab Main active tab

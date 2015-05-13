@@ -15,11 +15,11 @@
 	)); ?>
 
 <?php echo $this->Form->hidden('Block.id', array(
-		'value' => $block['id'],
+		'value' => isset($block['id']) ? $block['id'] : $blockId,
 	)); ?>
 
 <?php echo $this->Form->hidden('Block.key', array(
-		'value' => $block['key'],
+		'value' => isset($block['key']) ? $block['key'] : $blockKey,
 	)); ?>
 
 <?php echo $this->Form->hidden('Block.language_id', array(
@@ -73,7 +73,7 @@
 	</div>
 
 	<?php echo $this->element(
-		'RssReaders.errors', [
+		'NetCommons.errors', [
 			'errors' => $this->validationErrors,
 			'model' => 'RssReader',
 			'field' => 'url',
@@ -89,7 +89,7 @@
 <div class="form-group">
 	<?php echo $this->Form->input('RssReader.title', array(
 			'type' => 'text',
-			'label' =>  __d('rss_readers', 'Site Title') . $this->element('NetCommons.required'),
+			'label' => __d('rss_readers', 'Site Title') . $this->element('NetCommons.required'),
 			'error' => false,
 			'class' => 'form-control',
 			'value' => isset($rssReader['title']) ? $rssReader['title'] : null
@@ -106,7 +106,7 @@
 <div class="form-group">
 	<?php echo $this->Form->input('RssReader.link', array(
 			'type' => 'text',
-			'label' =>  __d('rss_readers', 'Site Url'),
+			'label' => __d('rss_readers', 'Site Url'),
 			'error' => false,
 			'class' => 'form-control',
 			'value' => isset($rssReader['link']) ? $rssReader['link'] : null,
@@ -124,7 +124,7 @@
 <div class="form-group">
 	<?php echo $this->Form->input('RssReader.summary', array(
 			'type' => 'textarea',
-			'label' =>  __d('rss_readers', 'Site Explanation'),
+			'label' => __d('rss_readers', 'Site Explanation'),
 			'error' => false,
 			'class' => 'form-control',
 			'value' => isset($rssReader['summary']) ? $rssReader['summary'] : null,

@@ -65,8 +65,7 @@ class RssReadersController extends RssReadersAppController {
  * @return CakeResponse
  */
 	public function index() {
-		$this->view = 'RssReaders/view';
-		$this->view();
+		$this->setAction('view');
 	}
 
 /**
@@ -75,23 +74,40 @@ class RssReadersController extends RssReadersAppController {
  * @return void
  */
 	public function view() {
-		$this->__initRssReader(['rssReaderFrameSetting', 'rssReaderItems']);
+		$this->__initRssReader();
 
+		//RssReaderFrameSettingデータ取得
+		if (! $rssFrameSetting = $this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey'])) {
+			$rssFrameSetting = $this->RssReaderFrameSetting->create(
+				['frame_key' => $this->viewVars['frameKey']]
+			);
+		}
+		$results = $this->camelizeKeyRecursive($rssFrameSetting);
+		$this->set($results);
+
+		//Rssの最新データ更新
 		$this->__updateItems();
 
+		//RssReaderItemデータ取得
+		$rssReaderItems = $this->RssReaderItem->getRssReaderItems(
+			$this->viewVars['rssReader']['id'],
+			$this->viewVars['rssReaderFrameSetting']['displayNumberPerPage']
+		);
+		$rssReaderItems = Hash::combine(
+			$rssReaderItems, '{n}.RssReaderItem.id', '{n}.RssReaderItem'
+		);
+		$results = $this->camelizeKeyRecursive(array(
+			'rssReaderItems' => $rssReaderItems
+		));
+		$this->set($results);
+
+		//AJAXの処理
 		if ($this->request->is('ajax')) {
-			$tokenFields = Hash::flatten($this->request->data);
-			$hiddenFields = array(
-				'RssReader.block_id',
-				'RssReader.key'
-			);
-			$this->set('tokenFields', $tokenFields);
-			$this->set('hiddenFields', $hiddenFields);
-			$this->renderJson();
-		} else {
-			if ($this->viewVars['contentEditable']) {
-				$this->view = 'RssReaders/viewForEditor';
-			}
+			$this->renderJson(array(
+				'rssReader' => $this->viewVars['rssReader'],
+				'rssReaderFrameSetting' => $this->viewVars['rssReaderFrameSetting'],
+				'rssReaderItems' => $this->viewVars['rssReaderItems'],
+			));
 		}
 	}
 
@@ -101,86 +117,48 @@ class RssReadersController extends RssReadersAppController {
  * @return void
  */
 	public function edit() {
-		$this->__initRssReader(['comments']);
+		$this->__initRssReader();
 
-		if ($this->request->isGet()) {
-			$this->__getSiteInfo();
-		}
+		$comments = $this->Comment->getComments(array(
+			'plugin_key' => $this->params['plugin'],
+			'content_key' => $this->viewVars['rssReader']['key'],
+		));
 
+		$data = array();
 		if ($this->request->isPost()) {
-			if (! $data = $this->__parseRequestData()) {
+			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
 				return;
 			}
 
-			$rssReader = $this->RssReader->saveRssReader($data);
-			if (! $this->handleValidationError($this->RssReader->validationErrors)) {
-				$results = $this->camelizeKeyRecursive($data);
-				$this->set($results);
+			$data = Hash::merge(
+				$this->data,
+				['RssReader' => ['status' => $status]]
+			);
+
+			if ($data['RssReader']['url']) {
+				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
+			}
+
+			$this->RssReader->saveRssReader($data);
+			if ($this->handleValidationError($this->RssReader->validationErrors)) {
+				//正常の場合
+				$this->redirectByFrameId();
 				return;
 			}
-			$this->set('blockId', $rssReader['RssReader']['block_id']);
-			if (!$this->request->is('ajax')) {
-				$backUrl = CakeSession::read('backUrl');
-				CakeSession::delete('backUrl');
-				$this->redirect($backUrl);
-			}
-		}
-	}
-
-/**
- * __initRssReader method
- *
- * @param array $contains Optional result sets
- * @return void
- */
-	private function __initRssReader($contains = []) {
-		if (! $rssReader = $this->RssReader->getRssReader(
-			$this->viewVars['blockId'],
-			$this->viewVars['contentEditable']
-		)) {
-			$rssReader = $this->RssReader->create(['id' => null, 'key' => null]);
-		}
-		$results = array(
-			'rssReader' => $rssReader['RssReader'],
-			'contentStatus' => $rssReader['RssReader']['status'],
-		);
-
-		if (in_array('rssReaderFrameSetting', $contains, true)) {
-			if (! $rssFrameSetting = $this->RssReaderFrameSetting->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'frame_key' => $this->viewVars['frameKey']
-				)
-			))) {
-				$rssFrameSetting = $this->RssReaderFrameSetting->create();
-			}
-			$rssFrameSetting = $this->camelizeKeyRecursive($rssFrameSetting);
-			$this->set($rssFrameSetting);
+			$data['comments'] = null;
+			unset($data['RssReader']['status']);
 		}
 
-		if (in_array('rssReaderItems', $contains, true)) {
-			$rssReaderItems = $this->RssReaderItem->getRssReaderItems(
-				$rssReader['RssReader']['id'],
-				$this->viewVars['rssReaderFrameSetting']['displayNumberPerPage']
-			);
-			$results['rssReaderItems'] = Hash::combine(
-				$rssReaderItems, '{n}.RssReaderItem.id', '{n}.RssReaderItem'
-			);
-		}
-
-		if (in_array('comments', $contains, true)) {
-			$results['comments'] = $this->Comment->getComments(
-				array(
-					'plugin_key' => 'rss_readers',
-					'content_key' => $rssReader['RssReader']['key'],
-				)
-			);
-		}
-
-		$results = $this->camelizeKeyRecursive($results);
+		$data = $this->camelizeKeyRecursive(Hash::merge(
+			$data,
+			array(
+				'comments' => $comments,
+				'contentStatus' => $this->viewVars['rssReader']['status'],
+			)
+		));
+		$results = Hash::merge($this->viewVars, $data);
 		$this->set($results);
 	}
-
 
 /**
  * Get site information
@@ -210,39 +188,23 @@ class RssReadersController extends RssReadersAppController {
 	}
 
 /**
- * Get site information
+ * __initRssReader
  *
  * @return void
  */
-	private function __getSiteInfo() {
-		$referer = isset($this->request->query['url']) ? CakeSession::read('backUrl') : $this->request->referer();
-		CakeSession::write('backUrl', $referer);
-
-		$url = Hash::get($this->request->query, 'url');
-		if (! $url) {
-			return;
+	private function __initRssReader() {
+		if (! $rssReader = $this->RssReader->getRssReader(
+			$this->viewVars['blockId'],
+			$this->viewVars['roomId'],
+			$this->viewVars['contentEditable']
+		)) {
+			$rssReader = $this->RssReader->create(array(
+				'id' => null,
+				'key' => null,
+			));
 		}
-
-		try {
-			$this->viewVars['rssReader']['url'] = $url;
-			$rss = Xml::build($url);
-
-		} catch (XmlException $e) {
-			// Xmlが取得できない場合異常終了
-			$this->RssReader->invalidate('url', __d('rss_readers', 'Feed Not Found.'));
-			return;
-		}
-		$rssType = $rss->getName();
-
-		if ($rssType === 'feed') {
-			$this->viewVars['rssReader']['title'] = (string)$rss->title;
-			$this->viewVars['rssReader']['link'] = (string)$rss->link->attributes()->href;
-			$this->viewVars['rssReader']['summary'] = (string)$rss->subtitle;
-		} else {
-			$this->viewVars['rssReader']['title'] = (string)$rss->channel->title;
-			$this->viewVars['rssReader']['link'] = (string)$rss->channel->link;
-			$this->viewVars['rssReader']['summary'] = (string)$rss->channel->description;
-		}
+		$results = $this->camelizeKeyRecursive($rssReader);
+		$this->set($results);
 	}
 
 /**
@@ -270,7 +232,7 @@ class RssReadersController extends RssReadersAppController {
 			$rssReaderItem = $this->RssReaderItem->serializeXmlToArray($this->viewVars['rssReader']['url']);
 
 		} catch (XmlException $e) {
-			// Xmlが取得できない場合異常終了
+			// Xmlが取得できない場合、validationのエラーにする
 			$this->RssReader->invalidate('url', __d('rss_readers', 'Feed Not Found.'));
 			return;
 		}
@@ -288,37 +250,6 @@ class RssReadersController extends RssReadersAppController {
 			'RssReader' => $rssReader,
 			'RssReaderItem' => $rssReaderItem
 		));
-
-		$this->__initRssReader(['rssReaderItems']);
-	}
-
-/**
- * Parse data from request
- *
- * @return array
- */
-	private function __parseRequestData() {
-		if (!$status = $this->NetCommonsWorkflow->parseStatus()) {
-			return;
-		}
-
-		$data = Hash::merge(
-			$this->data,
-			['RssReader' => ['status' => $status]]
-		);
-		if (!$rssReader = $this->RssReader->getRssReader(
-			isset($data['Block']['id']) ? (int)$data['Block']['id'] : null,
-			true
-		)) {
-			$rssReader = $this->RssReader->create(['key' => Security::hash('rss_reader' . mt_rand() . microtime(), 'md5')]);
-		}
-
-		$data = Hash::merge($rssReader, $data);
-		if ($data[$this->RssReader->alias]['url']) {
-			$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data[$this->RssReader->alias]['url']);
-		}
-
-		return $data;
 	}
 
 }

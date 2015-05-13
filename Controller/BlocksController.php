@@ -33,6 +33,7 @@ class BlocksController extends RssReadersAppController {
  */
 	public $uses = array(
 		'Blocks.Block',
+		'RssReaders.RssReaderItem',
 	);
 
 /**
@@ -132,7 +133,6 @@ class BlocksController extends RssReadersAppController {
 				'id' => null,
 				'key' => null,
 				'block_id' => null,
-				//'name' => __d('rss_readers', 'New rss %s ', date('YmdHis')),
 			)
 		);
 		$block = $this->Block->create(
@@ -143,6 +143,10 @@ class BlocksController extends RssReadersAppController {
 		if ($this->request->isPost()) {
 			$data = $this->__parseRequestData();
 			$data['RssReader']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
+
+			if ($data['RssReader']['url']) {
+				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
+			}
 
 			$rssReader = $this->RssReader->saveRssReader($data);
 
@@ -175,12 +179,18 @@ class BlocksController extends RssReadersAppController {
 		}
 		$this->set('blockId', (int)$this->params['pass'][1]);
 
-		if (! $this->initRssReader()) {
+		if (! $this->__initRssReader()) {
 			return;
 		}
 
 		if ($this->request->isPost()) {
 			$data = $this->__parseRequestData();
+
+			if ($data['RssReader']['url'] &&
+					$data['RssReader']['url'] !== $this->viewVars['rssReader']['url']) {
+
+				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
+			}
 
 			$this->RssReader->saveRssReader($data);
 			if ($this->handleValidationError($this->RssReader->validationErrors)) {
@@ -208,7 +218,7 @@ class BlocksController extends RssReadersAppController {
 		}
 		$this->set('blockId', (int)$this->params['pass'][1]);
 
-		if (! $this->initRssReader()) {
+		if (! $this->__initRssReader()) {
 			return;
 		}
 
@@ -222,6 +232,28 @@ class BlocksController extends RssReadersAppController {
 		}
 
 		$this->throwBadRequest();
+	}
+
+/**
+ * initRssReader
+ *
+ * @return bool True on success, False on failure
+ */
+	private function __initRssReader() {
+		if ($this->viewVars['blockId']) {
+			if (! $rssReader = $this->RssReader->getRssReader(
+					$this->viewVars['blockId'],
+					$this->viewVars['roomId'],
+					$this->viewVars['contentEditable']
+			)) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$rssReader = $this->camelizeKeyRecursive($rssReader);
+			$this->set($rssReader);
+		}
+
+		return true;
 	}
 
 /**

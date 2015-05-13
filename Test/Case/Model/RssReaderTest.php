@@ -21,8 +21,9 @@ class RssReaderTest extends RssReadersModelTestCase {
  */
 	public function testGetRssReader() {
 		$blockId = '181';
+		$roomId = '1';
 		$contentEditable = true;
-		$result = $this->RssReader->getRssReader($blockId, $contentEditable);
+		$result = $this->RssReader->getRssReader($blockId, $roomId, $contentEditable);
 
 		$expected = array(
 			'RssReader' => array(
@@ -43,8 +44,9 @@ class RssReaderTest extends RssReadersModelTestCase {
  */
 	public function testGetRssReaderByNoEditable() {
 		$blockId = '181';
+		$roomId = '1';
 		$contentEditable = false;
-		$result = $this->RssReader->getRssReader($blockId, $contentEditable);
+		$result = $this->RssReader->getRssReader($blockId, $roomId, $contentEditable);
 
 		$expected = array(
 			'RssReader' => array(
@@ -66,6 +68,8 @@ class RssReaderTest extends RssReadersModelTestCase {
 	public function testSaveRssReader() {
 		$frameId = '181';
 		$blockId = '181';
+		$blockKey = 'block_' . $blockId;
+		$roomId = '1';
 
 		//コンテンツの公開権限true
 		$this->RssReader->Behaviors->attach('Publishable');
@@ -74,8 +78,9 @@ class RssReaderTest extends RssReadersModelTestCase {
 		//データ生成
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'plugin_key' => 'rss_readers', 'room_id' => $roomId, 'language_id' => '2'),
 			'RssReader' => array(
+				'language_id' => '2',
 				'key' => 'rss_reader_1',
 				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
 				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
@@ -100,7 +105,7 @@ class RssReaderTest extends RssReadersModelTestCase {
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
 
 		//テスト実施
-		$this->__assertSaveRssReader($expected);
+		$this->__assertSaveRssReader($expected, $roomId);
 	}
 
 /**
@@ -111,6 +116,8 @@ class RssReaderTest extends RssReadersModelTestCase {
 	public function testSaveRssReaderWithoutBlockId() {
 		$frameId = '183';
 		$blockId = null;
+		$blockKey = '';
+		$roomId = '2';
 
 		//コンテンツの公開権限true
 		$this->RssReader->Behaviors->attach('Publishable');
@@ -119,9 +126,10 @@ class RssReaderTest extends RssReadersModelTestCase {
 		//データ生成
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'plugin_key' => 'rss_readers', 'room_id' => $roomId, 'language_id' => '2'),
 			'RssReader' => array(
-				'key' => 'rss_reader_1',
+				'language_id' => '2',
+				'key' => '',
 				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
 				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
 				'title' => 'Edit title',
@@ -135,19 +143,20 @@ class RssReaderTest extends RssReadersModelTestCase {
 		);
 
 		//登録処理実行
-		$this->RssReader->saveRssReader($data);
+		$rssReader = $this->RssReader->saveRssReader($data);
 
 		//期待値の生成
 		$rssReaderId = $this->RssReader->getLastInsertID();
 
 		$expected = $data;
 		$expected['RssReader']['id'] = $rssReaderId;
+		$expected['RssReader']['key'] = $rssReader['RssReader']['key'];
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
 		$expected['Block']['id'] = $this->Block->getLastInsertID();
 		$expected['RssReader']['block_id'] = $expected['Block']['id'];
 
 		//テスト実施
-		$this->__assertSaveRssReader($expected);
+		$this->__assertSaveRssReader($expected, $roomId);
 	}
 
 /**
@@ -158,12 +167,15 @@ class RssReaderTest extends RssReadersModelTestCase {
 	public function testSaveRssReaderWithoutPublishable() {
 		$frameId = '181';
 		$blockId = '181';
+		$blockKey = 'block_' . $blockId;
+		$roomId = '1';
 
 		//データ生成
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'plugin_key' => 'rss_readers', 'room_id' => $roomId, 'language_id' => '2'),
 			'RssReader' => array(
+				'language_id' => '2',
 				'key' => 'rss_reader_1',
 				'status' => NetCommonsBlockComponent::STATUS_APPROVED,
 				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
@@ -188,7 +200,7 @@ class RssReaderTest extends RssReadersModelTestCase {
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
 
 		//テスト実施
-		$this->__assertSaveRssReader($expected);
+		$this->__assertSaveRssReader($expected, $roomId);
 	}
 
 /**
@@ -197,9 +209,9 @@ class RssReaderTest extends RssReadersModelTestCase {
  * @param array $expected Expected value
  * @return void
  */
-	private function __assertSaveRssReader($expected) {
+	private function __assertSaveRssReader($expected, $roomId) {
 		//RssReader
-		$result = $this->RssReader->getRssReader($expected['Block']['id'], true);
+		$result = $this->RssReader->getRssReader($expected['Block']['id'], $roomId, true);
 		$this->_assertArray(null, $expected['RssReader'], $result['RssReader']);
 
 		//RssReaderItem

@@ -7,13 +7,13 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('FrameSettingsController', 'RssReaders.Controller');
+App::uses('RssReaderFrameSettingsController', 'RssReaders.Controller');
 App::uses('RssReadersControllerTestCase', 'RssReaders.Test/Case/Controller');
 
 /**
  * Summary for RssReaderFrameSettingsController Test Case
  */
-class FrameSettingsControllerTest extends RssReadersControllerTestCase {
+class RssReaderFrameSettingsControllerTest extends RssReadersControllerTestCase {
 
 /**
  * setUp method
@@ -22,7 +22,7 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
  */
 	public function setUp() {
 		$this->generate(
-			'RssReaders.FrameSettings',
+			'RssReaders.RssReaderFrameSettings',
 			[
 				'components' => [
 					'Auth' => ['user'],
@@ -43,7 +43,7 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		$this->testAction(
-			'/rss_readers/frame_settings/edit/181',
+			'/rss_readers/rss_reader_frame_settings/edit/181',
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -64,7 +64,7 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 		RolesControllerTest::login($this);
 
 		$this->testAction(
-			'/rss_readers/frame_settings/edit/182',
+			'/rss_readers/rss_reader_frame_settings/edit/182',
 			array(
 				'method' => 'get',
 				'return' => 'contents'
@@ -102,7 +102,7 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 		);
 
 		$this->testAction(
-			'/rss_readers/frame_settings/edit/' . $frameId,
+			'/rss_readers/rss_reader_frame_settings/edit/' . $frameId,
 			array(
 				'method' => 'post',
 				'data' => $data,
@@ -141,7 +141,7 @@ class FrameSettingsControllerTest extends RssReadersControllerTestCase {
 		);
 
 		$this->testAction(
-			'/rss_readers/frame_settings/edit/' . $frameId,
+			'/rss_readers/rss_reader_frame_settings/edit/' . $frameId,
 			array(
 				'method' => 'post',
 				'data' => $data,

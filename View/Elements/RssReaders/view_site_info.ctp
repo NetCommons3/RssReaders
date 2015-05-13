@@ -11,9 +11,9 @@
 ?>
 
 <?php if (isset($rssReader['link'])) : ?>
-	<div class="panel panel-default rss-site-info hidden">
-		<div class="panel-body">
-			<div class="form-group">
+	<div class="rss-site-info hidden">
+		<h1>
+			<small>
 				<?php if ($rssReader['link']) : ?>
 					<a href="<?php echo h($rssReader['link']); ?>" target="_blank">
 				<?php endif; ?>
@@ -23,17 +23,19 @@
 				<?php if ($rssReader['link']) : ?>
 					</a>
 				<?php endif; ?>
-				&nbsp;
+
 				<a class="btn btn-warning btn-xs" href="<?php echo h($rssReader['url']); ?>" target="_blank">
 					<?php echo __d('rss_readers', 'RDF/RSS'); ?>
 				</a>
-			</div>
+			</small>
+		</h1>
 
+		<div>
 			<?php if ($rssReader['summary']) : ?>
-				<div class="form-group">
-					<?php echo h($rssReader['summary']); ?>
-				</div>
+				<?php echo h($rssReader['summary']); ?>
 			<?php endif; ?>
 		</div>
+
+		<hr>
 	</div>
 <?php endif;

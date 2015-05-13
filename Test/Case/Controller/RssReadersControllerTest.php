@@ -51,7 +51,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 			)
 		);
 
-		$this->assertTextEquals('RssReaders/view', $this->controller->view);
+		$this->assertTextEquals('view', $this->controller->view);
 	}
 
 /**
@@ -108,7 +108,7 @@ class RssReadersControllerTest extends RssReadersControllerTestCase {
 			)
 		);
 
-		$this->assertTextEquals('RssReaders/viewForEditor', $this->controller->view);
+		$this->assertTextEquals('view', $this->controller->view);
 		$this->assertTextContains('nc-rss-readers-1', $view, print_r($view, true));
 		$this->assertTextContains('/rss_readers/rss_readers/edit/1', $view, print_r($view, true));
 

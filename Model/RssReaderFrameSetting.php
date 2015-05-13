@@ -96,6 +96,8 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 			'RssReaderFrameSetting' => 'RssReaders.RssReaderFrameSetting',
 		]);
 
+		//トランザクションBegin
+		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
