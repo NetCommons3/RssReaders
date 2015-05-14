@@ -44,7 +44,6 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
