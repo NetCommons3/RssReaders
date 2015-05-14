@@ -153,7 +153,7 @@ class RssReaderItemTestValidateRssReaderItems extends RssReadersModelTestCase {
 	}
 
 /**
- * __assertSaveRssReader
+ * Assert RssReaderItem->validateRssReaderItems()
  *
  * @param string $field Field name
  * @param array $data Save data

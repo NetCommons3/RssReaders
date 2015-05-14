@@ -19,7 +19,7 @@ App::uses('Xml', 'Utility');
 class RssReaderItemTestSerializeXmlToArray extends RssReadersModelTestCase {
 
 /**
- * Expect RssReaderItem->serializeXmlToArray() by Rss1
+ * Expect RssReaderItem->serializeXmlToArray() by rss1 format
  *
  * @return void
  */
@@ -48,7 +48,7 @@ class RssReaderItemTestSerializeXmlToArray extends RssReadersModelTestCase {
 	}
 
 /**
- * Expect RssReaderItem->serializeXmlToArray() by Rss2
+ * Expect RssReaderItem->serializeXmlToArray() by rss2 format
  *
  * @return void
  */
@@ -77,7 +77,7 @@ class RssReaderItemTestSerializeXmlToArray extends RssReadersModelTestCase {
 	}
 
 /**
- * Expect RssReaderItem->serializeXmlToArray() by Atom
+ * Expect RssReaderItem->serializeXmlToArray() by atom format
  *
  * @return void
  */

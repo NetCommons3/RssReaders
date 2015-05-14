@@ -70,7 +70,7 @@ class RssReaderItemTestUpdateRssReaderItems extends RssReadersModelTestCase {
 	}
 
 /**
- * Expect RssReaderItem->updateRssReaderItems() by validate error
+ * Expect RssReaderItem->updateRssReaderItems() validate error by RssReader
  *
  * @return void
  */

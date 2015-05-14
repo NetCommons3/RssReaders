@@ -62,7 +62,7 @@ class RssReaderTestSaveRssReader extends RssReadersModelTestCase {
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
 
 		//テスト実施
-		$this->__assertSaveRssReader($expected, $roomId);
+		$this->__assert($expected, $roomId);
 	}
 
 /**
@@ -113,7 +113,7 @@ class RssReaderTestSaveRssReader extends RssReadersModelTestCase {
 		$expected['RssReader']['block_id'] = $expected['Block']['id'];
 
 		//テスト実施
-		$this->__assertSaveRssReader($expected, $roomId);
+		$this->__assert($expected, $roomId);
 	}
 
 /**
@@ -157,17 +157,17 @@ class RssReaderTestSaveRssReader extends RssReadersModelTestCase {
 		$expected['RssReaderItem'] = Hash::insert($expected['RssReaderItem'], '{n}.rss_reader_id', $rssReaderId);
 
 		//テスト実施
-		$this->__assertSaveRssReader($expected, $roomId);
+		$this->__assert($expected, $roomId);
 	}
 
 /**
- * __assertSaveRssReader
+ * Assert for RssReader->saveRssReader()
  *
  * @param array $expected Expected value
  * @param int $roomId rooms.id
  * @return void
  */
-	private function __assertSaveRssReader($expected, $roomId) {
+	private function __assert($expected, $roomId) {
 		//RssReader
 		$result = $this->RssReader->getRssReader($expected['Block']['id'], $roomId, true);
 		$this->_assertArray(null, $expected['RssReader'], $result['RssReader']);

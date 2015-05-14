@@ -24,7 +24,6 @@ App::uses('RssReaderFrameSetting', 'RssReaders.Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Controller
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 class RssReadersControllerTestCase extends YAControllerTestCase {
 
@@ -87,6 +86,5 @@ class RssReadersControllerTestCase extends YAControllerTestCase {
  * @return void
  */
 	public function testIndex() {
-		$this->assertTrue(true);
 	}
 }
