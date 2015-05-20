@@ -134,6 +134,9 @@ class RssReadersController extends RssReadersAppController {
 				$this->data,
 				['RssReader' => ['status' => $status]]
 			);
+			if (isset($this->viewVars['rssReader']['key'])) {
+				$data['RssReader']['key'] = $this->viewVars['rssReader']['key'];
+			}
 
 			if ($data['RssReader']['url']) {
 				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
