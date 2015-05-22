@@ -11,7 +11,7 @@
 ?>
 <?php echo $this->Html->script('/rss_readers/js/rss_readers.js', false); ?>
 
-<div id="nc-rss-readers-<?php echo (int)$frameId; ?>" class="modal-body"
+<div id="nc-rss-readers-<?php echo $frameId; ?>" class="modal-body"
 		ng-controller="RssReaders"
 		ng-init="initialize(<?php echo h(json_encode(['frameId' => $frameId])); ?>)">
 
@@ -20,12 +20,7 @@
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
-		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'Blocks',
-				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
-				'callback' => 'RssReaders.Blocks/edit_form',
-				'cancelUrl' => '/rss_readers/blocks/index/' . $frameId
-			)); ?>
+		<?php echo $this->element('RssReaders.Blocks/edit_form'); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(

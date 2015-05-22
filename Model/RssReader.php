@@ -252,6 +252,8 @@ class RssReader extends RssReadersAppModel {
 
 		//コメントの登録
 		if ($this->Comment->data) {
+			$this->Comment->data[$this->Comment->name]['block_key'] = $block['Block']['key'];
+			$this->Comment->data[$this->Comment->name]['content_key'] = $rssReader[$this->alias]['key'];
 			if (! $this->Comment->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -331,6 +333,9 @@ class RssReader extends RssReadersAppModel {
 			if (! $this->RssReaderItem->deleteAll(array($this->RssReaderItem->alias . '.rss_reader_id' => $rssReaderIds), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			//コメントの削除
+			$this->Comment->deleteByBlockKey($data['Block']['key']);
 
 			//Blockデータ削除
 			$this->Block->deleteBlock($data['Block']['key']);

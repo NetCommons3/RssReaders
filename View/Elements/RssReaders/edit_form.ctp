@@ -10,32 +10,14 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('Frame.id', array(
-		'value' => $frameId,
-	)); ?>
-
-<?php echo $this->Form->hidden('Block.id', array(
-		'value' => isset($block['id']) ? $block['id'] : $blockId,
-	)); ?>
-
-<?php echo $this->Form->hidden('Block.key', array(
-		'value' => isset($block['key']) ? $block['key'] : $blockKey,
-	)); ?>
-
-<?php echo $this->Form->hidden('Block.language_id', array(
-		'value' => $languageId,
-	)); ?>
-
-<?php echo $this->Form->hidden('Block.room_id', array(
-		'value' => $roomId,
-	)); ?>
-
-<?php echo $this->Form->hidden('Block.plugin_key', array(
-		'value' => $this->params['plugin'],
-	)); ?>
+<?php echo $this->element('Blocks.form_hidden'); ?>
 
 <?php echo $this->Form->hidden('RssReader.id', array(
 		'value' => isset($rssReader['id']) ? (int)$rssReader['id'] : null,
+	)); ?>
+
+<?php echo $this->Form->hidden('RssReader.block_id', array(
+		'value' => isset($rssReader['blockId']) ? (int)$rssReader['blockId'] : null,
 	)); ?>
 
 <?php echo $this->Form->hidden('RssReader.key', array(

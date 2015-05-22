@@ -43,6 +43,7 @@ class BlocksController extends RssReadersAppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsBlock',
+		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
 			'allowedActions' => array(
@@ -192,6 +193,9 @@ class BlocksController extends RssReadersAppController {
 				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
 			}
 
+			$data['RssReader']['key'] = $this->viewVars['rssReader']['key'];
+			unset($data['RssReader']['id']);
+
 			$this->RssReader->saveRssReader($data);
 			if ($this->handleValidationError($this->RssReader->validationErrors)) {
 				if (! $this->request->is('ajax')) {
@@ -199,6 +203,9 @@ class BlocksController extends RssReadersAppController {
 				}
 				return;
 			}
+
+			$data['RssReader']['status'] = $this->viewVars['rssReader']['status'];
+			unset($data['Frame']);
 
 			$results = $this->camelizeKeyRecursive($data);
 			$this->set($results);
@@ -269,6 +276,11 @@ class BlocksController extends RssReadersAppController {
 		} else {
 			unset($data['Block']['from'], $data['Block']['to']);
 		}
+
+		if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
+			return;
+		}
+		$data['RssReader']['status'] = $status;
 
 		return $data;
 	}

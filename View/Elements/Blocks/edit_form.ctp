@@ -10,6 +10,25 @@
  */
 ?>
 
-<?php echo $this->element('RssReaders/edit_form'); ?>
+<?php echo $this->Form->create('Blocks', array('novalidate' => true)); ?>
+	<div class="panel panel-default" >
+		<div class="panel-body has-feedback">
+			<?php echo $this->element('RssReaders/edit_form'); ?>
 
-<?php echo $this->element('Blocks.public_type');
+			<?php echo $this->element('Blocks.public_type'); ?>
+
+			<hr />
+
+			<?php echo $this->element('Comments.form', array(
+				'contentStatus' => $rssReader['status']
+			)); ?>
+		</div>
+
+		<div class="panel-footer text-center">
+			<?php echo $this->element('NetCommons.workflow_buttons', array(
+				'cancelUrl' => 'rss_readers/blocks/index/' . $frameId,
+				'contentStatus' => $rssReader['status']
+			)); ?>
+		</div>
+	</div>
+<?php echo $this->Form->end();
