@@ -105,11 +105,13 @@ class RssReadersControllerTestEdit extends RssReadersControllerTestCase {
 		//データ生成
 		$frameId = '181';
 		$blockId = '181';
+		$blockKey = 'block_' . $blockId;
+		$roomId = '1';
 
 		//データ生成
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'room_id' => $roomId),
 			'RssReader' => array(
 				'key' => 'rss_reader_1',
 				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
@@ -146,10 +148,12 @@ class RssReadersControllerTestEdit extends RssReadersControllerTestCase {
 		//データ生成
 		$frameId = '183';
 		$blockId = '';
+		$blockKey = '';
+		$roomId = '1';
 
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'room_id' => $roomId),
 			'RssReader' => array(
 				'id' => '',
 				'key' => 'rss_reader_3',
@@ -186,11 +190,13 @@ class RssReadersControllerTestEdit extends RssReadersControllerTestCase {
 
 		$frameId = '181';
 		$blockId = '181';
+		$blockKey = 'block_' . $blockId;
+		$roomId = '1';
 
 		//データ生成
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'room_id' => $roomId),
 			'RssReader' => array(
 				'key' => 'rss_reader_1',
 				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
@@ -226,10 +232,12 @@ class RssReadersControllerTestEdit extends RssReadersControllerTestCase {
 		//データ生成
 		$frameId = '181';
 		$blockId = '181';
+		$blockKey = 'block_' . $blockId;
+		$roomId = '1';
 
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'room_id' => $roomId),
 			'RssReader' => array(
 				'key' => 'rss_reader_1',
 				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
@@ -268,10 +276,12 @@ class RssReadersControllerTestEdit extends RssReadersControllerTestCase {
 		//データ生成
 		$frameId = '181';
 		$blockId = '181';
+		$blockKey = 'block_' . $blockId;
+		$roomId = '1';
 
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'room_id' => $roomId),
 			'RssReader' => array(
 				'key' => 'rss_reader_1',
 				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',
@@ -316,10 +326,12 @@ class RssReadersControllerTestEdit extends RssReadersControllerTestCase {
 		//データ生成
 		$frameId = '181';
 		$blockId = '181';
+		$blockKey = 'block_' . $blockId;
+		$roomId = '1';
 
 		$data = array(
 			'Frame' => array('id' => $frameId),
-			'Block' => array('id' => $blockId),
+			'Block' => array('id' => $blockId, 'key' => $blockKey, 'room_id' => $roomId),
 			'RssReader' => array(
 				'key' => 'rss_reader_1',
 				'url' => APP . 'Plugin' . DS . 'RssReaders' . DS . 'Test' . DS . 'Fixture' . DS . 'rss_v1.xml',

@@ -30,6 +30,7 @@ class RssReadersController extends RssReadersAppController {
  */
 	public $uses = array(
 		'Comments.Comment',
+		'Blocks.Block',
 		'RssReaders.RssReaderItem',
 		'RssReaders.RssReaderFrameSetting'
 	);
@@ -205,6 +206,13 @@ class RssReadersController extends RssReadersAppController {
 				'id' => null,
 				'key' => null,
 			));
+
+			$block = $this->Block->create([
+				'id' => $this->viewVars['blockId'],
+				'key' => $this->viewVars['blockKey'],
+			]);
+
+			$rssReader['Block'] = $block['Block'];
 		}
 		$results = $this->camelizeKeyRecursive($rssReader);
 		$this->set($results);
