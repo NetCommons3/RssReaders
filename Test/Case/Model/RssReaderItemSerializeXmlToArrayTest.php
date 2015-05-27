@@ -7,7 +7,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
+App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 App::uses('Xml', 'Utility');
 
 /**
@@ -16,7 +16,7 @@ App::uses('Xml', 'Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Model
  */
-class RssReaderItemTestSerializeXmlToArray extends RssReadersModelTestCase {
+class SerializeXmlToArrayRssReaderItemTest extends RssReadersModelTestBase {
 
 /**
  * Expect RssReaderItem->serializeXmlToArray() by rss1 format

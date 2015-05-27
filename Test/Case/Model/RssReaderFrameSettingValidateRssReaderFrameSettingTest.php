@@ -7,7 +7,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
+App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 
 /**
  * Test of RssReaderFrameSetting->validateRssReaderFrameSetting()
@@ -15,7 +15,7 @@ App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Model
  */
-class RssReaderFrameSettingTestValidateRssReaderFrameSetting extends RssReadersModelTestCase {
+class RssReaderFrameSettingValidateRssReaderFrameSettingTest extends RssReadersModelTestBase {
 
 /**
  * Expect `frame_key` validate error by notEmpty

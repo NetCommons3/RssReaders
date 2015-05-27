@@ -7,7 +7,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
+App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 
 /**
  * Test of RssReaderItem->validateRssReaderItems()
@@ -16,7 +16,7 @@ App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
  * @package NetCommons\RssReader\Test\Case\Model
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class RssReaderItemTestValidateRssReaderItems extends RssReadersModelTestCase {
+class RssReaderItemValidateRssReaderItemsTest extends RssReadersModelTestBase {
 
 /**
  * Expect `link` validate error by notEmpty

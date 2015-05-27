@@ -7,7 +7,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
+App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 
 /**
  * Test of RssReaderItem->updateRssReaderItems()
@@ -15,7 +15,7 @@ App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Model
  */
-class RssReaderItemTestUpdateRssReaderItems extends RssReadersModelTestCase {
+class RssReaderItemUpdateRssReaderItemsTest extends RssReadersModelTestBase {
 
 /**
  * Expect RssReaderItem->updateRssReaderItems()

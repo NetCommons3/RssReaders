@@ -25,7 +25,7 @@ App::uses('RssReaderFrameSetting', 'RssReaders.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Controller
  */
-class RssReadersControllerTestCase extends YAControllerTestCase {
+class RssReadersControllerTestBase extends YAControllerTestCase {
 
 /**
  * Fixtures
@@ -78,13 +78,5 @@ class RssReadersControllerTestCase extends YAControllerTestCase {
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
 	}
 }

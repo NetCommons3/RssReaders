@@ -23,7 +23,7 @@ App::uses('RssReaderFrameSetting', 'RssReaders.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Model
  */
-class RssReadersModelTestCase extends YACakeTestCase {
+class RssReadersModelTestBase extends YACakeTestCase {
 
 /**
  * Fixtures
@@ -139,14 +139,4 @@ class RssReadersModelTestCase extends YACakeTestCase {
 			$this->assertEquals($value, $target, 'key=' . print_r($key, true) . '|value=' . print_r($value, true) . '|result=' . print_r($result, true));
 		}
 	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
-		$this->assertTrue(true);
-	}
-
 }

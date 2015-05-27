@@ -7,7 +7,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
+App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 
 /**
  * Test of RssReader->validateRssReader()
@@ -16,7 +16,7 @@ App::uses('RssReadersModelTestCase', 'RssReaders.Test/Case/Model');
  * @package NetCommons\RssReaders\Test\Case\Model
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class RssReaderTestValidateRssReader extends RssReadersModelTestCase {
+class RssReaderValidateRssReaderTest extends RssReadersModelTestBase {
 
 /**
  * default value

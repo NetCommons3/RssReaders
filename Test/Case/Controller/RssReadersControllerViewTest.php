@@ -8,7 +8,7 @@
  */
 
 App::uses('RssReadersController', 'RssReaders.Controller');
-App::uses('RssReadersControllerTestCase', 'RssReaders.Test/Case/Controller');
+App::uses('RssReadersControllerTestBase', 'RssReaders.Test/Case/Controller');
 
 /**
  * Test of RssReadersController view action
@@ -16,7 +16,7 @@ App::uses('RssReadersControllerTestCase', 'RssReaders.Test/Case/Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Controller
  */
-class RssReadersControllerTestView extends RssReadersControllerTestCase {
+class RssReadersControllerViewTest extends RssReadersControllerTestBase {
 
 /**
  * setUp method
