@@ -60,9 +60,6 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		//タブの設定
 		$this->initTabs('frame_settings', '');
 	}
