@@ -20,13 +20,13 @@
 	<div class="tab-content">
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
-		<?php echo $this->element('RssReaders.Blocks/edit_form'); ?>
+		<?php echo $this->element('RssReaders.RssReaderBlocks/edit_form'); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'Blocks',
+					'controller' => 'RssReaderBlocks',
 					'action' => 'delete/' . $frameId . '/' . (int)$rssReader['blockId'],
-					'callback' => 'RssReaders.Blocks/delete_form'
+					'callback' => 'RssReaders.RssReaderBlocks/delete_form'
 				)); ?>
 		<?php endif; ?>
 	</div>

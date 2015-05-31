@@ -61,15 +61,6 @@ class RssReadersController extends RssReadersAppController {
 	);
 
 /**
- * index
- *
- * @return CakeResponse
- */
-	public function index() {
-		$this->setAction('view');
-	}
-
-/**
  * view
  *
  * @return void

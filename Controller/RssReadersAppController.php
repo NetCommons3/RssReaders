@@ -60,7 +60,7 @@ class RssReadersAppController extends AppController {
 				'block_index' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'rss_reader_blocks',
 						'action' => 'index',
 						$this->viewVars['frameId'],
 					)
@@ -83,7 +83,7 @@ class RssReadersAppController extends AppController {
 				'block_settings' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'rss_reader_blocks',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
 						$blockId
