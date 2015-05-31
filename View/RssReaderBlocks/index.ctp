@@ -15,7 +15,7 @@
 
 	<div class="tab-content">
 		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/rss_readers/blocks/add/' . $frameId);?>">
+			<a class="btn btn-success" href="<?php echo $this->Html->url('/rss_readers/rss_reader_blocks/add/' . $frameId);?>">
 				<span class="glyphicon glyphicon-plus"> </span>
 			</a>
 		</div>
@@ -32,7 +32,7 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>#</th>
+							<th></th>
 							<th>
 								<?php echo $this->Paginator->sort('RssReader.title', __d('rss_readers', 'Site Title')); ?>
 							</th>
@@ -59,7 +59,7 @@
 										)); ?>
 								</td>
 								<td>
-									<a href="<?php echo $this->Html->url('/rss_readers/blocks/edit/' . $frameId . '/' . (int)$rssReader['block']['id']); ?>">
+									<a href="<?php echo $this->Html->url('/rss_readers/rss_reader_blocks/edit/' . $frameId . '/' . (int)$rssReader['block']['id']); ?>">
 										<?php echo h($rssReader['rssReader']['title']); ?>
 									</a>
 								</td>
@@ -75,7 +75,7 @@
 			<div class="text-center">
 				<?php echo $this->element('NetCommons.paginator', array(
 						'url' => Hash::merge(
-							array('controller' => 'blocks', 'action' => 'index', $frameId),
+							array('controller' => 'rss_reader_blocks', 'action' => 'index', $frameId),
 							$this->Paginator->params['named']
 						)
 					)); ?>

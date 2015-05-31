@@ -27,6 +27,7 @@ class RssReadersAppController extends AppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsFrame',
+		'Pages.PageLayout',
 		'Security'
 	);
 
@@ -38,19 +39,6 @@ class RssReadersAppController extends AppController {
 	public $uses = array(
 		'RssReaders.RssReader',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set($results);
-
-		$this->set('userId', (int)$this->Auth->user('id'));
-	}
 
 /**
  * initTabs
@@ -72,7 +60,7 @@ class RssReadersAppController extends AppController {
 				'block_index' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'rss_reader_blocks',
 						'action' => 'index',
 						$this->viewVars['frameId'],
 					)
@@ -95,7 +83,7 @@ class RssReadersAppController extends AppController {
 				'block_settings' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'rss_reader_blocks',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
 						$blockId

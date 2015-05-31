@@ -36,7 +36,7 @@ class RssReadersModelTestBase extends YACakeTestCase {
 		'plugin.comments.comment',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
-		'plugin.net_commons.plugin',
+		'plugin.plugin_manager.plugin',
 		'plugin.rss_readers.rss_reader',
 		'plugin.rss_readers.rss_reader_frame_setting',
 		'plugin.rss_readers.rss_reader_item',

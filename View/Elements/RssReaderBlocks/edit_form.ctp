@@ -26,7 +26,7 @@
 
 		<div class="panel-footer text-center">
 			<?php echo $this->element('NetCommons.workflow_buttons', array(
-				'cancelUrl' => 'rss_readers/blocks/index/' . $frameId,
+				'cancelUrl' => 'rss_readers/rss_reader_blocks/index/' . $frameId,
 				'contentStatus' => $rssReader['status']
 			)); ?>
 		</div>

@@ -107,7 +107,9 @@ class Initialize extends CakeMigration {
 				'key' => 'rss_readers',
 				'namespace' => 'netcommons/rss_readers',
 				'name' => 'RSSリーダー',
-				'type' => 1
+				'type' => 1,
+				'default_action' => 'rss_readers/view',
+				'default_setting_action' => 'rss_reader_blocks/index',
 			)
 		),
 		'PluginsRole' => array(

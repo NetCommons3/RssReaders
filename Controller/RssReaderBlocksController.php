@@ -17,7 +17,7 @@ App::uses('RssReadersAppController', 'RssReaders.Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\RssReaders\Controller
  */
-class BlocksController extends RssReadersAppController {
+class RssReaderBlocksController extends RssReadersAppController {
 
 /**
  * layout
@@ -71,9 +71,6 @@ class BlocksController extends RssReadersAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		//タブの設定
 		$this->initTabs('block_index', 'block_settings');
 	}
@@ -82,7 +79,6 @@ class BlocksController extends RssReadersAppController {
  * index
  *
  * @return void
- * @throws Exception
  */
 	public function index() {
 		$this->Paginator->settings = array(
@@ -97,19 +93,9 @@ class BlocksController extends RssReadersAppController {
 			)
 		);
 
-		try {
-			$rssReaders = $this->Paginator->paginate('RssReader');
-		} catch (Exception $ex) {
-			if (isset($this->request['paging']) && $this->params['named']) {
-				$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
-				return;
-			}
-			CakeLog::error($ex);
-			throw $ex;
-		}
-
+		$rssReaders = $this->Paginator->paginate('RssReader');
 		if (! $rssReaders) {
-			$this->view = 'Blocks/not_found';
+			$this->view = 'not_found';
 			return;
 		}
 
@@ -126,7 +112,7 @@ class BlocksController extends RssReadersAppController {
  * @return void
  */
 	public function add() {
-		$this->view = 'Blocks/edit';
+		$this->view = 'edit';
 
 		$this->set('blockId', null);
 		$rssReader = $this->RssReader->create(
@@ -153,7 +139,7 @@ class BlocksController extends RssReadersAppController {
 
 			if ($this->handleValidationError($this->RssReader->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -199,7 +185,7 @@ class BlocksController extends RssReadersAppController {
 			$this->RssReader->saveRssReader($data);
 			if ($this->handleValidationError($this->RssReader->validationErrors)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
@@ -232,7 +218,7 @@ class BlocksController extends RssReadersAppController {
 		if ($this->request->isDelete()) {
 			if ($this->RssReader->deleteRssReader($this->data)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/rss_readers/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
 				}
 				return;
 			}
