@@ -79,7 +79,6 @@ class RssReaderBlocksController extends RssReadersAppController {
  * index
  *
  * @return void
- * @throws Exception
  */
 	public function index() {
 		$this->Paginator->settings = array(
@@ -94,17 +93,7 @@ class RssReaderBlocksController extends RssReadersAppController {
 			)
 		);
 
-		try {
-			$rssReaders = $this->Paginator->paginate('RssReader');
-		} catch (Exception $ex) {
-			if (isset($this->request['paging']) && $this->params['named']) {
-				$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
-				return;
-			}
-			CakeLog::error($ex);
-			throw $ex;
-		}
-
+		$rssReaders = $this->Paginator->paginate('RssReader');
 		if (! $rssReaders) {
 			$this->view = 'not_found';
 			return;

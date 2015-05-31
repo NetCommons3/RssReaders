@@ -39,6 +39,7 @@ class RssReadersControllerTestBase extends YAControllerTestCase {
 		'plugin.boxes.boxes_page',
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
+		'plugin.comments.comment',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
 		'plugin.net_commons.site_setting',
@@ -46,12 +47,12 @@ class RssReadersControllerTestBase extends YAControllerTestCase {
 		'plugin.pages.page',
 		'plugin.pages.space',
 		'plugin.plugin_manager.plugin',
-		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
+		'plugin.rooms.plugins_room',
 		'plugin.rooms.roles_room',
+		'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room',
 		'plugin.rooms.room_role_permission',
-		'plugin.comments.comment',
 		'plugin.rss_readers.rss_reader',
 		'plugin.rss_readers.rss_reader_frame_setting',
 		'plugin.rss_readers.rss_reader_item',
@@ -66,6 +67,9 @@ class RssReadersControllerTestBase extends YAControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+
+		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+
 		Configure::write('Config.language', 'ja');
 	}
 
