@@ -5,7 +5,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-03-17 14:02+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,79 +13,66 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /Controller/RssReadersController.php:206;248
+#: RssReaders/Controller/RssReadersController.php:238
 msgid "Feed Not Found."
 msgstr ""
 
-#: /Model/RssReader.php:119;124
-#: /Test/Case/Model/RssReaderValidateErrorTest.php:89;142
-#: /View/Elements/RssReaders/edit_form.ctp:26
+#: RssReaders/Model/RssReader.php:116;121
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:92;174
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:33
 msgid "RDF/RSS URL"
 msgstr ""
 
-#: /Model/RssReader.php:124;139
-#: /Model/RssReaderItem.php:82
-#: /Test/Case/Model/RssReaderItemValidateErrorTest.php:96
-#: /Test/Case/Model/RssReaderValidateErrorTest.php:142;143
+#: RssReaders/Model/RssReader.php:121;136
+#: RssReaders/Model/RssReaderItem.php:82
 msgid "URL"
 msgstr ""
 
-#: /Model/RssReader.php:132
-#: /Test/Case/Model/RssReaderValidateErrorTest.php:90
-#: /View/Elements/RssReaders/edit_form.ctp:63
+#: RssReaders/Model/RssReader.php:129
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:133
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:74
+#: RssReaders/View/RssReaderBlocks/index.ctp:37
 msgid "Site Title"
 msgstr ""
 
-#: /Model/RssReader.php:139
-#: /Test/Case/Model/RssReaderValidateErrorTest.php:143
-#: /View/Elements/RssReaders/edit_form.ctp:70
+#: RssReaders/Model/RssReader.php:136
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:211
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:91
 msgid "Site Url"
 msgstr ""
 
-#: /Model/RssReaderItem.php:70
-#: /Test/Case/Model/RssReaderItemValidateErrorTest.php:41
+#: RssReaders/Model/RssReaderItem.php:70
+#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:80
 msgid "Title"
 msgstr ""
 
-#: /Model/RssReaderItem.php:77;82
-#: /Test/Case/Model/RssReaderItemValidateErrorTest.php:40;96
+#: RssReaders/Model/RssReaderItem.php:77;82
+#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:34;126
 msgid "Url"
 msgstr ""
 
-#: /View/Elements/FrameSettings/edit_form.ctp:33
-msgid "Event Display"
-msgstr ""
-
-#: /View/Elements/FrameSettings/edit_form.ctp:41;42;43;44;45;46
-msgid "%dcases"
-msgstr ""
-
-#: /View/Elements/RssReaders/edit_form.ctp:44
-msgid "Get Site Info"
-msgstr ""
-
-#: /View/Elements/RssReaders/edit_form.ctp:80
-msgid "Site Explanation"
-msgstr ""
-
-#: /View/Elements/RssReaders/view_site_info.ctp:16
-msgid "Site Info"
-msgstr ""
-
-#: /View/Elements/RssReaders/view_site_info.ctp:37
+#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:14;28
+#: RssReaders/View/Elements/RssReaders/view_site_info.ctp:28
 msgid "RDF/RSS"
 msgstr ""
 
-#: /View/FrameSettings/edit.ctp:24
-#: /View/RssReaders/edit.ctp:25
-msgid "Plugin name"
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:32
+msgid "Event Display"
 msgstr ""
 
-#: /View/FrameSettings/edit.ctp:30
-msgid "Frame settings"
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:39;40;41;42;43;44
+msgid "%dcases"
 msgstr ""
 
-#: /View/RssReaders/edit.ctp:31
-msgid "Rss readers edit"
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:52
+msgid "Get Site Info"
+msgstr ""
+
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:109
+msgid "Site Explanation"
+msgstr ""
+
+#: RssReaders/View/RssReaders/view.ctp:23
+msgid "Site Info"
 msgstr ""
 
