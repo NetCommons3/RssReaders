@@ -41,14 +41,12 @@ class PluginRecords extends NetCommonsMigration {
  */
 	public $records = array(
 		'Plugin' => array(
-			array(
-				'key' => 'rss_readers',
-				'namespace' => 'netcommons/rss-readers',
-				'name' => 'RSS Readers',
-				'type' => 1,
-				'default_action' => 'rss_readers/view',
-				'default_setting_action' => 'rss_reader_blocks/index',
-			)
+			'key' => 'rss_readers',
+			'namespace' => 'netcommons/rss-readers',
+			'name' => 'RSS Readers',
+			'type' => 1,
+			'default_action' => 'rss_readers/view',
+			'default_setting_action' => 'rss_reader_blocks/index',
 		),
 		'PluginsRole' => array(
 			array(
