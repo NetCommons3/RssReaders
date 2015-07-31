@@ -13,10 +13,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: RssReaders/Config/Migration/001_plugin_records.ctp
-msgid "RSS Readers"
-msgstr ""
-
 #: RssReaders/Controller/RssReadersController.php:238
 msgid "Feed Not Found."
 msgstr ""

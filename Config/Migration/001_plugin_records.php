@@ -41,12 +41,26 @@ class PluginRecords extends NetCommonsMigration {
  */
 	public $records = array(
 		'Plugin' => array(
-			'key' => 'rss_readers',
-			'namespace' => 'netcommons/rss-readers',
-			'name' => 'RSS Readers',
-			'type' => 1,
-			'default_action' => 'rss_readers/view',
-			'default_setting_action' => 'rss_reader_blocks/index',
+			//日本語
+			array(
+				'language_id' => '2',
+				'key' => 'rss_readers',
+				'namespace' => 'netcommons/rss-readers',
+				'name' => 'RSSリーダー',
+				'type' => 1,
+				'default_action' => 'rss_readers/view',
+				'default_setting_action' => 'rss_reader_blocks/index',
+			),
+			//英語
+			array(
+				'language_id' => '1',
+				'key' => 'rss_readers',
+				'namespace' => 'netcommons/rss-readers',
+				'name' => 'RSS Readers',
+				'type' => 1,
+				'default_action' => 'rss_readers/view',
+				'default_setting_action' => 'rss_reader_blocks/index',
+			),
 		),
 		'PluginsRole' => array(
 			array(
@@ -82,9 +96,21 @@ class PluginRecords extends NetCommonsMigration {
 		]);
 
 		if ($direction === 'down') {
-			$this->Plugin->uninstallPlugin($this->records);
-		} else {
-			$this->Plugin->installPlugin($this->records);
+			$this->Plugin->uninstallPlugin($this->records['Plugin'][0]['key']);
+			return true;
+		}
+
+		foreach ($this->records as $model => $records) {
+			if ($model === 'Plugin') {
+				$weight = $this->Plugin->getMaxWeight($records[0]['type']) + 1;
+				$keys = array_keys($records);
+				foreach ($keys as $i) {
+					$records[$i]['weight'] = $weight;
+				}
+			}
+			if (!$this->updateRecords($model, $records)) {
+				return false;
+			}
 		}
 		return true;
 	}

@@ -14,10 +14,6 @@ msgstr ""
 "POT-Creation-Date: \n"
 "X-Generator: Poedit 1.7.5\n"
 
-#: RssReaders/Config/Migration/001_plugin_records.ctp
-msgid "RSS Readers"
-msgstr "RSSリーダー"
-
 #: RssReaders/Controller/RssReadersController.php:238
 msgid "Feed Not Found."
 msgstr "フィードが見つかりませんでした。"
