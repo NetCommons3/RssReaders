@@ -69,28 +69,12 @@ class PluginRecords extends NetCommonsMigration {
 			)
 		),
 		'PluginsRoom' => array(
-			array(
-				'room_id' => '1',
-				'plugin_key' => 'rss_readers',
-			)
-		),
-		'PluginsSpace' => array(
-			array(
-				'space_id' => '1',
-				'plugin_key' => 'rss_readers',
-			),
-			array(
-				'space_id' => '2',
-				'plugin_key' => 'rss_readers',
-			),
-			array(
-				'space_id' => '3',
-				'plugin_key' => 'rss_readers',
-			),
-			array(
-				'space_id' => '4',
-				'plugin_key' => 'rss_readers',
-			),
+			//パブリックスペース
+			array('room_id' => '1', 'plugin_key' => 'rss_readers', ),
+			//プライベートスペース
+			array('room_id' => '2', 'plugin_key' => 'rss_readers', ),
+			//グループスペース
+			array('room_id' => '3', 'plugin_key' => 'rss_readers', ),
 		),
 	);
 
