@@ -31,22 +31,10 @@ class RssReadersModelTestBase extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.blocks.block',
-		'plugin.boxes.box',
 		'plugin.comments.comment',
-		'plugin.frames.frame',
-		'plugin.m17n.language',
-		'plugin.plugin_manager.plugin',
 		'plugin.rss_readers.rss_reader',
 		'plugin.rss_readers.rss_reader_frame_setting',
 		'plugin.rss_readers.rss_reader_item',
-		'plugin.roles.default_role_permission',
-		'plugin.rooms.roles_room',
-		'plugin.rooms.roles_rooms_user',
-		'plugin.rooms.room',
-		'plugin.rooms.room_role_permission',
-		'plugin.users.user',
-		'plugin.users.user_attributes_user',
 	);
 
 /**
