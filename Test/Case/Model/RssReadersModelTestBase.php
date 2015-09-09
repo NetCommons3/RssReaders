@@ -47,7 +47,7 @@ class RssReadersModelTestBase extends YACakeTestCase {
 	);
 
 /**
- * Test case of notEmpty
+ * Test case of notBlank
  *
  * @var array
  */

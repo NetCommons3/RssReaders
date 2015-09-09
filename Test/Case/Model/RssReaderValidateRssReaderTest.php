@@ -80,7 +80,7 @@ class RssReaderValidateRssReaderTest extends RssReadersModelTestBase {
 	}
 
 /**
- * Expect `url` validate error by notEmpty
+ * Expect `url` validate error by notBlank
  *
  * @return void
  */
@@ -121,7 +121,7 @@ class RssReaderValidateRssReaderTest extends RssReadersModelTestBase {
 	}
 
 /**
- * Expect `title` validate error by notEmpty
+ * Expect `title` validate error by notBlank
  *
  * @return void
  */

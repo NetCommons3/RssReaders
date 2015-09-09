@@ -18,7 +18,7 @@ App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 class RssReaderFrameSettingValidateRssReaderFrameSettingTest extends RssReadersModelTestBase {
 
 /**
- * Expect `frame_key` validate error by notEmpty
+ * Expect `frame_key` validate error by notBlank
  *
  * @return void
  */

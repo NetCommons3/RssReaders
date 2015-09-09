@@ -65,15 +65,15 @@ class RssReaderItem extends RssReadersAppModel {
 			),
 
 			'title' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Title')),
 					'required' => true,
 				),
 			),
 			'link' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Url')),
 					'required' => true,
 				),
