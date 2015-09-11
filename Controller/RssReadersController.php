@@ -137,7 +137,7 @@ class RssReadersController extends RssReadersAppController {
 			$this->RssReader->saveRssReader($data);
 			if ($this->NetCommons->handleValidationError($this->RssReader->validationErrors)) {
 				//正常の場合
-				$this->redirect(Current::backToPageUrl());
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 			$data['comments'] = null;
