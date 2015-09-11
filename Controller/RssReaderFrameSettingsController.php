@@ -80,7 +80,7 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 			$data = $this->data;
 
 			$this->RssReaderFrameSetting->saveRssReaderFrameSetting($this->data);
-			if ($this->handleValidationError($this->RssReaderFrameSetting->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->RssReaderFrameSetting->validationErrors)) {
 				$this->redirect(Current::backToPageUrl());
 				return;
 			}
