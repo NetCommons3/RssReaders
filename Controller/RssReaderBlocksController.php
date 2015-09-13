@@ -137,7 +137,7 @@ class RssReaderBlocksController extends RssReadersAppController {
 
 			$rssReader = $this->RssReader->saveRssReader($data);
 
-			if ($this->handleValidationError($this->RssReader->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->RssReader->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
 				}
@@ -183,7 +183,7 @@ class RssReaderBlocksController extends RssReadersAppController {
 			unset($data['RssReader']['id']);
 
 			$this->RssReader->saveRssReader($data);
-			if ($this->handleValidationError($this->RssReader->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->RssReader->validationErrors)) {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
 				}

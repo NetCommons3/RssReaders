@@ -111,8 +111,8 @@ class RssReader extends RssReadersAppModel {
 			//status to set in PublishableBehavior.
 
 			'url' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('rss_readers', 'RDF/RSS URL')),
 					'required' => true,
 				),
@@ -124,8 +124,8 @@ class RssReader extends RssReadersAppModel {
 				)
 			),
 			'title' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Site Title')),
 					'required' => true,
 				),

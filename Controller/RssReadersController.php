@@ -94,13 +94,13 @@ class RssReadersController extends RssReadersAppController {
 		$this->set($results);
 
 		//AJAXの処理
-		if ($this->request->is('ajax')) {
-			$this->renderJson(array(
-				'rssReader' => $this->viewVars['rssReader'],
-				'rssReaderFrameSetting' => $this->viewVars['rssReaderFrameSetting'],
-				'rssReaderItems' => $this->viewVars['rssReaderItems'],
-			));
-		}
+		//if ($this->request->is('ajax')) {
+		//	$this->renderJson(array(
+		//		'rssReader' => $this->viewVars['rssReader'],
+		//		'rssReaderFrameSetting' => $this->viewVars['rssReaderFrameSetting'],
+		//		'rssReaderItems' => $this->viewVars['rssReaderItems'],
+		//	));
+		//}
 	}
 
 /**
@@ -135,9 +135,9 @@ class RssReadersController extends RssReadersAppController {
 			}
 
 			$this->RssReader->saveRssReader($data);
-			if ($this->handleValidationError($this->RssReader->validationErrors)) {
+			if ($this->NetCommons->handleValidationError($this->RssReader->validationErrors)) {
 				//正常の場合
-				$this->redirectByFrameId();
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 			$data['comments'] = null;
@@ -179,7 +179,7 @@ class RssReadersController extends RssReadersAppController {
 			$results['link'] = (string)$rss->channel->link;
 			$results['summary'] = (string)$rss->channel->description;
 		}
-		$this->renderJson($results);
+		$this->NetCommons->renderJson($results);
 	}
 
 /**

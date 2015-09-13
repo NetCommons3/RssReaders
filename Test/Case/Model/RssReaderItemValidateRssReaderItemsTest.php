@@ -19,7 +19,7 @@ App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
 class RssReaderItemValidateRssReaderItemsTest extends RssReadersModelTestBase {
 
 /**
- * Expect `link` validate error by notEmpty
+ * Expect `link` validate error by notBlank
  *
  * @return void
  */
@@ -65,7 +65,7 @@ class RssReaderItemValidateRssReaderItemsTest extends RssReadersModelTestBase {
 	}
 
 /**
- * Expect `title` validate error by notEmpty
+ * Expect `title` validate error by notBlank
  *
  * @return void
  */

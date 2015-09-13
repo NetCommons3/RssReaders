@@ -31,6 +31,22 @@ class AllRssReadersTest extends CakeTestSuite {
 		$exceptions = array(
 			'RssReadersControllerTestBase.php',
 			'RssReadersModelTestBase.php',
+			//後で削除
+			'RssReaderFrameSettingSaveRssReaderFrameSettingTest.php',
+			'RssReaderFrameSettingValidateRssReaderFrameSettingTest.php',
+			'RssReaderGetRssReaderTest.php',
+			'RssReaderItemGetRssReaderItemsTest.php',
+			'RssReaderItemSerializeXmlToArrayTest.php',
+			'RssReaderItemUpdateRssReaderItemsTest.php',
+			'RssReaderItemValidateRssReaderItemsTest.php',
+			'RssReaderSaveRssReaderTest.php',
+			'RssReadersModelTestBase.php',
+			'RssReaderValidateRssReaderTest.php',
+			'RssReaderFrameSettingsControllerEditTest.php',
+			'RssReadersControllerEditTest.php',
+			'RssReadersControllerGetTest.php',
+			'RssReadersControllerTestBase.php',
+			'RssReadersControllerViewTest.php',
 		);
 		$files = $Folder->tree(null, $exceptions, 'files');
 		foreach ($files as $file) {
