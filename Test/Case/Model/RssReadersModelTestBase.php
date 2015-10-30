@@ -22,6 +22,7 @@ App::uses('RssReaderFrameSetting', 'RssReaders.Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Model
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 class RssReadersModelTestBase extends YACakeTestCase {
 
