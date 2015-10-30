@@ -14,6 +14,7 @@ App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Model
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 class RssReaderFrameSettingValidateRssReaderFrameSettingTest extends RssReadersModelTestBase {
 

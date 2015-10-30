@@ -15,6 +15,7 @@ App::uses('RssReadersControllerTestBase', 'RssReaders.Test/Case/Controller');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test\Case\Controller
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 class RssReadersControllerViewTest extends RssReadersControllerTestBase {
 

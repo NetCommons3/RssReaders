@@ -15,6 +15,7 @@ App::uses('RssReadersModelTestBase', 'RssReaders.Test/Case/Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReader\Test\Case\Model
  * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 class RssReaderItemValidateRssReaderItemsTest extends RssReadersModelTestBase {
 
