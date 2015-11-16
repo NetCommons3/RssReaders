@@ -4,12 +4,12 @@
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".ctp">app/Plugin/RssReaders</directory>
             <directory suffix=".php">app/Plugin/RssReaders</directory>
-			<exclude>
-				<directory suffix=".php">app/Plugin/RssReaders/Config/Migration</directory>
-				<directory suffix=".php">app/Plugin/RssReaders/Config/Schema</directory>
-				<directory suffix=".php">app/Plugin/RssReaders/Test/Case</directory>
-				<directory suffix=".php">app/Plugin/RssReaders/Test/Fixture</directory>
-			</exclude>
+            <exclude>
+                <directory suffix=".php">app/Plugin/RssReaders/Config/Migration</directory>
+                <directory suffix=".php">app/Plugin/RssReaders/Config/Schema</directory>
+                <directory suffix=".php">app/Plugin/RssReaders/Test/Case</directory>
+                <directory suffix=".php">app/Plugin/RssReaders/Test/Fixture</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>
