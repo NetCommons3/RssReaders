@@ -10,7 +10,7 @@
  * @param {string} Controller name
  * @param {function($scope, $http)} Controller
  */
-NetCommonsApp.controller('RssReaders', function($scope, $http) {
+NetCommonsApp.controller('RssReaders', ['$scope', '$http', function($scope, $http) {
 
   /**
    * Initialize
@@ -59,4 +59,4 @@ NetCommonsApp.controller('RssReaders', function($scope, $http) {
         });
   };
 
-});
+}]);
