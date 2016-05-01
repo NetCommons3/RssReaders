@@ -1,9 +1,9 @@
 <?php
 /**
- * Blocks Controller
+ * ブロック設定 Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -12,9 +12,9 @@
 App::uses('RssReadersAppController', 'RssReaders.Controller');
 
 /**
- * Blocks Controller
+ * ブロック設定 Controller
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Controller
  */
 class RssReaderBlocksController extends RssReadersAppController {
@@ -27,53 +27,43 @@ class RssReaderBlocksController extends RssReadersAppController {
 	public $layout = 'NetCommons.setting';
 
 /**
- * use models
+ * 使用するModels
  *
  * @var array
  */
 	public $uses = array(
-		'Blocks.Block',
 		'RssReaders.RssReaderItem',
 	);
 
 /**
- * use components
+ * 使用するComponents
  *
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('index', 'add', 'edit', 'delete')
+		'NetCommons.Permission' => array(
+			'allow' => array(
+				'index,add,edit,delete' => 'block_editable',
 			),
 		),
 		'Paginator',
+		'Workflow.Workflow',
 	);
 
 /**
- * use helpers
+ * 使用するHelpers
  *
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Date',
+		'Blocks.BlockForm',
+		'Blocks.BlockIndex',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings'),
+		),
+		'Workflow.Workflow',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->Auth->deny('index');
-
-		//タブの設定
-		$this->initTabs('block_index', 'block_settings');
-	}
 
 /**
  * index
@@ -84,26 +74,20 @@ class RssReaderBlocksController extends RssReadersAppController {
 		$this->Paginator->settings = array(
 			'RssReader' => array(
 				'order' => array('RssReader.id' => 'desc'),
-				'conditions' => array(
-					'Block.language_id' => $this->viewVars['languageId'],
-					'Block.room_id' => $this->viewVars['roomId'],
-					'Block.plugin_key ' => $this->params['plugin'],
+				'conditions' => $this->RssReader->getBlockConditions(array(
 					'RssReader.is_latest' => true,
-				),
+				)),
 			)
 		);
 
 		$rssReaders = $this->Paginator->paginate('RssReader');
 		if (! $rssReaders) {
-			$this->view = 'not_found';
+			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
+		$this->set('rssReaders', $rssReaders);
 
-		$results = array(
-			'rss_readers' => $rssReaders
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		$this->request->data['Frame'] = Current::read('Frame');
 	}
 
 /**
@@ -114,44 +98,24 @@ class RssReaderBlocksController extends RssReadersAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		$this->set('blockId', null);
-		$rssReader = $this->RssReader->create(
-			array(
-				'id' => null,
-				'key' => null,
-				'block_id' => null,
-			)
-		);
-		$block = $this->Block->create(
-			array('id' => null, 'key' => null)
-		);
-
-		$data = array();
-		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-			$data['RssReader']['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-
+		if ($this->request->is('post')) {
+			//登録処理
+			$data = $this->request->data;
+			$data['RssReader']['status'] = $this->Workflow->parseStatus();
 			if ($data['RssReader']['url']) {
 				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
 			}
 
-			$rssReader = $this->RssReader->saveRssReader($data);
-
-			if ($this->NetCommons->handleValidationError($this->RssReader->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+			if ($this->RssReader->saveRssReader($data)) {
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
+			$this->NetCommons->handleValidationError($this->RssReader->validationErrors);
 
-			$data['Block']['id'] = null;
-			$data['Block']['key'] = null;
-			unset($data['Frame']);
+		} else {
+			//表示処理(初期データセット)
+			$this->request->data = $this->RssReader->createAll();
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
-
-		$data = Hash::merge($rssReader, $block, $data);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
 	}
 
 /**
@@ -160,115 +124,42 @@ class RssReaderBlocksController extends RssReadersAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		if (! $this->__initRssReader()) {
-			return;
-		}
-
-		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-
-			if ($data['RssReader']['url'] &&
-					$data['RssReader']['url'] !== $this->viewVars['rssReader']['url']) {
-
+		if ($this->request->is('put')) {
+			//登録処理
+			$data = $this->request->data;
+			$data['RssReader']['status'] = $this->Workflow->parseStatus();
+			if ($data['RssReader']['url']) {
 				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
 			}
 
-			$data['RssReader']['key'] = $this->viewVars['rssReader']['key'];
-			unset($data['RssReader']['id']);
-
-			$this->RssReader->saveRssReader($data);
-			if ($this->NetCommons->handleValidationError($this->RssReader->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+			if ($this->RssReader->saveRssReader($data)) {
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
+			$this->NetCommons->handleValidationError($this->RssReader->validationErrors);
 
-			$data['RssReader']['status'] = $this->viewVars['rssReader']['status'];
-			unset($data['Frame']);
-
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			$rssReader = $this->RssReader->getRssReader();
+			if (! $rssReader) {
+				return $this->throwBadRequest();
+			}
+			$this->request->data = Hash::merge($this->request->data, $rssReader);
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
 
 /**
  * delete
  *
- * @throws BadRequestException
  * @return void
  */
 	public function delete() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		if (! $this->__initRssReader()) {
-			return;
-		}
-
-		if ($this->request->isDelete()) {
-			if ($this->RssReader->deleteRssReader($this->data)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/rss_readers/rss_reader_blocks/index/' . $this->viewVars['frameId']);
-				}
-				return;
+		if ($this->request->is('delete')) {
+			if ($this->RssReader->deleteRssReader($this->request->data)) {
+				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 		}
-
-		$this->throwBadRequest();
-	}
-
-/**
- * initRssReader
- *
- * @return bool True on success, False on failure
- */
-	private function __initRssReader() {
-		if ($this->viewVars['blockId']) {
-			if (! $rssReader = $this->RssReader->getRssReader(
-					$this->viewVars['blockId'],
-					$this->viewVars['roomId'],
-					$this->viewVars['contentEditable']
-			)) {
-				$this->throwBadRequest();
-				return false;
-			}
-			$rssReader = $this->camelizeKeyRecursive($rssReader);
-			$this->set($rssReader);
-		}
-
-		return true;
-	}
-
-/**
- * Parse data from request
- *
- * @return array
- */
-	private function __parseRequestData() {
-		$data = $this->data;
-		if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
-			//$data['Block']['from'] = implode('-', $data['Block']['from']);
-			//$data['Block']['to'] = implode('-', $data['Block']['to']);
-		} else {
-			unset($data['Block']['from'], $data['Block']['to']);
-		}
-
-		if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
-			return;
-		}
-		$data['RssReader']['status'] = $status;
-
-		return $data;
+		return $this->throwBadRequest();
 	}
 
 }

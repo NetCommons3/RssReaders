@@ -2,7 +2,7 @@
 /**
  * RssReaderItemFixture
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
@@ -12,7 +12,7 @@
 /**
  * Summary for RssReaderItemFixture
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test
  */
 class RssReaderItemFixture extends CakeTestFixture {

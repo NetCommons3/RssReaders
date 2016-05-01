@@ -21,13 +21,12 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
 class RssReaderItem extends RssReadersAppModel {
 
 /**
- * Validation rules
+ * バリデーションルール
+ * __d()を使うため、[self::beforeValidate()](#method_beforeValidate)でセットする
  *
  * @var array
  */
 	public $validate = array();
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -67,19 +66,27 @@ class RssReaderItem extends RssReadersAppModel {
 			'title' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Title')),
+					'message' => sprintf(
+						__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Title')
+					),
 					'required' => true,
 				),
 			),
 			'link' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Url')),
+					'message' => sprintf(
+						__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Url')
+					),
 					'required' => true,
 				),
 				'url' => array(
 					'rule' => array('url'),
-					'message' => sprintf(__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'), __d('rss_readers', 'Url'), __d('rss_readers', 'URL')),
+					'message' => sprintf(
+						__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'),
+						__d('rss_readers', 'Url'),
+						__d('net_commons', 'URL')
+					),
 					'required' => true,
 				)
 			),
@@ -89,46 +96,78 @@ class RssReaderItem extends RssReadersAppModel {
 	}
 
 /**
- * Get rss items
+ * RssReaderItemデータの取得
+ * ※最終取得日時が古い場合、RSSを取得し直す
  *
- * @param int $rssReaderId rss_readers.id
- * @param int $limit Db select limit
+ * @param array $rssReader RssReaderItemデータ
+ * @param int $limit 取得Limit
  * @return array $rssReaderItems
  */
-	public function getRssReaderItems($rssReaderId, $limit = null) {
+	public function getRssReaderItems($rssReader, $limit = null) {
+		if (! Hash::get($rssReader, 'RssReader.id')) {
+			return array();
+		}
+
+		$this->updateItems($rssReader);
+
 		$conditions = array(
-			'rss_reader_id' => $rssReaderId,
+			'rss_reader_id' => $rssReader['RssReader']['id'],
 		);
 
 		$rssReaderItems = $this->find('all', array(
 			'recursive' => -1,
 			'conditions' => $conditions,
-			'order' => 'RssReaderItem.last_updated DESC, RssReaderItem.id',
+			'order' => array('RssReaderItem.last_updated' => 'desc', 'RssReaderItem.id' => 'asc'),
 			'limit' => $limit
 		));
 
 		return $rssReaderItems;
 	}
-
 /**
- * Validate RssReaderItems
+ * RssReader最終更新日時がキャッシュ時間より超えていた場合、RSSを取得し直す
  *
- * @param array $data received post data
- * @return bool True on success, false on error
+ * @param array $rssReader RssReaderデータ
+ * @return void
  */
-	public function validateRssReaderItems($data) {
-		$this->validateMany($data);
-		if ($this->validationErrors) {
-			return false;
+	public function updateItems($rssReader) {
+		if (! isset($rssReader['RssReader']['id'])) {
+			return;
 		}
-		return true;
+
+		$date = new DateTime();
+		$now = $date->format('Y-m-d H:i:s');
+
+		$date = new DateTime($rssReader['RssReader']['modified']);
+		$date->add(new DateInterval(RssReader::CACHE_TIME));
+		$modified = $date->format('Y-m-d H:i:s');
+
+		if ($now < $modified) {
+			return;
+		}
+
+		try {
+			$rssReaderItem = $this->serializeXmlToArray($rssReader['RssReader']['url']);
+
+		} catch (XmlException $ex) {
+			// Xmlが取得できない場合、validationのエラーにする
+			$this->RssReader->invalidate('url', __d('rss_readers', 'Feed Not Found.'));
+			return;
+		}
+
+		$rssReaderItem = Hash::insert(
+			$rssReaderItem, '{n}.rss_reader_id', $rssReader['RssReader']['id']
+		);
+
+		$this->updateRssReaderItems(
+			array('RssReader' => $rssReader['RssReader'], 'RssReaderItem' => $rssReaderItem)
+		);
 	}
 
 /**
- * Serialize to array data from xml
+ * XMLからArrayにシリアライズする
  *
- * @param array $url url
- * @return array Xml serialize array data
+ * @param array $url URL
+ * @return array XMLの配列データ
  */
 	public function serializeXmlToArray($url) {
 		$xmlData = Xml::toArray(Xml::build($url));
@@ -157,11 +196,11 @@ class RssReaderItem extends RssReadersAppModel {
 		$data = array();
 		foreach ($items as $item) {
 			$date = new DateTime($item[$dateKey]);
-			$summary = Hash::get($item, $summaryKey);
+			$summary = Hash::get($item, $summaryKey, '');
 			$data[] = array(
 				'title' => $item['title'],
 				'link' => Hash::get($item, $linkKey),
-				'summary' => $summary ? strip_tags($summary) : '',
+				'summary' => strip_tags($summary),
 				'last_updated' => $date->format('Y-m-d H:i:s'),
 				'serialize_value' => serialize($item)
 			);
@@ -177,46 +216,44 @@ class RssReaderItem extends RssReadersAppModel {
  * @throws InternalErrorException
  */
 	public function updateRssReaderItems($data) {
-		$this->loadModels([
-			'RssReader' => 'RssReaders.RssReader',
-			'RssReaderItem' => 'RssReaders.RssReaderItem',
-		]);
-
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		if (! $this->validateMany($data[$this->alias])) {
+			return false;
+		}
 
 		try {
-			//Itemsのvalidate
-			if (! $this->validateRssReaderItems($data['RssReaderItem'])) {
-				return false;
-			}
-			//RssReaderのvalidate
-			if (! $this->RssReader->validateRssReader($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->RssReader->validationErrors);
-				return false;
-			}
-
 			//既存データの削除
-			if (! $this->deleteAll(['rss_reader_id' => $data[$this->RssReader->alias]['id']], true, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			//RSS Itemsの登録
-			if (! $this->saveMany($data['RssReaderItem'], ['validate' => false])) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			//RssReaderの登録
-			if (! $this->RssReader->save($data, false)) {
+			$conditions = array($this->alias . '.rss_reader_id' => $data[$this->RssReader->alias]['id']);
+			if (! $this->deleteAll($conditions, true, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$dataSource->commit();
+			if (! $this->saveMany($data[$this->alias], ['validate' => false])) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//RssReaderの登録
+			$this->RssReader->id = $data[$this->RssReader->alias]['id'];
+
+			$date = new DateTime();
+			$now = $date->format('Y-m-d H:i:s');
+
+			if (! $this->RssReader->saveField('modified', $now)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//トランザクションCommit
+			$this->commit();
+
 		} catch (Exception $ex) {
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
+
+		$this->setSlaveDataSource();
 
 		return true;
 	}

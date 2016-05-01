@@ -1,6 +1,5 @@
 /**
  * @fileoverview Rssreader Javascript
- * @author k_miura@zenk.co.jp (Kosuke Miura)
  * @author nakajimashouhei@gmail.com (Shohei Nakajima)
  */
 
@@ -24,30 +23,15 @@ NetCommonsApp.controller('RssReaders', function($scope, $http) {
   };
 
   /**
-   * Switching display of the site information
-   *
-   * @return {void}
-   */
-  $scope.switchDisplaySiteInfo = function() {
-    var element = $('#nc-rss-readers-' +
-                    $scope.frameId + ' div.rss-site-info');
-    if (element.hasClass('hidden')) {
-      element.removeClass('hidden');
-    } else {
-      element.addClass('hidden');
-    }
-  };
-
-  /**
-   * Get url
+   * URLからデータ取得
    *
    * @return {void}
    */
   $scope.getSiteInfo = function() {
     var element = $('input[name="data[RssReader][url]"]');
 
-    $http.get('/rss_readers/rss_readers/get/' + $scope.frameId + '.json',
-        {params: {url: element[0].value}})
+    $http.get($scope.baseUrl + '/rss_readers/rss_readers/get.json',
+        {params: {frame_id: $scope.frameId, url: element[0].value}})
       .success(function(data) {
           element = $('input[name="data[RssReader][title]"]');
           if (! angular.isUndefined(element[0]) &&

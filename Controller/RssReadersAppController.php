@@ -2,7 +2,6 @@
 /**
  * RssReadersApp Controller
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
@@ -14,7 +13,6 @@ App::uses('AppController', 'Controller');
 /**
  * RssReadersApp Controller
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Controller
  */
@@ -26,7 +24,6 @@ class RssReadersAppController extends AppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
 		'Pages.PageLayout',
 		'Security'
 	);
@@ -39,60 +36,5 @@ class RssReadersAppController extends AppController {
 	public $uses = array(
 		'RssReaders.RssReader',
 	);
-
-/**
- * initTabs
- *
- * @param string $mainActiveTab Main active tab
- * @param string $blockActiveTab Block active tab
- * @return void
- */
-	public function initTabs($mainActiveTab, $blockActiveTab) {
-		if (isset($this->params['pass'][1])) {
-			$blockId = (int)$this->params['pass'][1];
-		} else {
-			$blockId = null;
-		}
-
-		//タブの設定
-		$settingTabs = array(
-			'tabs' => array(
-				'block_index' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'rss_reader_blocks',
-						'action' => 'index',
-						$this->viewVars['frameId'],
-					)
-				),
-				'frame_settings' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'rss_reader_frame_settings',
-						'action' => 'edit',
-						$this->viewVars['frameId'],
-					)
-				),
-			),
-			'active' => $mainActiveTab
-		);
-		$this->set('settingTabs', $settingTabs);
-
-		$blockSettingTabs = array(
-			'tabs' => array(
-				'block_settings' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'rss_reader_blocks',
-						'action' => $this->params['action'],
-						$this->viewVars['frameId'],
-						$blockId
-					)
-				),
-			),
-			'active' => $blockActiveTab
-		);
-		$this->set('blockSettingTabs', $blockSettingTabs);
-	}
 
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Blocks edit template
+ * ブロック編集Element
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,25 +10,18 @@
  */
 ?>
 
-<?php echo $this->Form->create('Blocks', array('novalidate' => true)); ?>
-	<div class="panel panel-default" >
+<?php echo $this->NetCommonsForm->create('RssReader'); ?>
+	<div class="panel panel-default">
 		<div class="panel-body has-feedback">
-			<?php echo $this->element('RssReaders/edit_form'); ?>
-
+			<?php echo $this->element('Blocks.form_hidden'); ?>
+			<?php echo $this->element('RssReaders.RssReaders/edit_form'); ?>
 			<?php echo $this->element('Blocks.public_type'); ?>
 
 			<hr />
 
-			<?php echo $this->element('Comments.form', array(
-				'contentStatus' => $rssReader['status']
-			)); ?>
+			<?php echo $this->Workflow->inputComment('RssReader.status', false); ?>
 		</div>
 
-		<div class="panel-footer text-center">
-			<?php echo $this->element('NetCommons.workflow_buttons', array(
-				'cancelUrl' => 'rss_readers/rss_reader_blocks/index/' . $frameId,
-				'contentStatus' => $rssReader['status']
-			)); ?>
-		</div>
+		<?php echo $this->Workflow->buttons('RssReader.status', NetCommonsUrl::backToIndexUrl('default_setting_action')); ?>
 	</div>
-<?php echo $this->Form->end();
+<?php echo $this->NetCommonsForm->end();

@@ -10,41 +10,31 @@
  */
 ?>
 
-<?php echo $this->Html->script('/rss_readers/js/rss_readers.js', false); ?>
-
-<div class="nc-content-list" id="nc-rss-readers-<?php echo (int)$frameId; ?>"
-		ng-controller="RssReaders"
-		ng-init="initialize(<?php echo h(json_encode(['frameId' => $frameId])); ?>)">
-
-	<article>
-		<div class="clearfix">
+<article>
+	<div class="clearfix">
+		<?php if (isset($rssReader['link'])) : ?>
 			<div class="pull-left">
-				<?php if (isset($rssReader['link'])) : ?>
-					<button class="btn btn-default" tooltip="<?php echo __d('rss_readers', 'Site Info'); ?>"
-							ng-class="{active:siteInfo}" ng-click="siteInfo = !siteInfo; switchDisplaySiteInfo();">
+				<a class="btn btn-default" href="#site-info<?php echo Current::read('Frame.id'); ?>"
+						aria-controls="site-info<?php echo Current::read('Frame.id'); ?>"
+						tooltip="<?php echo __d('rss_readers', 'Site Info'); ?>"
+						data-toggle="collapse" aria-expanded="false">
 
-						<span class="glyphicon glyphicon-info-sign nc-tooltip"> </span>
-					</button >
+					<span class="glyphicon glyphicon-info-sign"> </span>
+				</a>
 
-					<?php echo $this->element('NetCommons.status_label',
-							array('status' => $rssReader['status'])); ?>
-				<?php endif; ?>
+				<?php echo $this->Workflow->label($rssReader['status']); ?>
+
+				<?php echo $this->element('RssReaders/view_site_info'); ?>
 			</div>
+		<?php endif; ?>
 
-			<?php if ($contentEditable) : ?>
-				<div class="pull-right">
-					<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-						<a href="<?php echo $this->Html->url('/rss_readers/rss_readers/edit/' . $frameId) ?>" class="btn btn-primary">
-							<span class="glyphicon glyphicon-edit"> </span>
-						</a>
-					</span>
-				</div>
-			<?php endif; ?>
-		</div>
+		<?php if (Current::permission('content_editable')) : ?>
+			<div class="pull-right">
+				<?php echo $this->Button->editLink(); ?>
+			</div>
+		<?php endif; ?>
+	</div>
 
-		<?php echo $this->element('RssReaders/view_site_info'); ?>
-
-		<?php echo $this->element('RssReaders/view_items'); ?>
-	</article>
-</div>
+	<?php echo $this->element('RssReaders/view_items'); ?>
+</article>
 

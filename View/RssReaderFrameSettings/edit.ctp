@@ -10,20 +10,14 @@
  */
 ?>
 
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+<article class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_FRAME_SETTING); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'RssReaderFrameSettings',
-				'action' => 'edit' . '/' . $frameId,
+		<?php echo $this->BlockForm->displayEditForm(array(
+				'model' => 'RssReaderFrameSetting',
 				'callback' => 'RssReaders.RssReaderFrameSettings/edit_form',
-				'cancelUrl' => '/' . $cancelUrl,
+				'cancelUrl' => NetCommonsUrl::backToIndexUrl(),
 			)); ?>
 	</div>
-</div>
-
-
-
-
-
+</article>

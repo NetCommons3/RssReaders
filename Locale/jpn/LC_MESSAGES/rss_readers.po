@@ -62,8 +62,12 @@ msgid "Event Display"
 msgstr "表示件数"
 
 #: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:39;40;41;42;43;44
-msgid "%dcases"
-msgstr "%d件"
+msgid "%d case"
+msgstr "%d 件"
+
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:39;40;41;42;43;44
+msgid "%d cases"
+msgstr "%d 件"
 
 #: RssReaders/View/Elements/RssReaders/edit_form.ctp:52
 msgid "Get Site Info"

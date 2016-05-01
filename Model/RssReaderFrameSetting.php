@@ -2,7 +2,6 @@
 /**
  * RssReaderFrameSetting Model
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
@@ -13,7 +12,6 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
 /**
  * RssReaderFrameSetting Model
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Model
  */
@@ -22,7 +20,7 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 /**
  * belongsTo associations
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @var array
  */
 	public $belongsTo = array(
@@ -68,72 +66,57 @@ class RssReaderFrameSetting extends RssReadersAppModel {
 	}
 
 /**
- * Get RssReaderFrameSetting
+ * RssReaderFrameSettingデータの取得
  *
- * @param string $frameKey frames.key
  * @return array $rssFrameSetting
  */
-	public function getRssReaderFrameSetting($frameKey) {
+	public function getRssReaderFrameSetting() {
 		$rssFrameSetting = $this->find('first', array(
 			'recursive' => -1,
 			'conditions' => array(
-				'frame_key' => $frameKey
+				'frame_key' => Current::read('Frame.key')
 			)
 		));
+
+		if (! $rssFrameSetting) {
+			$rssFrameSetting = $this->create(array(
+				'frame_key' => Current::read('Frame.key'),
+			));
+		}
 
 		return $rssFrameSetting;
 	}
 
 /**
- * save RssReaderFrameSetting
+ * RssReaderFrameSettingの登録
  *
  * @param array $data received post data
  * @return bool true success, false error
  * @throws InternalErrorException
  */
 	public function saveRssReaderFrameSetting($data) {
-		$this->loadModels([
-			'RssReaderFrameSetting' => 'RssReaders.RssReaderFrameSetting',
-		]);
-
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates()) {
+			return false;
+		}
 
 		try {
-			//validate処理
-			if (! $this->validateRssReaderFrameSetting($data)) {
-				return false;
-			}
-
-			//登録処理
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$dataSource->commit();
+			//トランザクションCommit
+			$this->commit();
+
 		} catch (Exception $ex) {
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
 
-		return true;
-	}
-
-/**
- * validate RssReaderFrameSetting
- *
- * @param array $data received post data
- * @return bool True on success, false on error
- */
-	public function validateRssReaderFrameSetting($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
 		return true;
 	}
 }
