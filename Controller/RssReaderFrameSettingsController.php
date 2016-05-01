@@ -1,10 +1,9 @@
 <?php
 /**
- * RssReaderFrameSettings Controller
+ * 表示方法変更 Controller
  *
  * @property RssReaderFrameSetting $RssReaderFrameSetting
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
@@ -14,9 +13,8 @@
 App::uses('RssReadersAppController', 'RssReaders.Controller');
 
 /**
- * RssReaderFrameSettings Controller
+ * 表示方法変更 Controller
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Controller
  */
@@ -30,7 +28,7 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 	public $layout = 'NetCommons.setting';
 
 /**
- * Model name
+ * 使用するModel
  *
  * @var    array
  */
@@ -39,30 +37,30 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 	);
 
 /**
- * use component
+ * 使用するComponent
  *
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array('edit')
+		'NetCommons.Permission' => array(
+			'allow' => array(
+				'edit' => 'page_editable',
 			),
 		),
 	);
 
 /**
- * beforeFilter
+ * 使用するHelpers
  *
- * @return void
+ * @var array
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
-		//タブの設定
-		$this->initTabs('frame_settings', '');
-	}
+	public $helpers = array(
+		'Blocks.BlockForm',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index', 'frame_settings'),
+			'blockTabs' => array('block_settings'),
+		),
+	);
 
 /**
  * edit action
@@ -70,30 +68,15 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsFrame->validateFrameId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-
-		$data = array();
-		if ($this->request->isPost()) {
-			$data = $this->data;
-
-			$this->RssReaderFrameSetting->saveRssReaderFrameSetting($this->data);
-			if ($this->NetCommons->handleValidationError($this->RssReaderFrameSetting->validationErrors)) {
-				$this->redirect(NetCommonsUrl::backToPageUrl());
-				return;
+		if ($this->request->is('put') || $this->request->is('post')) {
+			if ($this->RssReaderFrameSetting->saveRssReaderFrameSetting($this->data)) {
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
+			$this->NetCommons->handleValidationError($this->RssReaderFrameSetting->validationErrors);
 
-			unset($data['Frame']);
+		} else {
+			$this->request->data = $this->RssReaderFrameSetting->getRssReaderFrameSetting();
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
-
-		if (! $rssFrameSetting = $this->RssReaderFrameSetting->getRssReaderFrameSetting($this->viewVars['frameKey'])) {
-			$rssFrameSetting = $this->RssReaderFrameSetting->create(
-				['frame_key' => $this->viewVars['frameKey']]
-			);
-		}
-		$results = $this->camelizeKeyRecursive(Hash::merge($rssFrameSetting, $data));
-		$this->set($results);
 	}
 }

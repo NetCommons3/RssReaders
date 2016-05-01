@@ -1,6 +1,6 @@
 <?php
 /**
- * Blocks edit template
+ * ブロック編集View
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -8,26 +8,25 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+echo $this->NetCommonsHtml->script('/rss_readers/js/rss_readers.js');
 ?>
-<?php echo $this->Html->script('/rss_readers/js/rss_readers.js', false); ?>
 
-<div id="nc-rss-readers-<?php echo $frameId; ?>" class="modal-body"
+<article class="block-setting-body"
 		ng-controller="RssReaders"
-		ng-init="initialize(<?php echo h(json_encode(['frameId' => $frameId])); ?>)">
+		ng-init="initialize(<?php echo h(json_encode(['frameId' => Current::read('Frame.id')])); ?>)">
 
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsHelper::BLOCK_TAB_SETTING); ?>
 
-		<?php echo $this->element('RssReaders.RssReaderBlocks/edit_form'); ?>
+		<?php echo $this->element('RssReaderBlocks/edit_form'); ?>
 
-		<?php if ($this->request->params['action'] === 'edit') : ?>
-			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'RssReaderBlocks',
-					'action' => 'delete/' . $frameId . '/' . (int)$rssReader['blockId'],
-					'callback' => 'RssReaders.RssReaderBlocks/delete_form'
-				)); ?>
-		<?php endif; ?>
+		<?php echo $this->Workflow->comments(); ?>
+
+		<?php echo $this->BlockForm->displayDeleteForm(array(
+				'callback' => 'RssReaders.RssReaderBlocks/delete_form',
+			)); ?>
 	</div>
-</div>
+</article>

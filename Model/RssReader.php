@@ -5,7 +5,6 @@
  * @property Block $Block
  * @property RssReaderItem $RssReaderItem
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
@@ -17,16 +16,16 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
 /**
  * RssReader Model
  *
- * @author Kosuke Miura <k_miura@zenk.co.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Model
  */
 class RssReader extends RssReadersAppModel {
 
 /**
- * Cache time
+ * キャッシュタイム
  *
  * @var string
+ * @see http://php.net/manual/ja/dateinterval.construct.php
  */
 	const CACHE_TIME = 'PT1H';
 
@@ -36,18 +35,24 @@ class RssReader extends RssReadersAppModel {
  * @var array
  */
 	public $actsAs = array(
+		'Blocks.Block' => array(
+			'name' => 'RssReader.title',
+			'loadModels' => array(
+				'WorkflowComment' => 'Workflow.WorkflowComment',
+			)
+		),
 		'NetCommons.OriginalKey',
-		'NetCommons.Publishable'
+		'Workflow.WorkflowComment',
+		'Workflow.Workflow',
 	);
 
 /**
- * Validation rules
+ * バリデーションルール
+ * __d()を使うため、[self::beforeValidate()](#method_beforeValidate)でセットする
  *
  * @var array
  */
 	public $validate = array();
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -113,12 +118,18 @@ class RssReader extends RssReadersAppModel {
 			'url' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('rss_readers', 'RDF/RSS URL')),
+					'message' => sprintf(
+						__d('net_commons', 'Please input %s.'), __d('rss_readers', 'RDF/RSS URL')
+					),
 					'required' => true,
 				),
 				'url' => array(
 					'rule' => array('url'),
-					'message' => sprintf(__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'), __d('rss_readers', 'RDF/RSS URL'), __d('rss_readers', 'URL')),
+					'message' => sprintf(
+						__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'),
+						__d('rss_readers', 'RDF/RSS URL'),
+						__d('net_commons', 'URL')
+					),
 					'allowEmpty' => false,
 					'required' => true,
 				)
@@ -126,177 +137,136 @@ class RssReader extends RssReadersAppModel {
 			'title' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Site Title')),
+					'message' => sprintf(
+						__d('net_commons', 'Please input %s.'), __d('rss_readers', 'Site Title')
+					),
 					'required' => true,
 				),
 			),
 			'link' => array(
 				'url' => array(
 					'rule' => array('url'),
-					'message' => sprintf(__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'), __d('rss_readers', 'Site Url'), __d('rss_readers', 'URL')),
+					'message' => sprintf(
+						__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'),
+						__d('rss_readers', 'Site Url'),
+						__d('net_commons', 'URL')
+					),
 					'allowEmpty' => true,
 				)
 			),
 		));
 
-		//TestでurlにAPPディレクト配下をセットした時は、URLのフォーマットチェックは除くようにする
-		if ($this->useDbConfig === 'test' && isset($this->data['RssReader']['url'])) {
-			if (preg_match('/^' . preg_quote(APP, '/') . '/', $this->data['RssReader']['url'])) {
-				unset($this->validate['url']['url']);
+		if (isset($this->data['RssReaderItem'])) {
+			$this->loadModels([
+				'RssReaderItem' => 'RssReaders.RssReaderItem',
+			]);
+			if (! $this->RssReaderItem->validateMany($this->data['RssReaderItem'])) {
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors,
+					$this->RssReaderItem->validationErrors
+				);
+				return false;
 			}
 		}
+
+		//TestでurlにAPPディレクト配下をセットした時は、URLのフォーマットチェックは除くようにする
+		//if ($this->useDbConfig === 'test' && isset($this->data['RssReader']['url'])) {
+		//	if (preg_match('/^' . preg_quote(APP, '/') . '/', $this->data['RssReader']['url'])) {
+		//		unset($this->validate['url']['url']);
+		//	}
+		//}
+
 		return parent::beforeValidate($options);
 	}
 
 /**
- * Get rss reader
+ * Called after each successful save operation.
  *
- * @param int $blockId blocks.id
- * @param int $roomId rooms.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
+ * @return void
+ * @throws InternalErrorException
+ * @link http://book.cakephp.org/2.0/ja/models/callback-methods.html#aftersave
+ * @see Model::save()
+ */
+	public function afterSave($created, $options = array()) {
+		if (isset($this->data['RssReaderItem'])) {
+			$this->loadModels([
+				'RssReaderItem' => 'RssReaders.RssReaderItem',
+			]);
+
+			//既存データの削除
+			$conditions = array('RssReaderItem.rss_reader_id' => $this->data[$this->alias]['id']);
+			if (! $this->RssReaderItem->deleteAll($conditions, true, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			$this->data['RssReaderItem'] = Hash::insert(
+				$this->data['RssReaderItem'], '{n}.{s}.rss_reader_id', $this->data[$this->alias]['id']
+			);
+			if (! $this->RssReaderItem->saveMany($this->data['RssReaderItem'], ['validate' => false])) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+
+		parent::afterSave($created, $options);
+	}
+
+/**
+ * RssReaderデータの取得
+ *
  * @return array $rssReader
  */
-	public function getRssReader($blockId, $roomId, $contentEditable) {
-		$conditions = array(
-			'Block.id' => $blockId,
-			'Block.room_id' => $roomId,
-		);
-		if ($contentEditable) {
+	public function getRssReader() {
+		if (Current::permission('content_editable')) {
 			$conditions[$this->alias . '.is_latest'] = true;
 		} else {
 			$conditions[$this->alias . '.is_active'] = true;
 		}
-
 		$rssReader = $this->find('first', array(
 			'recursive' => 0,
-			'conditions' => $conditions,
-			//'order' => 'RssReader.id DESC',
+			'conditions' => $this->getBlockConditionById($conditions),
 		));
 
 		return $rssReader;
 	}
 
 /**
- * Save rssReader data
+ * RssReaderデータの登録
  *
- * @param array $data received post data
- * @return bool True on success, false on error
+ * @param array $data リクエストデータ
+ * @return bool
  * @throws InternalErrorException
  */
 	public function saveRssReader($data) {
-		$this->loadModels([
-			'RssReader' => 'RssReaders.RssReader',
-			'RssReaderItem' => 'RssReaders.RssReaderItem',
-			'Block' => 'Blocks.Block',
-			'Comment' => 'Comments.Comment',
-		]);
-
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
-		try {
-			//RssReaderのvalidate
-			if (! $this->validateRssReader($data, ['comment', 'rss_reader_item'])) {
-				return false;
-			}
-
-			//ブロックのvalidate
-			if (! $this->Block->validateBlock($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-				return false;
-			}
-
-			//RssReaderの登録
-			$rssReader = $this->__saveRssReader($data);
-
-			$dataSource->commit();
-		} catch (Exception $ex) {
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
-		}
-
-		return $rssReader;
-	}
-
-/**
- * Save rssReader data
- *
- * @param array $data received post data
- * @return bool True on success, false on error
- * @throws InternalErrorException
- */
-	private function __saveRssReader($data) {
-		//ブロックの登録
-		$block = $this->Block->saveByFrameId($data['Frame']['id']);
-
-		//RssReaderの登録
-		$this->data['RssReader']['block_id'] = (int)$block['Block']['id'];
-		if (! $rssReader = $this->save(null, false)) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		//RSS Itemsの登録
-		if (isset($rssReader['RssReaderItem'])) {
-			//既存データの削除
-			if (! $this->RssReaderItem->deleteAll(['rss_reader_id' => $rssReader[$this->alias]['id']], true, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			$rssReader['RssReaderItem'] = Hash::insert($rssReader['RssReaderItem'], '{n}.rss_reader_id', $rssReader[$this->alias]['id']);
-			if (! $this->RssReaderItem->saveMany($rssReader['RssReaderItem'], ['validate' => false])) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-		}
-
-		//コメントの登録
-		if ($this->Comment->data) {
-			$this->Comment->data[$this->Comment->name]['block_key'] = $block['Block']['key'];
-			$this->Comment->data[$this->Comment->name]['content_key'] = $rssReader[$this->alias]['key'];
-			if (! $this->Comment->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-		}
-
-		return $rssReader;
-	}
-
-/**
- * validate rssReader
- *
- * @param array $data received post data
- * @param array $contains Optional validate sets
- * @return bool True on success, false on error
- */
-	public function validateRssReader($data, $contains = []) {
+		//バリデーション
 		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
+		if (! $this->validates()) {
 			return false;
 		}
 
-		//RssItemsのvalidate
-		if (in_array('rss_reader_item', $contains, true) && isset($data['RssReaderItem'])) {
-			if (! $this->RssReaderItem->validateRssReaderItems($data['RssReaderItem'])) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->RssReaderItem->validationErrors);
-				return false;
+		try {
+			$rssReader = $this->save(null, false);
+			if (! $rssReader) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
 
-		//コメントのvalidate
-		if (in_array('comment', $contains, true) && isset($data['Comment'])) {
-			if (! $this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				return false;
-			}
-		}
-
-		return true;
+		return $rssReader;
 	}
 
 /**
- * Delete RssReader
+ * RssReaderデータの削除
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
@@ -304,50 +274,43 @@ class RssReader extends RssReadersAppModel {
  */
 	public function deleteRssReader($data) {
 		$this->loadModels([
-			'RssReader' => 'RssReaders.RssReader',
 			'RssReaderItem' => 'RssReaders.RssReaderItem',
-			'Block' => 'Blocks.Block',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		$conditions = array(
 			$this->alias . '.key' => $data[$this->alias]['key']
 		);
-		$rssReaders = $this->find('list', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
-		$rssReaderIds = array_keys($rssReaders);
+		$result = $this->find('list', array(
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
+		$rssReaderIds = array_keys($result);
 
 		try {
-			if (! $this->deleteAll(array($this->alias . '.key' => $data[$this->alias]['key']), false)) {
+			//RssReaderItemデータ削除
+			$conditions = array($this->RssReaderItem->alias . '.rss_reader_id' => $rssReaderIds);
+			if (! $this->RssReaderItem->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->RssReaderItem->deleteAll(array($this->RssReaderItem->alias . '.rss_reader_id' => $rssReaderIds), false)) {
+			//RssReaderデータ削除
+			$conditions = array($this->alias . '.key' => $data[$this->alias]['key']);
+			if (! $this->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//コメントの削除
-			$this->Comment->deleteByBlockKey($data['Block']['key']);
-
-			//Blockデータ削除
-			$this->Block->deleteBlock($data['Block']['key']);
+			//blockデータ削除
+			$this->deleteBlock($data['Block']['key']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

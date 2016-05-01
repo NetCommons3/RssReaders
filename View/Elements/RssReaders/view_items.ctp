@@ -13,17 +13,17 @@
 <?php if ($rssReaderItems) : ?>
 	<?php foreach ($rssReaderItems as $item): ?>
 		<article>
-			<h2 class="clearfix">
-				<a href="<?php echo h($item['link']); ?>" target="_blank">
-					<?php echo h($item['title']); ?>
+			<h3 class="clearfix">
+				<a href="<?php echo h($item['RssReaderItem']['link']); ?>" target="_blank">
+					<?php echo h($item['RssReaderItem']['title']); ?>
 				</a>
 				&nbsp;
 				<div class="pull-right">
-					<?php echo $this->Date->dateFormat($item['lastUpdated']); ?>
+					<?php echo $this->Date->dateFormat($item['RssReaderItem']['last_updated']); ?>
 				</div>
-			</h2>
+			</h3>
 			<div class="text-muted">
-				<?php echo h($item['summary']); ?>
+				<?php echo h($item['RssReaderItem']['summary']); ?>
 			</div>
 		</article>
 	<?php endforeach ?>
