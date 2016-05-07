@@ -16,6 +16,7 @@
 			<?php echo $this->element('Blocks.form_hidden'); ?>
 			<?php echo $this->element('RssReaders.RssReaders/edit_form'); ?>
 			<?php echo $this->element('Blocks.public_type'); ?>
+			<?php echo $this->element('Blocks.modifed_info', array('displayModified' => true)); ?>
 
 			<hr />
 

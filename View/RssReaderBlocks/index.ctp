@@ -34,11 +34,7 @@
 								array('sort' => true, 'type' => 'handle')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'RssReader.created', __d('net_commons', 'Created datetime'),
-								array('sort' => true, 'type' => 'datetime')
-							); ?>
-						<?php echo $this->BlockIndex->tableHeader(
-								'RssReader.modified', __d('net_commons', 'Modified datetime'),
+								'Block.modified', __d('net_commons', 'Modified datetime'),
 								array('sort' => true, 'type' => 'datetime')
 							); ?>
 					</tr>
@@ -51,18 +47,14 @@
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'RssReader.title', $rssReader['RssReader']['title'],
-									array('editUrl' => array('blockId' => $rssReader['Block']['id']))
+									array('editUrl' => array('block_id' => $rssReader['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'TrackableCreator', $rssReader,
 									array('type' => 'handle')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'RssReader.created', $rssReader['RssReader']['created'],
-									array('type' => 'datetime')
-								); ?>
-							<?php echo $this->BlockIndex->tableData(
-									'RssReader.modified', $rssReader['RssReader']['modified'],
+									'Block.modified', $rssReader['Block']['modified'],
 									array('type' => 'datetime')
 								); ?>
 						<?php echo $this->BlockIndex->endTableRow(); ?>

@@ -15,7 +15,7 @@
 <?php echo $this->NetCommonsForm->hidden('RssReaderFrameSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('RssReaderFrameSetting.frame_key'); ?>
 
-<?php echo $this->NetCommonsForm->displayNumber('RssReaderFrameSetting.display_number_per_page', array(
+<?php echo $this->NetCommonsForm->selectNumber('RssReaderFrameSetting.display_number_per_page', array(
 		'label' => __d('rss_readers', 'Event Display'),
 		'unit' => array(
 			'single' => __d('rss_readers', '%d case'),
