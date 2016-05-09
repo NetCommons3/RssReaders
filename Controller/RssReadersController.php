@@ -80,6 +80,9 @@ class RssReadersController extends RssReadersAppController {
 			Hash::get($rssFrameSetting, 'RssReaderFrameSetting.display_number_per_page')
 		);
 		$this->set('rssReaderItems', $rssReaderItems);
+
+		//新着データを既読にする
+		$this->RssReader->saveTopicUserStatus($rssReader);
 	}
 
 /**
