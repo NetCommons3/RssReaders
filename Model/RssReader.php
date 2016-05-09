@@ -44,6 +44,14 @@ class RssReader extends RssReadersAppModel {
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
+		'Topics.Topics' => array(
+			'fields' => array(
+				'title' => 'RssReader.title',
+				'summary' => 'RssReader.summary',
+				'path' => '/:plugin_key/:plugin_key/view/:block_id/:content_key',
+			),
+			'search_contents' => array('url', 'link')
+		),
 	);
 
 /**
