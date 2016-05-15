@@ -146,6 +146,11 @@ class RssReaderBlocksController extends RssReadersAppController {
 			$this->request->data = Hash::merge($this->request->data, $rssReader);
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
+
+		$comments = $this->RssReader->getCommentsByContentKey(
+			$this->request->data['RssReader']['key']
+		);
+		$this->set('comments', $comments);
 	}
 
 /**

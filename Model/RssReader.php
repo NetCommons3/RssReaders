@@ -37,9 +37,6 @@ class RssReader extends RssReadersAppModel {
 	public $actsAs = array(
 		'Blocks.Block' => array(
 			'name' => 'RssReader.title',
-			'loadModels' => array(
-				'WorkflowComment' => 'Workflow.WorkflowComment',
-			)
 		),
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
@@ -298,15 +295,16 @@ class RssReader extends RssReadersAppModel {
 		$rssReaderIds = array_keys($result);
 
 		try {
-			//RssReaderItemデータ削除
-			$conditions = array($this->RssReaderItem->alias . '.rss_reader_id' => $rssReaderIds);
-			if (! $this->RssReaderItem->deleteAll($conditions, false)) {
+			//RssReaderデータ削除
+			$this->contentKey = $data[$this->alias]['key'];
+			$conditions = array($this->alias . '.key' => $data[$this->alias]['key']);
+			if (! $this->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//RssReaderデータ削除
-			$conditions = array($this->alias . '.key' => $data[$this->alias]['key']);
-			if (! $this->deleteAll($conditions, false)) {
+			//RssReaderItemデータ削除
+			$conditions = array($this->RssReaderItem->alias . '.rss_reader_id' => $rssReaderIds);
+			if (! $this->RssReaderItem->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
