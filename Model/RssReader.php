@@ -41,6 +41,14 @@ class RssReader extends RssReadersAppModel {
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
+		'Mails.MailQueue' => array(
+			'embedTags' => array(
+				'X-TITLE' => 'RssReader.title',
+				'X-RSS_URL' => 'RssReader.url',
+				'X-LINK' => 'RssReader.link',
+				'X-SUMMARY' => 'RssReader.summary',
+			),
+		),
 		'Topics.Topics' => array(
 			'fields' => array(
 				'title' => 'RssReader.title',
