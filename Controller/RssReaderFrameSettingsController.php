@@ -70,7 +70,7 @@ class RssReaderFrameSettingsController extends RssReadersAppController {
 	public function edit() {
 		if ($this->request->is('put') || $this->request->is('post')) {
 			if ($this->RssReaderFrameSetting->saveRssReaderFrameSetting($this->data)) {
-				return $this->redirect(NetCommonsUrl::backToPageUrl());
+				return $this->redirect(NetCommonsUrl::backToPageUrl(true));
 			}
 			$this->NetCommons->handleValidationError($this->RssReaderFrameSetting->validationErrors);
 
