@@ -10,6 +10,7 @@
  */
 
 App::uses('RssReadersAppController', 'RssReaders.Controller');
+App::uses('MailSend', 'Mails.Utility');
 
 /**
  * ブロック設定 Controller
@@ -60,7 +61,7 @@ class RssReaderBlocksController extends RssReadersAppController {
 		'Blocks.BlockIndex',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings'),
+			'blockTabs' => array('block_settings', 'mail_settings'),
 		),
 		'Workflow.Workflow',
 	);
@@ -107,6 +108,9 @@ class RssReaderBlocksController extends RssReadersAppController {
 			}
 
 			if ($this->RssReader->saveRssReader($data)) {
+				// キューからメール送信
+				MailSend::send();
+
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->RssReader->validationErrors);
@@ -133,6 +137,9 @@ class RssReaderBlocksController extends RssReadersAppController {
 			}
 
 			if ($this->RssReader->saveRssReader($data)) {
+				// キューからメール送信
+				MailSend::send();
+
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 			}
 			$this->NetCommons->handleValidationError($this->RssReader->validationErrors);

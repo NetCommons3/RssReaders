@@ -80,3 +80,9 @@ msgstr "サイトの説明"
 #: RssReaders/View/RssReaders/view.ctp:23
 msgid "Site Info"
 msgstr "サイト情報"
+
+#
+#: メール関連
+#
+msgid "MailSetting.mail_fixed_phrase_body.popover"
+msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : ブロック名<br>{X-RSS_URL} : RDF/RSSのURL<br>{X-TITLE} : RDF/RSSのサイト名<br>{X-LINK} : RDF/RSSのサイトURL<br>{X-SUMMARY} : RDF/RSSのサイト説明<br>{X-USER} : 投稿者<br>{X-TO_DATE} : 投稿日時<br>{X-URL} : RSS内容のURL"
