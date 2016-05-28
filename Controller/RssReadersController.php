@@ -12,7 +12,6 @@
 
 App::uses('Xml', 'Utility');
 App::uses('RssReadersAppController', 'RssReaders.Controller');
-App::uses('MailSend', 'Mails.Utility');
 
 /**
  * RssReaders Controller
@@ -101,9 +100,6 @@ class RssReadersController extends RssReadersAppController {
 			}
 
 			if ($this->RssReader->saveRssReader($data)) {
-				// キューからメール送信
-				MailSend::send();
-
 				return $this->redirect(NetCommonsUrl::backToIndexUrl());
 			}
 			$this->NetCommons->handleValidationError($this->RssReader->validationErrors);
