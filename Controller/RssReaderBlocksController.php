@@ -127,6 +127,8 @@ class RssReaderBlocksController extends RssReadersAppController {
 		if ($this->request->is('put')) {
 			//登録処理
 			$data = $this->request->data;
+			unset($data['RssReader']['id']);
+
 			$data['RssReader']['status'] = $this->Workflow->parseStatus();
 			if ($data['RssReader']['url']) {
 				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
