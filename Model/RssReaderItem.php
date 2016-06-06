@@ -235,15 +235,25 @@ class RssReaderItem extends RssReadersAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			//不要なビヘイビアを停止する
+			if ($this->RssReader->Behaviors->enabled('Mails.MailQueue')) {
+				$this->RssReader->Behaviors->disable('Mails.MailQueue');
+			}
+			if ($this->RssReader->Behaviors->enabled('Topics.Topics')) {
+				$this->RssReader->Behaviors->disable('Topics.Topics');
+			}
+
 			//RssReaderの登録
 			$this->RssReader->id = $data[$this->RssReader->alias]['id'];
-
 			$date = new DateTime();
 			$now = $date->format('Y-m-d H:i:s');
-
 			if (! $this->RssReader->saveField('modified', $now)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			//停止したビヘイビアを開始する
+			$this->RssReader->Behaviors->enable('Mails.MailQueue');
+			$this->RssReader->Behaviors->enable('Topics.Topics');
 
 			//トランザクションCommit
 			$this->commit();
