@@ -252,12 +252,8 @@ class RssReaderItem extends RssReadersAppModel {
 			}
 
 			//停止したビヘイビアを開始する
-			if (! $this->RssReader->Behaviors->enabled('Mails.MailQueue')) {
-				$this->RssReader->Behaviors->enable('Mails.MailQueue');
-			}
-			if (! $this->RssReader->Behaviors->enabled('Topics.Topics')) {
-				$this->RssReader->Behaviors->enable('Topics.Topics');
-			}
+			$this->RssReader->Behaviors->enable('Mails.MailQueue');
+			$this->RssReader->Behaviors->enable('Topics.Topics');
 
 			//トランザクションCommit
 			$this->commit();
