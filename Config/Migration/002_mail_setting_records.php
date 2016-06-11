@@ -52,7 +52,7 @@ class RssReaderMailSettingRecords extends MailsMigration {
 			array(
 				'plugin_key' => self::PLUGIN_KEY,
 				'block_key' => null,
-				'is_mail_send' => true,
+				'is_mail_send' => false,
 				'is_mail_send_approval' => true,
 			),
 		),
