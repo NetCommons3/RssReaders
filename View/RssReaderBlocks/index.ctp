@@ -27,7 +27,7 @@
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 								'RssReader.title', __d('rss_readers', 'Site Title'),
-								array('sort' => true)
+								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
