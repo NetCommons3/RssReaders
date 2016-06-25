@@ -72,12 +72,11 @@ class RssReaderBlocksController extends RssReadersAppController {
  */
 	public function index() {
 		$this->Paginator->settings = array(
-			'RssReader' => array(
-				'order' => array('RssReader.id' => 'desc'),
-				'conditions' => $this->RssReader->getBlockConditions(array(
+			'RssReader' => $this->RssReader->getBlockIndexSettings(
+				array('conditions' => array(
 					'RssReader.is_latest' => true,
-				)),
-			)
+				),
+			))
 		);
 
 		$rssReaders = $this->Paginator->paginate('RssReader');
