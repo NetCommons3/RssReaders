@@ -30,7 +30,11 @@
 								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
+								'Block.public_type', __d('blocks', 'Publishing setting'),
+								array('sort' => true)
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'TrackableUpdater.handlename', __d('net_commons', 'Modified user'),
 								array('sort' => true, 'type' => 'handle')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
@@ -46,11 +50,16 @@
 									'Frame.block_id', $rssReader['Block']['id']
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'RssReader.title', $rssReader['RssReader']['title'],
-									array('editUrl' => array('block_id' => $rssReader['Block']['id']))
+									'Block.name',
+									'<small>' . $this->Workflow->label($rssReader['RssReader']['status']) . '</small>' . ' ' .
+									h($rssReader['Block']['name']),
+									array('editUrl' => array('block_id' => $rssReader['Block']['id']), 'escape' => false)
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'TrackableCreator', $rssReader,
+									'Block.public_type', $rssReader
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'TrackableUpdater', $rssReader,
 									array('type' => 'handle')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
