@@ -203,6 +203,10 @@ class RssReader extends RssReadersAppModel {
  * @see Model::save()
  */
 	public function afterSave($created, $options = array()) {
+		$this->loadModels([
+			'RssReaderSetting' => 'RssReaders.RssReaderSetting',
+		]);
+
 		if (isset($this->data['RssReaderItem'])) {
 			$this->loadModels([
 				'RssReaderItem' => 'RssReaders.RssReaderItem',
@@ -222,6 +226,17 @@ class RssReader extends RssReadersAppModel {
 			}
 		}
 
+		//RssReaderSetting登録
+		if (isset($this->data['RssReaderSetting'])) {
+			if (! $this->data['RssReaderSetting']['block_key']) {
+				$this->data['RssReaderSetting']['block_key'] = $this->data['Block']['key'];
+			}
+			$this->RssReaderSetting->set($this->data['RssReaderSetting']);
+			if (! $this->RssReaderSetting->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+
 		parent::afterSave($created, $options);
 	}
 
@@ -231,6 +246,10 @@ class RssReader extends RssReadersAppModel {
  * @return array $rssReader
  */
 	public function getRssReader() {
+		$this->loadModels([
+			'RssReaderSetting' => 'RssReaders.RssReaderSetting',
+		]);
+
 		if (Current::permission('content_editable')) {
 			$conditions[$this->alias . '.is_latest'] = true;
 		} else {
@@ -241,7 +260,7 @@ class RssReader extends RssReadersAppModel {
 			'conditions' => $this->getBlockConditionById($conditions),
 		));
 
-		return $rssReader;
+		return Hash::merge($rssReader, $this->RssReaderSetting->getRssReaderSetting());
 	}
 
 /**

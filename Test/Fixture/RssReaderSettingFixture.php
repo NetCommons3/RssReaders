@@ -1,6 +1,6 @@
 <?php
 /**
- * RssReaderItemFixture
+ * RssReaderSettingixture
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,12 +10,12 @@
  */
 
 /**
- * RssReaderItemFixture
+ * RssReaderSettingFixture
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Test
  */
-class RssReaderItemFixture extends CakeTestFixture {
+class RssReaderSettingFixture extends CakeTestFixture {
 
 /**
  * Records
@@ -24,16 +24,13 @@ class RssReaderItemFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => '1',
-			'rss_reader_id' => '1',
-			'title' => 'Title',
-			'summary' => 'Summary',
-			'link' => 'http://example.com',
-			'serialize_value' => 'serialize()',
+			'id' => 1,
+			'block_key' => 'Lorem ipsum dolor sit amet',
+			'use_workflow' => 1,
 			'created_user' => 1,
-			'created' => '2015-03-14 13:08:48',
+			'created' => '2016-06-28 08:30:22',
 			'modified_user' => 1,
-			'modified' => '2015-03-14 13:08:48'
+			'modified' => '2016-06-28 08:30:22'
 		),
 	);
 
@@ -44,7 +41,7 @@ class RssReaderItemFixture extends CakeTestFixture {
  */
 	public function init() {
 		require_once App::pluginPath('RssReaders') . 'Config' . DS . 'Schema' . DS . 'schema.php';
-		$this->fields = (new RssReadersSchema())->tables['rss_reader_items'];
+		$this->fields = (new RssReadersSchema())->tables['rss_reader_settings'];
 		parent::init();
 	}
 
