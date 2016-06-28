@@ -20,6 +20,9 @@
 <?php echo $this->NetCommonsForm->hidden('RssReader.key'); ?>
 <?php echo $this->NetCommonsForm->hidden('RssReader.language_id'); ?>
 
+<?php echo $this->NetCommonsForm->hidden('RssReaderSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('RssReaderSetting.block_key'); ?>
+
 <div class="form-group" ng-class="{'has-error': urlError}">
 	<?php echo $this->NetCommonsForm->label('RssReader.url',
 				__d('rss_readers', 'RDF/RSS URL'), ['required' => true]); ?>

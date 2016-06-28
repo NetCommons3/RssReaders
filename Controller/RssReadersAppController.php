@@ -35,6 +35,7 @@ class RssReadersAppController extends AppController {
  */
 	public $uses = array(
 		'RssReaders.RssReader',
+		'RssReaders.RssReaderSetting'
 	);
 
 }
