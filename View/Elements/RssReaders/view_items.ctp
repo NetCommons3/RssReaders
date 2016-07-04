@@ -17,14 +17,17 @@
 				<a href="<?php echo h($item['RssReaderItem']['link']); ?>" target="_blank">
 					<?php echo h($item['RssReaderItem']['title']); ?>
 				</a>
-				&nbsp;
 				<div class="pull-right">
 					<?php echo $this->Date->dateFormat($item['RssReaderItem']['last_updated']); ?>
 				</div>
 			</h3>
-			<div class="text-muted">
+			<div class="text-muted rss-reader-summary">
 				<?php echo h($item['RssReaderItem']['summary']); ?>
 			</div>
 		</article>
-	<?php endforeach ?>
+	<?php endforeach; ?>
+<?php else : ?>
+		<article>
+			<?php echo __d('rss_readers', 'Feed Not Found.'); ?>
+		</article>
 <?php endif;
