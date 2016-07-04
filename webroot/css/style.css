@@ -6,6 +6,28 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
+/**
+ * 詳細画面
+ */
+.frame.nc-content-list article h1.rss-reader-rss-title {
+	margin-bottom: 8px;
+}
+.rss-reader-summary {
+	margin-left: 16px;
+	margin-top: 4px;
+	/*display: block;*/
+	max-height: 4em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/*white-space: nowrap;*/
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+/**
+ * 編集画面
+ */
 .rss-reader-getbtn {
 	width: 30%;
 }
