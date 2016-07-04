@@ -17,7 +17,7 @@
 		<?php echo $this->BlockForm->displayEditForm(array(
 				'model' => 'RssReaderFrameSetting',
 				'callback' => 'RssReaders.RssReaderFrameSettings/edit_form',
-				'cancelUrl' => NetCommonsUrl::backToIndexUrl(true),
+				'cancelUrl' => NetCommonsUrl::backToPageUrl(true),
 			)); ?>
 	</div>
 </article>

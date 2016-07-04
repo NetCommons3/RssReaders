@@ -207,7 +207,7 @@ class RssReader extends RssReadersAppModel {
 			'RssReaderSetting' => 'RssReaders.RssReaderSetting',
 		]);
 
-		if (isset($this->data['RssReaderItem'])) {
+		if (Hash::get($this->data, 'RssReaderItem')) {
 			$this->loadModels([
 				'RssReaderItem' => 'RssReaders.RssReaderItem',
 			]);
@@ -271,8 +271,23 @@ class RssReader extends RssReadersAppModel {
  * @throws InternalErrorException
  */
 	public function saveRssReader($data) {
+		$this->loadModels([
+			'RssReaderItem' => 'RssReaders.RssReaderItem',
+		]);
+
 		//トランザクションBegin
 		$this->begin();
+
+		if ($data['RssReader']['url']) {
+			$xmlData = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
+		}
+		if (! $xmlData) {
+			// Xmlが取得できない場合、validationのエラーにする
+			$this->invalidate('url', __d('rss_readers', 'Feed Not Found.'));
+			return false;
+		}
+
+		$data['RssReaderItem'] = $xmlData;
 
 		//バリデーション
 		$this->set($data);

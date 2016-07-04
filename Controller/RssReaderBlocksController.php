@@ -101,9 +101,6 @@ class RssReaderBlocksController extends RssReadersAppController {
 			//登録処理
 			$data = $this->request->data;
 			$data['RssReader']['status'] = $this->Workflow->parseStatus();
-			if ($data['RssReader']['url']) {
-				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
-			}
 
 			if ($this->RssReader->saveRssReader($data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
@@ -129,9 +126,6 @@ class RssReaderBlocksController extends RssReadersAppController {
 			unset($data['RssReader']['id']);
 
 			$data['RssReader']['status'] = $this->Workflow->parseStatus();
-			if ($data['RssReader']['url']) {
-				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
-			}
 
 			if ($this->RssReader->saveRssReader($data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));

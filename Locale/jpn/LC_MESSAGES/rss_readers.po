@@ -16,7 +16,15 @@ msgstr ""
 
 #: RssReaders/Controller/RssReadersController.php:238
 msgid "Feed Not Found."
-msgstr "フィードが見つかりませんでした。"
+msgstr "RDF/RSSデータがありません。"
+
+#: RssReaders/Controller/RssReadersController.php:238
+msgid "Unauthorized pattern for RDF/RSS. Please input the url in RDF/RSS format."
+msgstr "RDF/RSSの書式が不正です。RDF/RSS形式のURLを入力してください。"
+
+#: RssReaders/View/RssReaders/view.ctp:23
+msgid "Not Found site info."
+msgstr "サイト情報がありません。"
 
 #: RssReaders/Model/RssReader.php:116;121
 #: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:92;174
