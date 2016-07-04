@@ -16,21 +16,27 @@ echo $this->NetCommonsHtml->script('/rss_readers/js/rss_readers.js');
 		ng-controller="RssReaders"
 		ng-init="initialize(<?php echo h(json_encode(['frameId' => Current::read('Frame.id')])); ?>)">
 
-	<?php echo $this->NetCommonsForm->create('RssReadear'); ?>
-
-		<div class="panel panel-default">
+	<div class="panel panel-default">
+		<?php echo $this->NetCommonsForm->create('RssReader'); ?>
 			<div class="panel-body has-feedback">
-				<?php echo $this->element('RssReaders/edit_form'); ?>
-
+				<?php echo $this->element('RssReaders.RssReaders/edit_form'); ?>
 				<hr />
-
 				<?php echo $this->Workflow->inputComment('RssReader.status', false); ?>
 			</div>
 
-			<?php echo $this->Workflow->buttons('RssReader.status', NetCommonsUrl::backToIndexUrl()); ?>
-		</div>
+			<?php echo $this->Workflow->buttons('RssReader.status', NetCommonsUrl::backToPageUrl()); ?>
+		<?php echo $this->NetCommonsForm->end(); ?>
 
-		<?php echo $this->Workflow->comments(); ?>
+		<?php if ($this->Workflow->canDelete('RssReaders.RssReader', $this->request->data) &&
+						Hash::get($this->request->data, 'RssReader.id')) : ?>
+			<div class="panel-footer text-right">
+				<?php echo $this->element('RssReaders.RssReaders/delete_form', array(
+					'url' => $this->NetCommonsHtml->url(array('action' => 'delete', 'key' => $this->data['RssReader']['key']))
+				)); ?>
+			</div>
+		<?php endif; ?>
+	</div>
 
-	<?php echo $this->NetCommonsForm->end(); ?>
+	<?php echo $this->Workflow->comments(); ?>
+
 </article>

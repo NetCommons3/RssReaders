@@ -145,10 +145,8 @@ class RssReaderItem extends RssReadersAppModel {
 			return;
 		}
 
-		try {
-			$rssReaderItem = $this->serializeXmlToArray($rssReader['RssReader']['url']);
-
-		} catch (XmlException $ex) {
+		$rssReaderItem = $this->serializeXmlToArray($rssReader['RssReader']['url']);
+		if (! $rssReaderItem) {
 			// Xmlが取得できない場合、validationのエラーにする
 			$this->RssReader->invalidate('url', __d('rss_readers', 'Feed Not Found.'));
 			return;
@@ -170,7 +168,14 @@ class RssReaderItem extends RssReadersAppModel {
  * @return array XMLの配列データ
  */
 	public function serializeXmlToArray($url) {
-		$xmlData = Xml::toArray(Xml::build($url));
+		try {
+			$xmlData = Xml::toArray(Xml::build($url));
+		} catch (XmlException $ex) {
+			$xmlData = false;
+		}
+		if (! $xmlData) {
+			return $xmlData;
+		}
 
 		// rssの種類によってタグ名が異なる
 		if (isset($xmlData['feed'])) {
@@ -183,11 +188,13 @@ class RssReaderItem extends RssReadersAppModel {
 			$dateKey = 'pubDate';
 			$linkKey = 'link';
 			$summaryKey = 'description';
-		} else {
+		} elseif (Hash::get($xmlData, 'RDF')) {
 			$items = Hash::get($xmlData, 'RDF.item');
 			$dateKey = 'dc:date';
 			$linkKey = 'link';
 			$summaryKey = 'description';
+		} else {
+			return false;
 		}
 		if (! isset($items[0]) && is_array($items)) {
 			$items = array($items);

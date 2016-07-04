@@ -13,10 +13,7 @@
 <?php echo $this->NetCommonsForm->create('RssReader'); ?>
 	<div class="panel panel-default">
 		<div class="panel-body has-feedback">
-			<?php echo $this->element('Blocks.form_hidden'); ?>
 			<?php echo $this->element('RssReaders.RssReaders/edit_form'); ?>
-			<?php echo $this->element('Blocks.public_type'); ?>
-			<?php echo $this->element('Blocks.modifed_info', array('displayModified' => true)); ?>
 
 			<hr />
 

@@ -40,6 +40,7 @@ class RssReadersController extends RssReadersAppController {
 		'NetCommons.Permission' => array(
 			'allow' => array(
 				'edit,get' => 'content_editable',
+				'delete' => 'block_editable',
 			),
 		),
 	);
@@ -95,9 +96,6 @@ class RssReadersController extends RssReadersAppController {
 			//登録処理
 			$data = $this->request->data;
 			$data['RssReader']['status'] = $this->Workflow->parseStatus();
-			if ($data['RssReader']['url']) {
-				$data['RssReaderItem'] = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
-			}
 
 			if ($this->RssReader->saveRssReader($data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl());
@@ -108,7 +106,7 @@ class RssReadersController extends RssReadersAppController {
 			//表示処理(初期データセット)
 			$rssReader = $this->RssReader->getRssReader();
 			if (! $rssReader) {
-				$this->request->data = $this->RssReader->create();
+				$this->request->data = $this->RssReader->createAll();
 			}
 			$this->request->data = Hash::merge($this->request->data, $rssReader);
 			$this->request->data['Frame'] = Current::read('Frame');
@@ -131,7 +129,13 @@ class RssReadersController extends RssReadersAppController {
 			return;
 		}
 
-		$rss = Xml::build($url);
+		try {
+			$rss = Xml::build($url);
+		} catch (XmlException $ex) {
+			$this->NetCommons->renderJson([], __d('rss_readers', 'Not Found site info.'), 400);
+			return;
+		}
+
 		$rssType = $rss->getName();
 
 		$results = array();
@@ -144,7 +148,30 @@ class RssReadersController extends RssReadersAppController {
 			$results['link'] = (string)$rss->channel->link;
 			$results['summary'] = (string)$rss->channel->description;
 		}
-		$this->NetCommons->renderJson($results);
+
+		if ($results['title']) {
+			$this->NetCommons->renderJson($results);
+		} else {
+			$this->NetCommons->renderJson(
+				[],
+				__d('rss_readers', 'Unauthorized pattern for RDF/RSS. Please input the url in RDF/RSS format.'),
+				400
+			);
+		}
+	}
+
+/**
+ * delete
+ *
+ * @return void
+ */
+	public function delete() {
+		if (! $this->request->is('delete')) {
+			return $this->throwBadRequest();
+		}
+
+		$this->Announcement->deleteRssReader($this->request->data);
+		$this->redirect(NetCommonsUrl::backToPageUrl());
 	}
 
 }

@@ -11,7 +11,7 @@
 ?>
 
 <article>
-	<div class="clearfix">
+	<header class="clearfix">
 		<?php if (isset($rssReader['link'])) : ?>
 			<div class="pull-left">
 				<a class="btn btn-default" href="#site-info<?php echo Current::read('Frame.id'); ?>"
@@ -33,7 +33,7 @@
 				<?php echo $this->Button->editLink(); ?>
 			</div>
 		<?php endif; ?>
-	</div>
+	</header>
 
 	<?php echo $this->element('RssReaders/view_items'); ?>
 </article>

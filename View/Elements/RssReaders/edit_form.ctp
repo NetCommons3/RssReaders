@@ -8,7 +8,11 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+echo $this->NetCommonsHtml->css('/rss_readers/css/style.css');
 ?>
+
+<?php echo $this->element('Blocks.form_hidden'); ?>
 
 <?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
@@ -27,18 +31,19 @@
 	<?php echo $this->NetCommonsForm->label('RssReader.url',
 				__d('rss_readers', 'RDF/RSS URL'), ['required' => true]); ?>
 
-	<div class="input-group">
-		<?php echo $this->NetCommonsForm->input('RssReader.url', array('type' => 'url', 'div' => false)); ?>
-		<span class="input-group-btn">
-			<button class="btn btn-default" type="button" ng-click="getSiteInfo()" ng-class="{'btn-danger': urlError}">
-				<?php echo __d('rss_readers', 'Get Site Info'); ?>
-			</button>
-		</span>
-	</div>
+	<?php echo $this->NetCommonsForm->input('RssReader.url',
+			array('type' => 'url', 'div' => false, 'error' => ['ng-hide' => 'urlError'])
+		); ?>
 
 	<div class="help-block" ng-show="urlError" ng-cloak>
 		{{urlError}}
 	</div>
+</div>
+
+<div class="form-group text-center">
+	<button class="btn btn-default btn-sm rss-reader-getbtn" type="button" ng-click="getSiteInfo()">
+		<?php echo __d('rss_readers', 'Get Site Info'); ?>
+	</button>
 </div>
 
 <?php echo $this->NetCommonsForm->input('RssReader.title', array(
@@ -55,4 +60,13 @@
 		'type' => 'textarea',
 		'label' => __d('rss_readers', 'Site Explanation'),
 		'rows' => 2,
-	));
+	)); ?>
+
+<?php if (Current::permission('block_editable')) : ?>
+	<?php echo $this->element('Blocks.public_type'); ?>
+	<?php echo $this->element(
+			'Blocks.modifed_info',
+			array('displayModified' => (bool)Hash::get($this->request->data, 'RssReader.id'))
+		); ?>
+<?php endif;
+
