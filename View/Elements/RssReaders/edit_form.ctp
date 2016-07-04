@@ -27,12 +27,18 @@ echo $this->NetCommonsHtml->css('/rss_readers/css/style.css');
 <?php echo $this->NetCommonsForm->hidden('RssReaderSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('RssReaderSetting.block_key'); ?>
 
-<div class="form-group" ng-class="{'has-error': urlError}">
-	<?php echo $this->NetCommonsForm->label('RssReader.url',
-				__d('rss_readers', 'RDF/RSS URL'), ['required' => true]); ?>
+<div class="form-group" ng-class="{'has-error': urlError}"
+		ng-init="urlError='<?php echo $this->Form->error('RssReader.url', null, ['wrap' => false]); ?>'">
 
 	<?php echo $this->NetCommonsForm->input('RssReader.url',
-			array('type' => 'url', 'div' => false, 'error' => ['ng-hide' => 'urlError'])
+			array(
+				'type' => 'text',
+				'label' => __d('rss_readers', 'RDF/RSS URL'),
+				'div' => false,
+				'placeholder' => 'http://',
+				'required' => true,
+				'error' => false
+			)
 		); ?>
 
 	<div class="help-block" ng-show="urlError" ng-cloak>
