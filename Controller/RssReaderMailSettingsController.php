@@ -28,7 +28,7 @@ class RssReaderMailSettingsController extends MailSettingsController {
 		'Blocks.BlockRolePermissionForm',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
-			'blockTabs' => array('block_settings', 'mail_settings'),
+			'blockTabs' => array('block_settings', 'mail_settings', 'role_permissions'),
 		),
 		'Mails.MailForm',
 	);
