@@ -66,7 +66,6 @@ class RssReaderSetting extends RssReadersAppModel {
 	public function getRssReaderSetting() {
 		$rssReaderSetting = $this->find('first', array(
 			'recursive' => -1,
-			//'conditions' => array('block_key' => Current::read('Block.key')),
 			'conditions' => array(
 				$this->alias . '.key' => Current::read('Block.key'),
 				$this->alias . '.language_id' => Current::read('Language.id'),
