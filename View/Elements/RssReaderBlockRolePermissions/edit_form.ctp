@@ -1,6 +1,6 @@
 <?php
 /**
- * お知らせの権限設定Element
+ * 権限設定Element
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,7 +12,6 @@
 
 <?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
-<?php echo $this->NetCommonsForm->hidden('RssReaderSetting.block_key'); ?>
 <?php echo $this->NetCommonsForm->hidden('RssReaderSetting.id'); ?>
 
 <?php echo $this->BlockRolePermissionForm->contentPublishablePermission(); ?>

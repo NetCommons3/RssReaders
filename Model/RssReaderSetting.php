@@ -10,6 +10,7 @@
  */
 
 App::uses('RssReadersAppModel', 'RssReaders.Model');
+App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
  * RssReaderSetting Model
@@ -18,6 +19,13 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
  * @package NetCommons\RssReaders\Model
  */
 class RssReaderSetting extends RssReadersAppModel {
+
+/**
+ * Custom database table name
+ *
+ * @var string
+ */
+	public $useTable = 'blocks';
 
 /**
  * Validation rules
@@ -33,34 +41,21 @@ class RssReaderSetting extends RssReadersAppModel {
  */
 	public $actsAs = array(
 		'Blocks.BlockRolePermission',
+		'Blocks.BlockSetting' => array(
+			BlockSettingBehavior::FIELD_USE_WORKFLOW,
+		),
 	);
 
 /**
- * Called during validation operations, before validation. Please note that custom
- * validation rules can be defined in $validate.
+ * RssReaderSettingデータ新規作成
  *
- * @param array $options Options passed from Model::save().
- * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
- * @see Model::save()
+ * @return array
  */
-	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
-			'block_key' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'use_workflow' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-		));
-
-		return parent::beforeValidate($options);
+	public function createRssReaderSetting() {
+		$rssReaderSetting = $this->createAll();
+		/** @see BlockSettingBehavior::getBlockSetting() */
+		/** @see BlockSettingBehavior::_createBlockSetting() */
+		return Hash::merge($rssReaderSetting, $this->getBlockSetting());
 	}
 
 /**
@@ -71,7 +66,11 @@ class RssReaderSetting extends RssReadersAppModel {
 	public function getRssReaderSetting() {
 		$rssReaderSetting = $this->find('first', array(
 			'recursive' => -1,
-			'conditions' => array('block_key' => Current::read('Block.key')),
+			//'conditions' => array('block_key' => Current::read('Block.key')),
+			'conditions' => array(
+				$this->alias . '.key' => Current::read('Block.key'),
+				$this->alias . '.language_id' => Current::read('Language.id'),
+			),
 		));
 
 		return $rssReaderSetting;

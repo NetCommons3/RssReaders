@@ -228,9 +228,6 @@ class RssReader extends RssReadersAppModel {
 
 		//RssReaderSetting登録
 		if (isset($this->data['RssReaderSetting'])) {
-			if (! $this->data['RssReaderSetting']['block_key']) {
-				$this->data['RssReaderSetting']['block_key'] = $this->data['Block']['key'];
-			}
 			$this->RssReaderSetting->set($this->data['RssReaderSetting']);
 			if (! $this->RssReaderSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
