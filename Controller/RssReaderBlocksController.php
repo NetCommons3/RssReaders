@@ -111,7 +111,7 @@ class RssReaderBlocksController extends RssReadersAppController {
 			//表示処理(初期データセット)
 			$this->request->data = $this->RssReader->createAll();
 			$this->request->data =
-				Hash::merge($this->request->data, $this->RssReaderSetting->getRssReaderSetting());
+				Hash::merge($this->request->data, $this->RssReaderSetting->createBlockSetting());
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}

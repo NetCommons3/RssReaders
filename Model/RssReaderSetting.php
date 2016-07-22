@@ -51,7 +51,6 @@ class RssReaderSetting extends BlockBaseModel {
  *
  * @return array
  * @see BlockSettingBehavior::getBlockSetting() 取得
- * @see BlockSettingBehavior::_createBlockSetting() 取得で空なら新規登録データ取得
  */
 	public function getRssReaderSetting() {
 		return $this->getBlockSetting();
