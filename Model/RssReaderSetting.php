@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('RssReadersAppModel', 'RssReaders.Model');
+App::uses('BlockBaseModel', 'Blocks.Model');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
@@ -18,14 +18,14 @@ App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Model
  */
-class RssReaderSetting extends RssReadersAppModel {
+class RssReaderSetting extends BlockBaseModel {
 
 /**
  * Custom database table name
  *
  * @var string
  */
-	public $useTable = 'blocks';
+	public $useTable = false;
 
 /**
  * Validation rules
@@ -47,32 +47,14 @@ class RssReaderSetting extends RssReadersAppModel {
 	);
 
 /**
- * RssReaderSettingデータ新規作成
- *
- * @return array
- */
-	public function createRssReaderSetting() {
-		$rssReaderSetting = $this->createAll();
-		/** @see BlockSettingBehavior::getBlockSetting() */
-		/** @see BlockSettingBehavior::_createBlockSetting() */
-		return Hash::merge($rssReaderSetting, $this->getBlockSetting());
-	}
-
-/**
  * RssReaderSettingデータ取得
  *
  * @return array
+ * @see BlockSettingBehavior::getBlockSetting() 取得
+ * @see BlockSettingBehavior::_createBlockSetting() 取得で空なら新規登録データ取得
  */
 	public function getRssReaderSetting() {
-		$rssReaderSetting = $this->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				$this->alias . '.key' => Current::read('Block.key'),
-				$this->alias . '.language_id' => Current::read('Language.id'),
-			),
-		));
-
-		return $rssReaderSetting;
+		return $this->getBlockSetting();
 	}
 
 /**
@@ -93,9 +75,7 @@ class RssReaderSetting extends RssReadersAppModel {
 		}
 
 		try {
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->save(null, false);
 
 			//トランザクションCommit
 			$this->commit();
