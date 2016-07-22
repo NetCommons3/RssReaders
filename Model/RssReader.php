@@ -37,6 +37,9 @@ class RssReader extends RssReadersAppModel {
 	public $actsAs = array(
 		'Blocks.Block' => array(
 			'name' => 'RssReader.title',
+			'loadModels' => array(
+				'BlockSetting' => 'Blocks.BlockSetting',
+			)
 		),
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
