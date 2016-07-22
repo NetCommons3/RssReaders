@@ -9,7 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('RssReadersAppModel', 'RssReaders.Model');
+App::uses('BlockBaseModel', 'Blocks.Model');
+App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
  * RssReaderSetting Model
@@ -17,7 +18,14 @@ App::uses('RssReadersAppModel', 'RssReaders.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\RssReaders\Model
  */
-class RssReaderSetting extends RssReadersAppModel {
+class RssReaderSetting extends BlockBaseModel {
+
+/**
+ * Custom database table name
+ *
+ * @var string
+ */
+	public $useTable = false;
 
 /**
  * Validation rules
@@ -33,48 +41,19 @@ class RssReaderSetting extends RssReadersAppModel {
  */
 	public $actsAs = array(
 		'Blocks.BlockRolePermission',
+		'Blocks.BlockSetting' => array(
+			BlockSettingBehavior::FIELD_USE_WORKFLOW,
+		),
 	);
-
-/**
- * Called during validation operations, before validation. Please note that custom
- * validation rules can be defined in $validate.
- *
- * @param array $options Options passed from Model::save().
- * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
- * @see Model::save()
- */
-	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
-			'block_key' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'use_workflow' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-		));
-
-		return parent::beforeValidate($options);
-	}
 
 /**
  * RssReaderSettingデータ取得
  *
  * @return array
+ * @see BlockSettingBehavior::getBlockSetting() 取得
  */
 	public function getRssReaderSetting() {
-		$rssReaderSetting = $this->find('first', array(
-			'recursive' => -1,
-			'conditions' => array('block_key' => Current::read('Block.key')),
-		));
-
-		return $rssReaderSetting;
+		return $this->getBlockSetting();
 	}
 
 /**
@@ -95,9 +74,7 @@ class RssReaderSetting extends RssReadersAppModel {
 		}
 
 		try {
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->save(null, false);
 
 			//トランザクションCommit
 			$this->commit();

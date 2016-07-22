@@ -88,25 +88,6 @@ class RssReadersSchema extends CakeSchema {
 	);
 
 /**
- * rss_reader_settings table
- *
- * @var array
- */
-	public $rss_reader_settings = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary', 'comment' => 'ID'),
-		'block_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'ブロックキー', 'charset' => 'utf8'),
-		'use_workflow' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => '承認機能 0:使わない 1:使う'),
-		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => '作成者'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '作成日時'),
-		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => '更新者'),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '更新日時'),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
-
-/**
  * rss_readers table
  *
  * @var array

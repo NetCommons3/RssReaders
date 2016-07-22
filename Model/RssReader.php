@@ -37,6 +37,9 @@ class RssReader extends RssReadersAppModel {
 	public $actsAs = array(
 		'Blocks.Block' => array(
 			'name' => 'RssReader.title',
+			'loadModels' => array(
+				'BlockSetting' => 'Blocks.BlockSetting',
+			)
 		),
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
@@ -228,13 +231,8 @@ class RssReader extends RssReadersAppModel {
 
 		//RssReaderSetting登録
 		if (isset($this->data['RssReaderSetting'])) {
-			if (! $this->data['RssReaderSetting']['block_key']) {
-				$this->data['RssReaderSetting']['block_key'] = $this->data['Block']['key'];
-			}
 			$this->RssReaderSetting->set($this->data['RssReaderSetting']);
-			if (! $this->RssReaderSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->RssReaderSetting->save(null, false);
 		}
 
 		parent::afterSave($created, $options);
@@ -259,7 +257,9 @@ class RssReader extends RssReadersAppModel {
 			'recursive' => 0,
 			'conditions' => $this->getBlockConditionById($conditions),
 		));
-
+		if (!$rssReader) {
+			return $rssReader;
+		}
 		return Hash::merge($rssReader, $this->RssReaderSetting->getRssReaderSetting());
 	}
 
