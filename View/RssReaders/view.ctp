@@ -25,28 +25,30 @@ echo $this->NetCommonsHtml->css('/rss_readers/css/style.css');
 		</header>
 	<?php endif; ?>
 
-	<div class="clearfix">
-		<h1 class="pull-left rss-reader-rss-title">
-			<?php if ($rssReader['link']) : ?>
-				<a href="<?php echo h($rssReader['link']); ?>" target="_blank">
-			<?php endif; ?>
+	<?php if ($rssReader['url']) : ?>
+		<div class="clearfix">
+			<h1 class="pull-left rss-reader-rss-title">
+				<?php if ($rssReader['link']) : ?>
+					<a href="<?php echo h($rssReader['link']); ?>" target="_blank">
+				<?php endif; ?>
 
-			<?php echo h($rssReader['title']); ?>
+				<?php echo h($rssReader['title']); ?>
 
-			<?php if ($rssReader['link']) : ?>
+				<?php if ($rssReader['link']) : ?>
+					</a>
+				<?php endif; ?>
+
+				<a class="btn btn-info btn-xs rss-reader-rss-url workflow-label" href="<?php echo h($rssReader['url']); ?>" target="_blank">
+					<?php echo __d('rss_readers', 'RDF/RSS'); ?>
 				</a>
-			<?php endif; ?>
-
-			<a class="btn btn-info btn-xs rss-reader-rss-url workflow-label" href="<?php echo h($rssReader['url']); ?>" target="_blank">
-				<?php echo __d('rss_readers', 'RDF/RSS'); ?>
-			</a>
-		</h1>
-	</div>
-
-	<?php if ($rssReader['summary']) : ?>
-		<div class="well well-sm">
-			<?php echo h($rssReader['summary']); ?>
+			</h1>
 		</div>
+
+		<?php if ($rssReader['summary']) : ?>
+			<div class="well well-sm">
+				<?php echo h($rssReader['summary']); ?>
+			</div>
+		<?php endif; ?>
 	<?php endif; ?>
 
 	<div class="nc-content-list">
