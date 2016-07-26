@@ -12,7 +12,6 @@
 
 <?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
-<?php echo $this->NetCommonsForm->hidden('RssReaderSetting.id'); ?>
 
 <?php echo $this->BlockRolePermissionForm->contentPublishablePermission(); ?>
 
