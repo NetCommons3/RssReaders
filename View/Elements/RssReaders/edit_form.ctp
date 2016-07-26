@@ -24,7 +24,6 @@ echo $this->NetCommonsHtml->css('/rss_readers/css/style.css');
 <?php echo $this->NetCommonsForm->hidden('RssReader.key'); ?>
 <?php echo $this->NetCommonsForm->hidden('RssReader.language_id'); ?>
 
-<?php echo $this->NetCommonsForm->hidden('RssReaderSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('RssReaderSetting.use_workflow'); ?>
 
 <div class="form-group" ng-class="{'has-error': urlError}"
