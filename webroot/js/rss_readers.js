@@ -10,53 +10,54 @@
  * @param {string} Controller name
  * @param {function($scope, $http)} Controller
  */
-NetCommonsApp.controller('RssReaders', ['$scope', '$http', function($scope, $http) {
+NetCommonsApp.controller('RssReaders',
+    ['$scope', '$http', 'NC3_URL', function($scope, $http, NC3_URL) {
 
-  /**
-   * Initialize
-   *
-   * @param {Object.<string>} rssReaderData
-   * @return {void}
-   */
-  $scope.initialize = function(data) {
-    $scope.frameId = data.frameId;
-  };
+      /**
+       * Initialize
+       *
+       * @param {Object.<string>} rssReaderData
+       * @return {void}
+       */
+      $scope.initialize = function(data) {
+        $scope.frameId = data.frameId;
+      };
 
-  /**
-   * URLからデータ取得
-   *
-   * @return {void}
-   */
-  $scope.getSiteInfo = function() {
-    var element = $('input[name="data[RssReader][url]"]');
+      /**
+       * URLからデータ取得
+       *
+       * @return {void}
+       */
+      $scope.getSiteInfo = function() {
+        var element = $('input[name="data[RssReader][url]"]');
 
-    $http.get($scope.baseUrl + '/rss_readers/rss_readers/get.json',
-        {params: {frame_id: $scope.frameId, url: element[0].value}})
-      .success(function(data) {
-          element = $('input[name="data[RssReader][title]"]');
-          if (! angular.isUndefined(element[0]) &&
-                  ! angular.isUndefined(data['title'])) {
-            element[0].value = data['title'];
-          }
+        $http.get(NC3_URL + '/rss_readers/rss_readers/get.json',
+            {params: {frame_id: $scope.frameId, url: element[0].value}})
+          .success(function(data) {
+              element = $('input[name="data[RssReader][title]"]');
+              if (! angular.isUndefined(element[0]) &&
+                      ! angular.isUndefined(data['title'])) {
+                element[0].value = data['title'];
+              }
 
-          element = $('input[name="data[RssReader][link]"]');
-          if (! angular.isUndefined(element[0]) &&
-                  ! angular.isUndefined(data['link'])) {
-            element[0].value = data['link'];
-          }
+              element = $('input[name="data[RssReader][link]"]');
+              if (! angular.isUndefined(element[0]) &&
+                      ! angular.isUndefined(data['link'])) {
+                element[0].value = data['link'];
+              }
 
-          element = $('textarea[name="data[RssReader][summary]"]');
-          if (! angular.isUndefined(element[0]) &&
-                  ! angular.isUndefined(data['summary'])) {
-            element[0].value = data['summary'];
-          }
+              element = $('textarea[name="data[RssReader][summary]"]');
+              if (! angular.isUndefined(element[0]) &&
+                      ! angular.isUndefined(data['summary'])) {
+                element[0].value = data['summary'];
+              }
 
-          $scope.urlError = '';
-        })
-      .error(function(data) {
-          $scope.urlError =
-              angular.isUndefined(data['error']) ? data['name'] : data['error'];
-        });
-  };
+              $scope.urlError = '';
+            })
+          .error(function(data) {
+              $scope.urlError =
+                  angular.isUndefined(data['error']) ? data['name'] : data['error'];
+            });
+      };
 
-}]);
+    }]);
