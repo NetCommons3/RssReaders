@@ -9,13 +9,13 @@
     },
     "require": {
         "cakedc/migrations":            "~2.2",
-        "netcommons/blocks":            "dev-master",
-        "netcommons/mails":             "dev-master",
-        "netcommons/net-commons":       "dev-master",
-        "netcommons/pages":             "dev-master",
-        "netcommons/plugin-manager":    "dev-master",
-        "netcommons/topics":            "dev-master",
-        "netcommons/workflow":          "dev-master"
+        "netcommons/blocks":            "@dev",
+        "netcommons/mails":             "@dev",
+        "netcommons/net-commons":       "@dev",
+        "netcommons/pages":             "@dev",
+        "netcommons/plugin-manager":    "@dev",
+        "netcommons/topics":            "@dev",
+        "netcommons/workflow":          "@dev"
     },
     "license": "NetCommons License",
     "authors": [
