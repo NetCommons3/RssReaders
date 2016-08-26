@@ -33,7 +33,7 @@ NetCommonsApp.controller('RssReaders',
 
         $http.get(NC3_URL + '/rss_readers/rss_readers/get.json',
             {params: {frame_id: $scope.frameId, url: element[0].value}})
-          .success(function(data) {
+            .success(function(data) {
               element = $('input[name="data[RssReader][title]"]');
               if (! angular.isUndefined(element[0]) &&
                       ! angular.isUndefined(data['title'])) {
@@ -54,7 +54,7 @@ NetCommonsApp.controller('RssReaders',
 
               $scope.urlError = '';
             })
-          .error(function(data) {
+            .error(function(data) {
               $scope.urlError =
                   angular.isUndefined(data['error']) ? data['name'] : data['error'];
             });
