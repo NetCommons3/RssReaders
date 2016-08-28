@@ -96,6 +96,7 @@ class RssReadersController extends RssReadersAppController {
 			//登録処理
 			$data = $this->request->data;
 			$data['RssReader']['status'] = $this->Workflow->parseStatus();
+			unset($data['RssReader']['id']);
 
 			if ($this->RssReader->saveRssReader($data)) {
 				return $this->redirect(NetCommonsUrl::backToIndexUrl());
