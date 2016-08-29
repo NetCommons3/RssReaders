@@ -12,6 +12,9 @@
 .frame.nc-content-list article h1.rss-reader-rss-title {
 	margin-bottom: 8px;
 }
+.frame.nc-content header.rss-reader-view-header {
+	margin-bottom: 8px;
+}
 .rss-reader-summary {
 	margin-left: 16px;
 	margin-top: 4px;

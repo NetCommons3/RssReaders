@@ -14,11 +14,7 @@ echo $this->NetCommonsHtml->css('/rss_readers/css/style.css');
 
 <article>
 	<?php if (Current::permission('content_editable')) : ?>
-		<header class="clearfix">
-			<div class="pull-left">
-				<?php echo $this->Workflow->label($rssReader['status']); ?>
-			</div>
-
+		<header class="clearfix rss-reader-view-header">
 			<div class="pull-right">
 				<?php echo $this->Button->editLink(); ?>
 			</div>
@@ -32,13 +28,14 @@ echo $this->NetCommonsHtml->css('/rss_readers/css/style.css');
 					<a href="<?php echo h($rssReader['link']); ?>" target="_blank">
 				<?php endif; ?>
 
+				<?php echo $this->Workflow->label($rssReader['status']); ?>
 				<?php echo h($rssReader['title']); ?>
 
 				<?php if ($rssReader['link']) : ?>
 					</a>
 				<?php endif; ?>
 
-				<a class="btn btn-info btn-xs rss-reader-rss-url workflow-label" href="<?php echo h($rssReader['url']); ?>" target="_blank">
+				<a class="btn btn-success btn-xs rss-reader-rss-url" href="<?php echo h($rssReader['url']); ?>" target="_blank">
 					<?php echo __d('rss_readers', 'RDF/RSS'); ?>
 				</a>
 			</h1>
