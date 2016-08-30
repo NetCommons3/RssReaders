@@ -17,14 +17,14 @@
 	<div class="tab-content">
 		<?php echo $this->BlockTabs->block(BlockTabsHelper::MAIN_TAB_MAIL_SETTING); ?>
 
-		<?php /** @see MailFormHelper::editFrom() */ ?>
+		<?php /** @see MailFormHelper::editFrom() 承認メール通知機能を使う のみ表示 */ ?>
 		<?php echo $this->MailForm->editFrom(
 			array(
 				array(
 					'mailBodyPopoverMessage' => __d('rss_readers', 'MailSetting.mail_fixed_phrase_body.popover'),
 				),
 			),
-			NetCommonsUrl::backToIndexUrl('default_setting_action')
+			NetCommonsUrl::backToIndexUrl('default_setting_action'), 0, 0, 1, 0
 		); ?>
 	</div>
 </div>
