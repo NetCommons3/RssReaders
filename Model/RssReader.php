@@ -57,6 +57,9 @@ class RssReader extends RssReadersAppModel {
 				'title' => 'RssReader.title',
 				'summary' => 'RssReader.summary',
 				'path' => '/:plugin_key/:plugin_key/view/:block_id/:content_key',
+				'public_type' => 'Block.public_type',
+				'publish_start' => 'Block.publish_start',
+				'publish_end' => 'Block.publish_end',
 			),
 			'search_contents' => array('url', 'link')
 		),
