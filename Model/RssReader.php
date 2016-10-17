@@ -93,21 +93,21 @@ class RssReader extends RssReadersAppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'RssReaderItem' => array(
-			'className' => 'RssReaderItem',
-			'foreignKey' => 'rss_reader_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
+	//public $hasMany = array(
+	//	'RssReaderItem' => array(
+	//		'className' => 'RssReaderItem',
+	//		'foreignKey' => 'rss_reader_id',
+	//		'dependent' => false,
+	//		'conditions' => '',
+	//		'fields' => '',
+	//		'order' => '',
+	//		'limit' => '',
+	//		'offset' => '',
+	//		'exclusive' => '',
+	//		'finderQuery' => '',
+	//		'counterQuery' => ''
+	//	)
+	//);
 
 /**
  * Called during validation operations, before validation. Please note that custom
