@@ -31,13 +31,13 @@ class AddIndex extends CakeMigration {
 		'up' => array(
 			'alter_field' => array(
 				'rss_reader_frame_settings' => array(
-					'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
+					'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => 'フレームKey', 'charset' => 'utf8'),
 				),
 				'rss_reader_items' => array(
-					'rss_reader_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'key' => 'index', 'comment' => 'rss reader id |  RSS Reader ID | rss_readers.id | '),
+					'rss_reader_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'key' => 'index', 'comment' => 'RSSリーダーID'),
 				),
 				'rss_readers' => array(
-					'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index', 'comment' => 'block id |  ブロックID | blocks.id | '),
+					'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index', 'comment' => 'ブロックID'),
 				),
 			),
 			'create_field' => array(
@@ -61,13 +61,13 @@ class AddIndex extends CakeMigration {
 		'down' => array(
 			'alter_field' => array(
 				'rss_reader_frame_settings' => array(
-					'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
+					'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'フレームKey', 'charset' => 'utf8'),
 				),
 				'rss_reader_items' => array(
-					'rss_reader_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'rss reader id |  RSS Reader ID | rss_readers.id | '),
+					'rss_reader_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'comment' => 'RSSリーダーID'),
 				),
 				'rss_readers' => array(
-					'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'block id |  ブロックID | blocks.id | '),
+					'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'comment' => 'ブロックID'),
 				),
 			),
 			'drop_field' => array(
