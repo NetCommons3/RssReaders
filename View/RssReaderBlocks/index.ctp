@@ -50,9 +50,9 @@
 									'Frame.block_id', $rssReader['Block']['id']
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'Block.name',
+									'BlocksLanguage.name',
 									'<small>' . $this->Workflow->label($rssReader['RssReader']['status']) . '</small>' . ' ' .
-									h($rssReader['Block']['name']),
+									h($rssReader['BlocksLanguage']['name']),
 									array('editUrl' => array('block_id' => $rssReader['Block']['id']), 'escape' => false)
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
