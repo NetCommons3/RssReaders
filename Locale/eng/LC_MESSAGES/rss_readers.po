@@ -13,66 +13,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: RssReaders/Controller/RssReadersController.php:238
-msgid "Feed Not Found."
+#: RssReaders/Controller/RssReadersController.php:136
+msgid "Not Found site info."
 msgstr ""
 
-#: RssReaders/Model/RssReader.php:116;121
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:92;174
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:33
+#: RssReaders/Controller/RssReadersController.php:158
+msgid "Unauthorized pattern for RDF/RSS. Please input the url in RDF/RSS format."
+msgstr ""
+
+#: RssReaders/Model/RssReader.php:141;149
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:35
 msgid "RDF/RSS URL"
 msgstr ""
 
-#: RssReaders/Model/RssReader.php:121;136
-#: RssReaders/Model/RssReaderItem.php:82
-msgid "URL"
-msgstr ""
-
-#: RssReaders/Model/RssReader.php:129
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:133
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:74
-#: RssReaders/View/RssReaderBlocks/index.ctp:37
+#: RssReaders/Model/RssReader.php:160
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:55
+#: RssReaders/View/RssReaderBlocks/index.ctp:29
 msgid "Site Title"
 msgstr ""
 
-#: RssReaders/Model/RssReader.php:136
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:211
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:91
+#: RssReaders/Model/RssReader.php:170
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:61
 msgid "Site Url"
 msgstr ""
 
+#: RssReaders/Model/RssReader.php:289
+#: RssReaders/Model/RssReaderItem.php:151
+#: RssReaders/View/Elements/RssReaders/view_items.ctp:31
+msgid "Feed Not Found."
+msgstr ""
+
 #: RssReaders/Model/RssReaderItem.php:70
-#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:80
 msgid "Title"
 msgstr ""
 
-#: RssReaders/Model/RssReaderItem.php:77;82
-#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:34;126
+#: RssReaders/Model/RssReaderItem.php:79;87
 msgid "Url"
 msgstr ""
 
-#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:14;28
-#: RssReaders/View/Elements/RssReaders/view_site_info.ctp:28
+#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:14;22
+#: RssReaders/View/Elements/RssReaders/delete_form.ctp:21
+#: RssReaders/View/RssReaders/view.ctp:39
 msgid "RDF/RSS"
 msgstr ""
 
-#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:32
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:19
 msgid "Event Display"
 msgstr ""
 
-#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:39;40;41;42;43;44
-msgid "%dcases"
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:21
+msgid "%d case"
 msgstr ""
 
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:52
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:22
+msgid "%d cases"
+msgstr ""
+
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:50
 msgid "Get Site Info"
 msgstr ""
 
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:109
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:66
 msgid "Site Explanation"
 msgstr ""
 
-#: RssReaders/View/RssReaders/view.ctp:23
-msgid "Site Info"
+#: RssReaders/View/RssReaderMailSettings/edit.ctp:24
+msgid "MailSetting.mail_fixed_phrase_body.popover"
 msgstr ""
 
