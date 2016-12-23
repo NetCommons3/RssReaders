@@ -107,7 +107,13 @@ class RssReadersController extends RssReadersAppController {
 			//表示処理(初期データセット)
 			$rssReader = $this->RssReader->getRssReader();
 			if (! $rssReader) {
-				$this->request->data = $this->RssReader->createAll();
+				$this->request->data = $this->RssReader->createAll(array(
+					'RssReader' => array('url' => 'http://', 'link' => 'http://')
+				));
+			} else {
+				if ($rssReader['RssReader']['link'] === '') {
+					$rssReader['RssReader']['link'] = 'http://';
+				}
 			}
 			$this->request->data = Hash::merge($this->request->data, $rssReader);
 			$this->request->data['Frame'] = Current::read('Frame');

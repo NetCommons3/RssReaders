@@ -63,6 +63,8 @@ class RssReader extends RssReadersAppModel {
 			),
 			'search_contents' => array('url', 'link')
 		),
+		//多言語
+		'M17n.M17n',
 	);
 
 /**
@@ -175,6 +177,13 @@ class RssReader extends RssReadersAppModel {
 			),
 		));
 
+		if ($this->data['RssReader']['url'] === 'http://') {
+			$this->data['RssReader']['url'] = '';
+		}
+		if ($this->data['RssReader']['link'] === 'http://') {
+			$this->data['RssReader']['link'] = '';
+		}
+
 		if (isset($this->data['RssReaderItem'])) {
 			$this->loadModels([
 				'RssReaderItem' => 'RssReaders.RssReaderItem',
@@ -263,6 +272,7 @@ class RssReader extends RssReadersAppModel {
 		if (!$rssReader) {
 			return $rssReader;
 		}
+
 		return Hash::merge($rssReader, $this->RssReaderSetting->getRssReaderSetting());
 	}
 
