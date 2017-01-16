@@ -54,6 +54,7 @@ class PluginRecords extends NetCommonsMigration {
 				'frame_add_action' => 'rss_readers/edit',
 				'display_topics' => 1,
 				'display_search' => 1,
+				'is_m17n' => false,
 			),
 			//英語
 			array(
@@ -67,6 +68,7 @@ class PluginRecords extends NetCommonsMigration {
 				'frame_add_action' => 'rss_readers/edit',
 				'display_topics' => 1,
 				'display_search' => 1,
+				'is_m17n' => false,
 			),
 		),
 		'PluginsRole' => array(
