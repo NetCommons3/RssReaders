@@ -46,6 +46,8 @@ class PluginRecords extends NetCommonsMigration {
 			array(
 				'language_id' => '2',
 				'key' => 'rss_readers',
+				'is_origin' => true,
+				'is_translation' => true,
 				'namespace' => 'netcommons/rss-readers',
 				'name' => 'RSSリーダー',
 				'type' => 1,
@@ -60,6 +62,8 @@ class PluginRecords extends NetCommonsMigration {
 			array(
 				'language_id' => '1',
 				'key' => 'rss_readers',
+				'is_origin' => false,
+				'is_translation' => true,
 				'namespace' => 'netcommons/rss-readers',
 				'name' => 'RSS Readers',
 				'type' => 1,
