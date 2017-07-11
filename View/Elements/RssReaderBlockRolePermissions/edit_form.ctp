@@ -13,8 +13,6 @@
 <?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
-<?php echo $this->BlockRolePermissionForm->contentPublishablePermission(); ?>
-
 <?php echo $this->element('Blocks.block_approval_setting', array(
 		'model' => 'RssReaderSetting',
 		'useWorkflow' => 'use_workflow',
