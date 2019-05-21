@@ -204,9 +204,16 @@ class RssReaderItem extends RssReadersAppModel {
 		foreach ($items as $item) {
 			$date = new DateTime($item[$dateKey]);
 			$summary = Hash::get($item, $summaryKey, '');
+			if (is_array($summary) && isset($summary['@'])) {
+				$summary = $summary['@'];
+			}
+			$link = Hash::get($item, $linkKey);
+			if (is_null($link)) {
+				$link = Hash::get($item, 'link.0.@href');;
+			}
 			$data[] = array(
 				'title' => $item['title'],
-				'link' => Hash::get($item, $linkKey),
+				'link' => $link,
 				'summary' => strip_tags($summary),
 				'last_updated' => $date->format('Y-m-d H:i:s'),
 				'serialize_value' => serialize($item)
