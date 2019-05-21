@@ -199,7 +199,9 @@ class RssReaderItem extends RssReadersAppModel {
 		if (! isset($items[0]) && is_array($items)) {
 			$items = array($items);
 		}
-
+		if (is_null($items)) {
+			$items = array();
+		}
 		$data = array();
 		foreach ($items as $item) {
 

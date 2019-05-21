@@ -294,7 +294,7 @@ class RssReader extends RssReadersAppModel {
 		if ($data['RssReader']['url']) {
 			$xmlData = $this->RssReaderItem->serializeXmlToArray($data['RssReader']['url']);
 		}
-		if (! $xmlData) {
+		if ($xmlData === false) {
 			// Xmlが取得できない場合、validationのエラーにする
 			$this->invalidate('url', __d('rss_readers', 'Feed Not Found.'));
 			return false;
