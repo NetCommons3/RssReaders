@@ -180,7 +180,7 @@ class RssReaderItem extends RssReadersAppModel {
 		// rssの種類によってタグ名が異なる
 		if (isset($xmlData['feed'])) {
 			$items = Hash::get($xmlData, 'feed.entry');
-			$dateKey = 'published';
+			$dateKey = 'updated';
 			$linkKey = 'link.@href';
 			$summaryKey = 'summary';
 		} elseif (Hash::get($xmlData, 'rss.@version') === '2.0') {
@@ -202,14 +202,15 @@ class RssReaderItem extends RssReadersAppModel {
 
 		$data = array();
 		foreach ($items as $item) {
-			$date = new DateTime($item[$dateKey]);
+
+			$date = new DateTime(Hash::get($item, $dateKey, 'now'));
 			$summary = Hash::get($item, $summaryKey, '');
 			if (is_array($summary) && isset($summary['@'])) {
 				$summary = $summary['@'];
 			}
 			$link = Hash::get($item, $linkKey);
 			if (is_null($link)) {
-				$link = Hash::get($item, 'link.0.@href');;
+				$link = Hash::get($item, 'link.0.@href');
 			}
 			$data[] = array(
 				'title' => $item['title'],
