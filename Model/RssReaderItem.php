@@ -166,6 +166,8 @@ class RssReaderItem extends RssReadersAppModel {
  *
  * @param array $url URL
  * @return array XMLの配列データ
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 	public function serializeXmlToArray($url) {
 		try {
