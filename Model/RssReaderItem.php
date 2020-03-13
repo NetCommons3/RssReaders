@@ -266,7 +266,7 @@ class RssReaderItem extends RssReadersAppModel {
 			$this->RssReader->id = $data[$this->RssReader->alias]['id'];
 			$date = new DateTime();
 			$now = $date->format('Y-m-d H:i:s');
-			if (! $this->RssReader->saveField('modified', $now)) {
+			if (! $this->RssReader->saveField('modified', $now, ['callbacks' => false])) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
