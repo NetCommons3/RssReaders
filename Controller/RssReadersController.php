@@ -177,7 +177,7 @@ class RssReadersController extends RssReadersAppController {
 			return $this->throwBadRequest();
 		}
 
-		$this->Announcement->deleteRssReader($this->request->data);
+		$this->RssReader->deleteRssReader($this->request->data);
 		$this->redirect(NetCommonsUrl::backToPageUrl());
 	}
 
