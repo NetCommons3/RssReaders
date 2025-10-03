@@ -208,6 +208,8 @@ class RssReaderItem extends RssReadersAppModel {
 		foreach ($items as $item) {
 
 			$date = new DateTime(Hash::get($item, $dateKey, 'now'));
+			$date->setTimezone(new DateTimeZone('UTC'));
+
 			$summary = Hash::get($item, $summaryKey, '');
 			if (is_array($summary) && isset($summary['@'])) {
 				$summary = $summary['@'];
